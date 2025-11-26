@@ -20,6 +20,8 @@ import {
 import { Link } from "wouter";
 import { CategorySummary } from "@/lib/types";
 import { Button } from "@/components/ui/button";
+import { RiskDistributionCard } from "@/components/dashboard/RiskDistributionCard";
+import { RevenueTrendCard } from "@/components/dashboard/RevenueTrendCard";
 
 function SummaryWidget({ 
   title, 
@@ -75,6 +77,20 @@ export default function Dashboard() {
       </DashboardLayout>
     );
   }
+
+  // Calculate aggregate risk counts for the distribution card
+  const summaries = [
+    business.ownerHealthSummary,
+    business.buildingHealthSummary,
+    business.unitHealthSummary,
+    business.tenantHealthSummary,
+    business.workflowHealthSummary,
+    business.teamHealthSummary
+  ];
+
+  const totalCritical = summaries.reduce((acc, curr) => acc + curr.criticalCount, 0);
+  const totalWatch = summaries.reduce((acc, curr) => acc + curr.watchCount, 0);
+  const totalHealthy = summaries.reduce((acc, curr) => acc + curr.healthyCount, 0);
 
   return (
     <DashboardLayout>
@@ -168,20 +184,14 @@ export default function Dashboard() {
           />
         </div>
         
-        {/* Charts / Analytics Section Placeholder */}
+        {/* Analytics Section with New Card Designs */}
         <div className="grid gap-6 md:grid-cols-2">
-           <Card className="border-0 shadow-soft rounded-2xl p-6">
-             <CardTitle className="text-lg mb-4">Revenue vs Maintenance</CardTitle>
-             <div className="h-64 bg-muted/30 rounded-xl flex items-center justify-center border border-dashed">
-               <p className="text-muted-foreground">Revenue Chart Placeholder</p>
-             </div>
-           </Card>
-           <Card className="border-0 shadow-soft rounded-2xl p-6">
-             <CardTitle className="text-lg mb-4">Risk Distribution</CardTitle>
-             <div className="h-64 bg-muted/30 rounded-xl flex items-center justify-center border border-dashed">
-               <p className="text-muted-foreground">Distribution Chart Placeholder</p>
-             </div>
-           </Card>
+           <RevenueTrendCard />
+           <RiskDistributionCard 
+             criticalCount={totalCritical} 
+             watchCount={totalWatch} 
+             healthyCount={totalHealthy}
+           />
         </div>
       </div>
     </DashboardLayout>
