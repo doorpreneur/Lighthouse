@@ -1,0 +1,352 @@
+Got you. Here’s a Replit-ready prompt you can paste straight into Ghostwriter / the Replit AI. It focuses on **structure, logic, and data**, and leaves **all visual design decisions** up to the tool.
+
+---
+
+### Prompt for Replit
+
+You are an expert full-stack TypeScript engineer.
+Help me build a **V1 web app** that acts as a “Health System” for a property management business.
+
+This app is a prototype:
+
+* It does **not** need a real database yet.
+* It should use **in-memory mock data** to simulate realistic records.
+* I do **not** want any specific design or styling directions from me – you decide layout and visual details. I care about clean structure, clear code, and correct domain logic.
+
+---
+
+## 1. Goal of the App
+
+Build a small full-stack app that:
+
+1. Models the **“health”** of a property management ecosystem using a **doctor / vitals / prescriptions** metaphor.
+2. Calculates a **0–100 health score** for:
+
+   * Overall business
+   * Owners
+   * Buildings
+   * Units
+   * Tenants
+   * Workflows (new management, leasing, move-ins, move-outs, maintenance, claims, inspections)
+   * Team members
+3. Exposes this data via a simple **API layer**.
+4. Provides a basic **frontend** where I can:
+
+   * See overall health at a glance
+   * Drill into each category
+   * See the vitals and score calculation for each entity
+
+Again: don’t spend your effort on visual styling. Focus on data modeling, scoring logic, and clean structure.
+
+---
+
+## 2. Tech Stack
+
+Use a stack that works smoothly in Replit:
+
+* **Backend**: Node.js + TypeScript + Express (or a similar minimal HTTP framework).
+* **Frontend**: React + TypeScript (you can use Vite, CRA, or a simple React setup).
+* Keep everything in a single Replit project if possible.
+* No external DB for now: store all data in code as arrays/objects.
+
+---
+
+## 3. Domain Model & Vital Signs
+
+Create TypeScript types/interfaces and mock data for the following entities and their “vital signs” (metrics). Each entity should have:
+
+* An `id`
+* A `name` / label
+* One or more **vital metrics**
+* A computed `healthScore: number` (0–100)
+* A `riskLevel: "healthy" | "watch" | "critical"`
+
+### 3.1 Owners
+
+Type: `OwnerHealth`
+
+Example fields:
+
+* id
+* name
+* unitsCount
+* occupancyRate (0–1)
+* avgDaysVacantLast12Months
+* rentCollectionRate (0–1)
+* maintenanceSpendPerUnit (monthly or annual)
+* maintenanceTrend (increasing / stable / decreasing)
+* numberOfOpenOwnerIssues
+* avgResponseTimeToOwnerMessages (hours)
+* churnRiskFlag (boolean or score)
+
+Health logic examples (you implement reasonable formulas):
+
+* High occupancy, high rent collection, reasonable maintenance spend, low open issues → higher score.
+* Rising vacancies, rising maintenance, slower response → lower score.
+
+---
+
+### 3.2 Buildings
+
+Type: `BuildingHealth`
+
+Fields:
+
+* id
+* name
+* address
+* totalUnits
+* occupancyRate
+* vacancyRate
+* openWorkOrdersCount
+* avgWorkOrderAgeDays
+* inspectionScore (0–100)
+* lastInspectionDate
+* lastCapitalRepairDate (roof, major systems)
+* cleanlinessScore (0–100, mock)
+* safetyIncidentsPast12Months
+
+Health logic:
+
+* High occupancy, low open WOs, recent inspections, low safety incidents → high score.
+* Many old WOs, frequent incidents, long time since major repairs → lower score.
+
+---
+
+### 3.3 Units
+
+Type: `UnitHealth`
+
+Fields:
+
+* id
+* buildingId
+* unitLabel
+* occupancyStatus ("occupied" | "vacant" | "notice")
+* daysVacantLastTurn
+* daysSinceLastTurn
+* numberOfWorkOrdersLast12Months
+* repeatIssuesCount (same issue multiple times)
+* rentPaymentTimeliness (avg days late for current tenant)
+* conditionScore (0–100, mock)
+
+Health logic:
+
+* Frequently vacant, many repeat maintenance issues, late payments → lower score.
+
+---
+
+### 3.4 Tenants
+
+Type: `TenantHealth`
+
+Fields:
+
+* id
+* name
+* unitId
+* onTimePaymentRate (0–1)
+* avgDaysLate
+* numberOfComplaintsFiled
+* numberOfComplaintsAgainst
+* leaseRenewalLikelihood (mock probability 0–1)
+* communicationToneScore (e.g. 0–100, mock)
+
+Health logic:
+
+* High on-time rate, low issues, high renewal likelihood → healthy.
+* Chronic late payer, many conflicts → at risk.
+
+---
+
+### 3.5 Workflows
+
+You can represent each workflow as a separate type or a generic `WorkflowHealth` with a `workflowType` field.
+
+Workflow types:
+
+* "newManagement"
+* "leasing"
+* "moveIn"
+* "moveOut"
+* "maintenance"
+* "claims"
+* "inspections"
+
+Fields example:
+
+```ts
+type WorkflowType =
+  | "newManagement"
+  | "leasing"
+  | "moveIn"
+  | "moveOut"
+  | "maintenance"
+  | "claims"
+  | "inspections";
+
+interface WorkflowHealth {
+  id: string;
+  name: string;
+  workflowType: WorkflowType;
+  avgCycleTimeDays: number;
+  onTimeCompletionRate: number; // 0–1
+  backlogCount: number;
+  reworkRate: number; // % of items that bounce back / need redo
+  customerSatisfactionScore: number; // 0–100 (mock)
+}
+```
+
+Health logic:
+
+* Short cycle time, high on-time rate, low backlog, low rework → healthy workflow.
+
+---
+
+### 3.6 Team Members
+
+Type: `TeamMemberHealth`
+
+Fields:
+
+* id
+* name
+* role (PM, maintenance coordinator, tech, leasing agent, etc.)
+* activeTasksCount
+* overdueTasksCount
+* avgTaskAgeDays
+* completionRate (0–1)
+* customerFeedbackScore (0–100, mock)
+* burnoutRiskScore (mock, based on workload and overdue tasks)
+
+Health logic:
+
+* Too many tasks, too many overdue items = risk.
+* Steady throughput, good feedback = healthy.
+
+---
+
+### 3.7 Overall Business Health
+
+Type: `BusinessHealth`
+
+Fields:
+
+* overallScore (0–100)
+* ownerHealthSummary (aggregate)
+* buildingHealthSummary
+* unitHealthSummary
+* tenantHealthSummary
+* workflowHealthSummary
+* teamHealthSummary
+
+This score should be computed as a weighted combination of the above categories. You can choose reasonable weights and explain them in comments.
+
+---
+
+## 4. Health Scoring Engine
+
+Implement a separate **“health engine”** module that:
+
+* Defines scoring functions for each entity type:
+
+  * `calculateOwnerHealth(ownerMetrics): OwnerHealth`
+  * `calculateBuildingHealth(...)`
+  * … etc.
+
+* Uses simple, transparent rules + comments explaining the logic.
+
+* Assigns:
+
+  * `healthScore` (0–100)
+  * `riskLevel` based on thresholds, e.g.:
+
+    * `>= 80` → "healthy"
+    * `50–79` → "watch"
+    * `< 50` → "critical"
+
+---
+
+## 5. Mock Data
+
+Create realistic mock data in code for:
+
+* 5–10 owners
+* 5–10 buildings
+* 20–30 units
+* 20–30 tenants
+* 5–10 workflows
+* 5–10 team members
+
+Use different values so that some are healthy, some are watch, some are critical. Don’t use random at runtime; define fixed samples so behavior is deterministic.
+
+---
+
+## 6. Backend API
+
+Create REST endpoints that return JSON:
+
+* `GET /api/health/business` → `BusinessHealth` summary
+* `GET /api/health/owners` → list of `OwnerHealth`
+* `GET /api/health/buildings` → list of `BuildingHealth`
+* `GET /api/health/units` → list of `UnitHealth`
+* `GET /api/health/tenants` → list of `TenantHealth`
+* `GET /api/health/workflows` → list of `WorkflowHealth`
+* `GET /api/health/team` → list of `TeamMemberHealth`
+
+Optionally support filters, e.g.:
+
+* `GET /api/health/buildings?riskLevel=critical`
+
+---
+
+## 7. Frontend Requirements (Functionality, not Design)
+
+Build a React frontend that:
+
+1. Calls the backend APIs.
+2. Shows an **Overall Health** view:
+
+   * Overall score
+   * Quick summary of how many entities are in each risk level per category.
+3. Provides navigation or tabs to:
+
+   * Owners
+   * Buildings
+   * Units
+   * Tenants
+   * Workflows
+   * Team
+4. In each category view:
+
+   * Show a table/list of entities with their key vitals and health score.
+   * Allow simple sorting by score or risk level.
+   * Clicking an entity opens a detail view with all metrics and how the score was computed (show metrics + riskLevel).
+
+Do **not** include custom styling requirements from me. Use whatever default or minimal styling you want.
+
+---
+
+## 8. Project Structure & Instructions
+
+1. Propose a simple file/folder structure for:
+
+   * backend (Express + health engine + mock data)
+   * frontend (React components, API hooks)
+
+2. Implement the code with:
+
+   * Clear TypeScript types
+   * Comments explaining the scoring logic
+
+3. At the end, print:
+
+   * How to start the backend
+   * How to start the frontend
+   * Which URL to open in the browser
+
+Focus on making the **health logic, models, and endpoints** solid. Let Replit handle design decisions.
+
+---
+
+Use this whole prompt as the specification for the app.
