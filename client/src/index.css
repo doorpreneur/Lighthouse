@@ -172,32 +172,33 @@
   /* Custom soft shadow for cards */
   .shadow-soft {
     box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .shadow-soft:hover {
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
+    box-shadow: 0 12px 30px -8px rgba(59, 130, 246, 0.15); /* Blue tinted shadow on hover */
+    transform: translateY(-3px);
   }
 
   /* Card with gradient background and subtle gradient border */
   .card-gradient {
-    /* Subtle gradient background */
-    background: linear-gradient(165deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    /* Visible Gradient Background: White to Very Light Blue/Cool Gray */
+    background: linear-gradient(165deg, #ffffff 0%, #f0f6ff 100%);
     position: relative;
     /* Ensure content sits above the background */
     z-index: 0;
   }
 
+  /* The gradient border effect */
   .card-gradient::before {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    padding: 1px; /* This defines the border width */
+    padding: 1.5px; /* Thicker border for visibility */
     
-    /* Gradient Stroke: White (top-left) to Subtle Blue (bottom-right) */
-    background: linear-gradient(165deg, rgba(255,255,255, 1) 0%, rgba(59, 130, 246, 0.15) 100%);
+    /* Gradient Stroke: White to Blue */
+    background: linear-gradient(165deg, rgba(255,255,255, 1) 0%, rgba(59, 130, 246, 0.5) 100%);
     
     /* Mask to show only the border */
     -webkit-mask: 
@@ -207,6 +208,17 @@
     mask-composite: exclude;
     
     pointer-events: none;
-    z-index: -1; /* Behind content */
+    z-index: -1;
+  }
+  
+  /* Inner Glow for depth */
+  .card-gradient::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: radial-gradient(80% 80% at 50% 0%, rgba(255,255,255,0.8) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: -1;
   }
 }
