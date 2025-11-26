@@ -42,16 +42,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const NavContent = () => (
     <div className="flex flex-col h-full py-6">
       <div className="px-6 mb-8">
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg shadow-lg shadow-primary/30">
+        <div className="flex items-center gap-3 group cursor-pointer">
+          <div className="h-8 w-8 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg shadow-lg shadow-primary/30 transition-transform group-hover:scale-105">
             ∞
           </div>
-          <span className="font-bold text-xl tracking-tight">PropHealth.</span>
+          <span className="font-display font-bold text-xl tracking-tighter">PropHealth.</span>
         </div>
       </div>
 
       <div className="flex-1 px-4 space-y-1">
-        <div className="text-xs font-semibold text-muted-foreground/50 px-4 mb-4 uppercase tracking-wider">
+        <div className="text-[10px] font-mono font-medium text-muted-foreground/60 px-4 mb-4 uppercase tracking-wider">
           General
         </div>
         {NAV_ITEMS.map((item) => {
@@ -61,14 +61,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <Button
                 variant="ghost"
                 className={cn(
-                  "w-full justify-start mb-1 rounded-xl font-medium transition-all duration-200",
+                  "w-full justify-start mb-1 rounded-xl font-medium transition-all duration-200 h-9 text-sm",
                   isActive 
-                    ? "bg-sidebar-accent text-primary shadow-sm" 
-                    : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-primary"
+                    ? "bg-sidebar-accent text-primary shadow-sm translate-x-1" 
+                    : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-primary hover:translate-x-1"
                 )}
                 onClick={() => setSidebarOpen(false)}
               >
-                <item.icon className={cn("mr-3 h-5 w-5", isActive ? "text-primary" : "text-muted-foreground")} />
+                <item.icon className={cn("mr-3 h-4 w-4", isActive ? "text-primary" : "text-muted-foreground")} />
                 {item.label}
               </Button>
             </Link>
@@ -81,21 +81,21 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           <Button
             key={item.href}
             variant="ghost"
-            className="w-full justify-start rounded-xl text-muted-foreground hover:text-primary"
+            className="w-full justify-start rounded-xl text-muted-foreground hover:text-primary h-9 text-sm hover:translate-x-1 transition-transform"
           >
-            <item.icon className="mr-3 h-5 w-5" />
+            <item.icon className="mr-3 h-4 w-4" />
             {item.label}
           </Button>
         ))}
         
-        <div className="mt-6 pt-6 border-t px-2 flex items-center gap-3">
-          <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
+        <div className="mt-6 pt-6 border-t px-2 flex items-center gap-3 cursor-pointer hover:bg-sidebar-accent/30 p-2 rounded-xl transition-colors">
+          <Avatar className="h-9 w-9 border-2 border-white shadow-sm">
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <div className="flex-1 overflow-hidden">
-            <p className="text-sm font-medium truncate">Admin User</p>
-            <p className="text-xs text-muted-foreground truncate">admin@prophealth.com</p>
+            <p className="text-sm font-medium truncate font-display">Admin User</p>
+            <p className="text-xs text-muted-foreground truncate font-mono">admin@prophealth.com</p>
           </div>
         </div>
       </div>
@@ -105,7 +105,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background font-sans flex">
       {/* Desktop Sidebar */}
-      <div className="hidden md:block w-[280px] border-r bg-sidebar sticky top-0 h-screen overflow-y-auto shadow-sm z-10">
+      <div className="hidden md:block w-[240px] border-r bg-sidebar sticky top-0 h-screen overflow-y-auto shadow-sm z-10">
         <NavContent />
       </div>
 
@@ -119,7 +119,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="p-0 w-[280px] bg-sidebar border-r-0">
+              <SheetContent side="left" className="p-0 w-[240px] bg-sidebar border-r-0">
                 <NavContent />
               </SheetContent>
             </Sheet>
@@ -127,18 +127,18 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
           {/* Search Bar */}
           <div className="hidden md:flex items-center w-full max-w-md ml-4">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="relative w-full group">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
               <Input 
                 placeholder="Search anything..." 
-                className="pl-10 bg-background border-transparent focus:bg-white focus:border-primary/20 transition-all rounded-xl shadow-sm"
+                className="pl-10 bg-background border-transparent focus:bg-white focus:border-primary/20 transition-all rounded-xl shadow-sm hover:shadow-md"
               />
             </div>
           </div>
 
           {/* Right Actions */}
           <div className="flex items-center gap-2 md:gap-4">
-            <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10">
+            <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
               <Bell className="h-5 w-5" />
             </Button>
           </div>
