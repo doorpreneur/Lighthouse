@@ -1,0 +1,48 @@
+I now need you to implement ONLY the **inner page components** for these sections, reusing the existing layout shell. Do NOT rebuild the whole app or global layout.
+
+## 
+
+- Owners
+- Buildings
+- Units
+- Tenants
+- Workflows
+- Team
+
+Each page should have **three main sections**:
+
+(1) A health header
+
+- Shows an overall health score for that domain (0–100).
+- Shows a simple trend indicator vs last period (e.g. “+4.2% vs last month”).
+- Shows a short summary text placeholder (e.g. “Owner health is stable, but maintenance costs are trending up.”).
+
+(2) A vitals / KPIs section
+
+- A grid of metrics specific to that domain.
+- Each metric should have:
+    - Name
+    - Current value
+    - Target or “normal” value
+    - Simple status (e.g. “on track”, “watch”, “critical”).
+- Use mock data (hard-coded arrays) for now – enough to render a realistic view.
+
+(3) A detailed list/table
+
+- A table listing individual entities for that domain:
+    - Owners: owner name, health score, # units, avg cashflow per month, maintenance per unit, vacancy %, risk label.
+    - Buildings: building name, health score, occupancy %, open work orders, last inspection date, maintenance spend YTD, risk label.
+    - Units: unit ID, building, status (occupied/vacant), days vacant, rent amount, # tickets last 90 days, health score.
+    - Tenants: tenant name, unit, on-time payment %, open tickets, last ticket age, renewal probability, health score.
+    - Workflows: workflow name (Onboarding, Leasing, Move-in, Move-out, Maintenance, Inspections, Claims), average cycle time, SLA adherence %, backlog size, health score, bottleneck flag.
+    - Team: team member name, role, open tasks, overdue tasks, avg response time, SLA adherence %, workload indicator, health score.
+- Include simple filters at the top of the table:
+    - Search by name/ID.
+    - Filter by status (e.g. “healthy / watch / critical”).
+- Clicking a row should open a simple detail panel or section showing a few more fields about that entity. This can be implemented as:
+    - Either an expandable row OR
+    - A side-panel / drawer OR
+    - A detail section rendered below the table when an entity is selected.
+    Use whatever option is simplest, but keep the code clean.
+
+Again: do NOT rebuild the entire app shell or layout. Only make changes to the individual pages or Owners, Buildings, Tenants, Units, Workflows and Team. The styling should be consistent with the rest of the site.

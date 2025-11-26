@@ -1,0 +1,111 @@
+You are an expert React + TypeScript engineer.
+
+I already have a shell app with navigation that matches this structure:
+
+- Overview
+- Owners
+- Buildings
+- Units
+- Tenants
+- Workflows
+- Team
+
+I now need you to implement ONLY the **inner page components** for these sections, reusing the existing layout shell. Do NOT rebuild the whole app or global layout.
+
+## Requirements
+
+1. Tech
+- Use React + TypeScript.
+- Assume standard React Router or a simple routing setup where each page is a component I can mount under a route (e.g. /owners, /buildings, etc.).
+- No external state management needed; local state is fine.
+- Do NOT worry about visual design (colors, spacing, fonts). Focus on structure, data, and component layout. I’ll adjust styling later.
+
+2. Concept
+This app is a “health monitor” for a property management business. Each page represents the “health” of a different domain:
+
+- Owners
+- Buildings
+- Units
+- Tenants
+- Workflows
+- Team
+
+Each page should have **three main sections**:
+
+(1) A health header
+- Shows an overall health score for that domain (0–100).
+- Shows a simple trend indicator vs last period (e.g. “+4.2% vs last month”).
+- Shows a short summary text placeholder (e.g. “Owner health is stable, but maintenance costs are trending up.”).
+
+(2) A vitals / KPIs section
+- A grid of metrics specific to that domain.
+- Each metric should have:
+  - Name
+  - Current value
+  - Target or “normal” value
+  - Simple status (e.g. “on track”, “watch”, “critical”).
+- Use mock data (hard-coded arrays) for now – enough to render a realistic view.
+
+(3) A detailed list/table
+- A table listing individual entities for that domain:
+  - Owners: owner name, health score, # units, avg cashflow per month, maintenance per unit, vacancy %, risk label.
+  - Buildings: building name, health score, occupancy %, open work orders, last inspection date, maintenance spend YTD, risk label.
+  - Units: unit ID, building, status (occupied/vacant), days vacant, rent amount, # tickets last 90 days, health score.
+  - Tenants: tenant name, unit, on-time payment %, open tickets, last ticket age, renewal probability, health score.
+  - Workflows: workflow name (Onboarding, Leasing, Move-in, Move-out, Maintenance, Inspections, Claims), average cycle time, SLA adherence %, backlog size, health score, bottleneck flag.
+  - Team: team member name, role, open tasks, overdue tasks, avg response time, SLA adherence %, workload indicator, health score.
+
+- Include simple filters at the top of the table:
+  - Search by name/ID.
+  - Filter by status (e.g. “healthy / watch / critical”).
+- Clicking a row should open a simple detail panel or section showing a few more fields about that entity. This can be implemented as:
+  - Either an expandable row OR
+  - A side-panel / drawer OR
+  - A detail section rendered below the table when an entity is selected.
+  Use whatever option is simplest, but keep the code clean.
+
+3. Data
+- Use realistic mock data for each page (arrays of 10–20 entities per domain).
+- Put mock data in separate files/modules, e.g.:
+  - data/owners.ts
+  - data/buildings.ts
+  - data/units.ts
+  - data/tenants.ts
+  - data/workflows.ts
+  - data/team.ts
+
+4. Components
+
+Create shared, reusable components where sensible, for example:
+
+- `<HealthHeader title, score, trend, summary />`
+- `<VitalsGrid vitals />` where each vital has:
+  - id, label, value, target, status
+- `<EntityTable columns, data, onSelect />`
+- `<EntityDetailPanel entity, type />` for the detail view
+
+Then create page components:
+
+- `OwnersPage`
+- `BuildingsPage`
+- `UnitsPage`
+- `TenantsPage`
+- `WorkflowsPage`
+- `TeamPage`
+
+Each page should:
+- Import its mock data.
+- Render `<HealthHeader />` for that domain.
+- Render `<VitalsGrid />` with domain-specific vitals.
+- Render `<EntityTable />` for the list.
+
+5. Output
+
+- First, show me the proposed file structure.
+- Then generate the code for:
+  - Shared components (HealthHeader, VitalsGrid, EntityTable, EntityDetailPanel)
+  - Mock data files for each domain
+  - Page components for each route (OwnersPage, BuildingsPage, UnitsPage, TenantsPage, WorkflowsPage, TeamPage)
+- Add comments explaining what each section does so it’s easy to modify later.
+
+Again: do NOT rebuild the entire app shell or layout. Only provide the components I can drop into my existing app.
