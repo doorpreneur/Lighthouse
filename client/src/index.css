@@ -63,28 +63,32 @@
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   
-  --radius: 0.5rem;
+  --radius: 1rem;
 }
 
-/* LIGHT MODE */
+/* LIGHT MODE - METABALLS INSPIRED THEME */
 :root {
-  --background: 210 40% 98%; /* Slate 50 */
-  --foreground: 222 47% 11%; /* Slate 950 */
+  /* Main Background: Very light cool gray, almost white but distinct from cards */
+  --background: 210 40% 98%; 
+  --foreground: 222 47% 11%;
 
+  /* Cards: Pure white with subtle shadows */
   --card: 0 0% 100%;
   --card-foreground: 222 47% 11%;
 
   --popover: 0 0% 100%;
   --popover-foreground: 222 47% 11%;
 
-  --primary: 222 47% 11%;
+  /* Primary: Vibrant Professional Blue */
+  --primary: 221 83% 53%; /* Blue 600-ish */
   --primary-foreground: 210 40% 98%;
 
+  /* Secondary: Subtle blue-gray for inactive states */
   --secondary: 210 40% 96.1%;
   --secondary-foreground: 222 47% 11%;
 
   --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
+  --muted-foreground: 215 16% 47%;
 
   --accent: 210 40% 96.1%;
   --accent-foreground: 222 47% 11%;
@@ -92,30 +96,32 @@
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
+  /* Borders: Very subtle */
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 221 83% 53%;
 
-  --radius: 0.5rem;
+  --radius: 1rem; /* 16px rounded corners */
 
-  --sidebar: 0 0% 98%;
-  --sidebar-foreground: 240 5.3% 26.1%;
-  --sidebar-primary: 240 5.9% 10%;
+  /* Sidebar: White, distinct from background */
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 215 16% 47%; /* Muted text by default */
+  --sidebar-primary: 221 83% 53%; /* Active item text */
   --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 240 4.8% 95.9%;
-  --sidebar-accent-foreground: 240 5.9% 10%;
-  --sidebar-border: 220 13% 91%;
+  --sidebar-accent: 221 83% 96%; /* Very light blue for active bg */
+  --sidebar-accent-foreground: 221 83% 53%;
+  --sidebar-border: 214 32% 91%;
   --sidebar-ring: 217.2 91.2% 59.8%;
 
-  /* Health System Colors */
-  --health-good: 142 76% 36%; /* Green 600 */
-  --health-good-bg: 142 76% 95%; /* Green 50 */
+  /* Health System Colors - Adjusted for vibrancy */
+  --health-good: 142 71% 45%; /* Green */
+  --health-good-bg: 142 71% 96%; 
   
-  --health-watch: 38 92% 50%; /* Amber 500 */
-  --health-watch-bg: 48 96% 95%; /* Amber 50 */
+  --health-watch: 32 95% 44%; /* Orange/Amber */
+  --health-watch-bg: 32 95% 96%;
   
-  --health-critical: 346 84% 61%; /* Rose 500 */
-  --health-critical-bg: 355 78% 96%; /* Rose 50 */
+  --health-critical: 350 89% 60%; /* Red */
+  --health-critical-bg: 350 89% 96%;
 }
 
 .dark {
@@ -128,7 +134,7 @@
   --popover: 222.2 84% 4.9%;
   --popover-foreground: 210 40% 98%;
 
-  --primary: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
   --primary-foreground: 222.2 47.4% 11.2%;
 
   --secondary: 217.2 32.6% 17.5%;
@@ -154,5 +160,12 @@
   }
   body {
     @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Custom soft shadow for cards */
+  .shadow-soft {
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
   }
 }
