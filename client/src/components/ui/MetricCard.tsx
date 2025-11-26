@@ -25,11 +25,11 @@ export function MetricCard({
 }: MetricCardProps) {
   
   return (
-    <Card className={cn("overflow-hidden border-0 shadow-soft rounded-2xl cursor-pointer group", className)}>
+    <Card className={cn("overflow-hidden border-0 shadow-soft rounded-2xl cursor-pointer group card-gradient", className)}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center gap-3">
           {icon && (
-            <div className="p-2 rounded-lg bg-sidebar-accent/50 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+            <div className="p-2 rounded-lg bg-white shadow-sm text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300 border border-primary/10">
               {icon}
             </div>
           )}
@@ -50,9 +50,9 @@ export function MetricCard({
           {(trendValue || subValue) && (
             <div className="flex items-center mt-3 gap-2">
               {trend && trendValue && (
-                <div className={cn("text-[10px] font-mono font-medium px-2 py-1 rounded-full flex items-center gap-1", 
-                  trend === "up" ? "text-health-good bg-health-good-bg" : 
-                  trend === "down" ? "text-health-critical bg-health-critical-bg" : "text-muted-foreground bg-muted"
+                <div className={cn("text-[10px] font-mono font-medium px-2 py-1 rounded-full flex items-center gap-1 border", 
+                  trend === "up" ? "text-health-good bg-health-good-bg border-health-good/20" : 
+                  trend === "down" ? "text-health-critical bg-health-critical-bg border-health-critical/20" : "text-muted-foreground bg-muted border-transparent"
                 )}>
                   {trend === "up" ? "↑" : trend === "down" ? "↓" : "→"} 
                   {trendValue}

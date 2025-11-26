@@ -179,4 +179,34 @@
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
   }
+
+  /* Card with gradient background and subtle gradient border */
+  .card-gradient {
+    /* Subtle gradient background */
+    background: linear-gradient(165deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    position: relative;
+    /* Ensure content sits above the background */
+    z-index: 0;
+  }
+
+  .card-gradient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px; /* This defines the border width */
+    
+    /* Gradient Stroke: White (top-left) to Subtle Blue (bottom-right) */
+    background: linear-gradient(165deg, rgba(255,255,255, 1) 0%, rgba(59, 130, 246, 0.15) 100%);
+    
+    /* Mask to show only the border */
+    -webkit-mask: 
+       linear-gradient(#fff 0 0) content-box, 
+       linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    
+    pointer-events: none;
+    z-index: -1; /* Behind content */
+  }
 }

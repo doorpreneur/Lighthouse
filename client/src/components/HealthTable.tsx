@@ -37,8 +37,8 @@ export function HealthTable<T extends { id: string; healthScore: number; riskLev
 
   return (
     <>
-      <Card className="border-0 shadow-soft rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300">
-        <CardHeader className="flex flex-row items-center justify-between border-b border-border/50 bg-card px-6 py-5">
+      <Card className="border-0 shadow-soft rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 card-gradient">
+        <CardHeader className="flex flex-row items-center justify-between border-b border-border/50 bg-white/50 backdrop-blur-sm px-6 py-5">
           <div>
             <CardTitle className="text-lg font-display font-bold text-foreground tracking-tight">{title}</CardTitle>
             <p className="text-xs font-mono text-muted-foreground mt-1">
@@ -46,12 +46,12 @@ export function HealthTable<T extends { id: string; healthScore: number; riskLev
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" className="rounded-lg h-9 font-medium hover:bg-primary/5 hover:text-primary border-primary/10">
+            <Button variant="outline" size="sm" className="rounded-lg h-9 font-medium hover:bg-primary/5 hover:text-primary border-primary/10 bg-white">
               Export
             </Button>
             <Input 
               placeholder="Search..." 
-              className="h-9 w-[200px] rounded-lg bg-background focus:bg-white transition-colors border-transparent hover:shadow-sm" 
+              className="h-9 w-[200px] rounded-lg bg-white focus:bg-white transition-colors border-transparent hover:shadow-sm" 
             />
           </div>
         </CardHeader>
