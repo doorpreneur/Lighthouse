@@ -1,11 +1,10 @@
-import { useRoute } from "wouter";
+import { useRoute, Link } from "wouter";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { mockPropertyHealth } from "@/lib/mock-property-data";
 import { PillarName, VitalStatus } from "@/lib/property-health-types";
 import { cn } from "@/lib/utils";
 import { 
   Activity, 
-  AlertTriangle, 
   ArrowDownRight, 
   ArrowUpRight, 
   Banknote, 
@@ -24,7 +23,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import {
   Table,
@@ -363,7 +361,13 @@ export default function PropertyDetail() {
                   <h4 className="text-xs font-mono font-bold text-muted-foreground uppercase tracking-wider mb-3">Key Metrics</h4>
                   <div className="space-y-1">
                     {data.keyVitals.map(vital => (
-                      <VitalRow key={vital.key} {...vital} />
+                      <VitalRow 
+                        key={vital.key} 
+                        label={vital.label}
+                        value={vital.value}
+                        status={vital.status}
+                        change={vital.change90d} 
+                      />
                     ))}
                   </div>
                 </div>
@@ -374,7 +378,13 @@ export default function PropertyDetail() {
                   <h4 className="text-xs font-mono font-bold text-muted-foreground uppercase tracking-wider mb-3">Extended Metrics</h4>
                   <div className="space-y-1">
                     {data.allVitals.slice(4).map(vital => (
-                      <VitalRow key={vital.key} {...vital} />
+                      <VitalRow 
+                        key={vital.key} 
+                        label={vital.label}
+                        value={vital.value}
+                        status={vital.status}
+                        change={vital.change90d}
+                      />
                     ))}
                   </div>
                 </div>
