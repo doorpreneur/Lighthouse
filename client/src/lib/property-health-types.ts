@@ -35,6 +35,50 @@ export type UnitHealth = {
   keyIssues?: string[];   // e.g., ["High WO volume", "Long vacancy streak"]
 };
 
+export type WorkOrder = {
+  id: string;
+  title: string;
+  status: "Open" | "In Progress" | "Completed" | "On Hold";
+  priority: "Low" | "Medium" | "High" | "Emergency";
+  createdAt: string;
+  category: string;
+};
+
+export type TenantProfile = {
+  name: string;
+  leaseStart: string;
+  leaseEnd: string;
+  tenureYears: number;
+  paymentStatus: "Good" | "Late" | "Arrears";
+  npsScore?: number; // 0-10
+  lastContact: string;
+};
+
+export type UnitHealthDetail = UnitHealth & {
+  propertyId: string;
+  propertyName: string;
+  address: string;
+  floorPlan: string; // "2 Bed / 2 Bath"
+  sqft: number;
+  rent: number;
+  marketRent: number;
+  
+  // Detailed Vitals for Unit
+  vitals: Vital[];
+  
+  // Specific Diagnoses for Unit
+  diagnoses: Diagnosis[];
+  
+  // Recent Work Orders
+  recentWorkOrders: WorkOrder[];
+  
+  // Tenant Info (if occupied)
+  tenant?: TenantProfile;
+
+  // History timeline (simplified)
+  history: { date: string; event: string; type: "maintenance" | "financial" | "tenant" }[];
+};
+
 export type PropertyHealth = {
   propertyId: string;
   name: string;           // "123 Main St"

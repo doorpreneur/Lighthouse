@@ -1,4 +1,4 @@
-import { useRoute, Link } from "wouter";
+import { useRoute, Link, useLocation } from "wouter";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { mockPropertyHealth } from "@/lib/mock-property-data";
 import { PillarName, VitalStatus } from "@/lib/property-health-types";
@@ -204,6 +204,7 @@ function DiagnosisCard({ diagnosis }: { diagnosis: typeof mockPropertyHealth['di
 export default function PropertyDetail() {
   // In a real app, we would use the ID to fetch data
   const [, params] = useRoute("/buildings/:id");
+  const [, setLocation] = useLocation();
   const data = mockPropertyHealth; // Using mock data directly
 
   return (
@@ -315,8 +316,12 @@ export default function PropertyDetail() {
                   </TableHeader>
                   <TableBody>
                     {data.units.map((unit) => (
-                      <TableRow key={unit.unitId} className="hover:bg-muted/30 transition-colors">
-                        <TableCell className="font-medium">{unit.unitLabel}</TableCell>
+                      <TableRow 
+                        key={unit.unitId} 
+                        className="hover:bg-muted/30 transition-colors cursor-pointer group"
+                        onClick={() => setLocation(`/units/${unit.unitId}`)}
+                      >
+                        <TableCell className="font-medium group-hover:text-primary transition-colors">{unit.unitLabel}</TableCell>
                         <TableCell>
                           <Badge variant={unit.occupancyStatus === "Occupied" ? "outline" : "secondary"} className="font-normal">
                             {unit.occupancyStatus}
