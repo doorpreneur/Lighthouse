@@ -1,0 +1,87 @@
+You are an expert React + TypeScript + Tailwind UI engineer working on a product called **PropHealth**.
+
+PropHealth is a health-monitoring and diagnostic system for property management. I want you to redesign the **Owner Detail / Owner Health page** to mirror the structure and feel of the Property Health page, but at the **portfolio (owner)** level.
+
+Do NOT change any backend APIs or data fetching logic. Focus on UI structure, components, and presentation.
+
+---
+
+## CONTEXT
+
+We have a core concept called **Owner Health**:
+
+Each **Owner** is like a “portfolio patient” whose health is driven by:
+
+- Financial stability
+- Portfolio performance
+- Engagement & communication
+- Operational risk
+
+At the data level, assume the page already receives a single `ownerHealth` object with at least these fields (you can adapt to current names, but keep the conceptual shape):
+
+```ts
+type OwnerPillarName =
+  | "FinancialStability"
+  | "PortfolioPerformance"
+  | "Engagement"
+  | "Risk";
+
+type OwnerPillarScore = {
+  name: OwnerPillarName;
+  score: number;          // 0–100
+  trend90d?: number;      // +5, -8, etc.
+};
+
+type OwnerVitalStatus = "good" | "warning" | "critical";
+
+type OwnerVital = {
+  key: string;            // e.g. "cashFlowTrend"
+  label: string;          // "Cash Flow Trend (90d)"
+  value: string;          // "$+1,250", "-3.2%", etc.
+  portfolioAverage?: string;  // across all owners (optional)
+  change90d?: string;     // "+4%", "-$800", etc.
+  status: OwnerVitalStatus;
+};
+
+type OwnerDiagnosis = {
+  id: string;
+  label: string;          // "High maintenance burden across portfolio"
+  severity: "Low" | "Medium" | "High" | "Critical";
+  impactedPillars: OwnerPillarName[];
+  narrative: string;      // 1–3 sentence explanation
+  evidence: string[];     // bullet lines like "Maintenance cost ratio exceeds 15% for 4/7 properties."
+  prescriptions: string[];// action bullets
+};
+
+type OwnerPropertySummary = {
+  propertyId: string;
+  propertyName: string;   // "123 Main St"
+  address: string;
+  units: number;
+  propertyHealthScore: number;   // 0–100
+  occupancyRate: string;         // "96%"
+  noiMargin?: string;            // "48%"
+  maintenanceCostRatio?: string; // "9%"
+  keyIssues?: string[];          // e.g. ["Rising maintenance", "High vacancy"]
+};
+
+type OwnerHealth = {
+  ownerId: string;
+  ownerName: string;       // "John Smith Holdings Inc."
+  contactName?: string;    // if different from entity
+  email?: string;
+  phone?: string;
+
+  totalProperties: number;
+  totalUnits: number;
+
+  overallScore: number;    // 0–100
+  overallTrend90d?: number;
+
+  pillars: OwnerPillarScore[];
+  keyVitals: OwnerVital[];
+  allVitals: OwnerVital[];
+
+  diagnoses: OwnerDiagnosis[];
+  properties: OwnerPropertySummary[];
+};

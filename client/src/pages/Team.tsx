@@ -7,7 +7,10 @@ import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 import { Badge } from "@/components/ui/badge";
 
+import { useLocation } from "wouter";
+
 export default function Team() {
+  const [, setLocation] = useLocation();
   const { data: business } = useQuery({
     queryKey: ["businessHealth"],
     queryFn: api.getBusinessHealth
@@ -60,6 +63,7 @@ export default function Team() {
         <HealthTable 
           title="Team Performance"
           data={team || []}
+          onRowClick={(item) => setLocation(`/team/${item.id}`)}
           columns={[
             { header: "Name", accessorKey: "name", className: "font-medium text-foreground" },
             { header: "Role", accessorKey: "role" },

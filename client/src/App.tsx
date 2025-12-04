@@ -11,6 +11,7 @@ import Units from "@/pages/Units";
 import Tenants from "@/pages/Tenants";
 import Workflows from "@/pages/Workflows";
 import Team from "@/pages/Team";
+import TeamMemberDetail from "@/pages/TeamMemberDetail";
 import PropertyDetail from "@/pages/PropertyDetail";
 import UnitDetail from "@/pages/UnitDetail";
 
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/tenants" component={Tenants} />
       <Route path="/workflows" component={Workflows} />
       <Route path="/team" component={Team} />
+      <Route path="/team/:id" component={TeamMemberDetail} />
       <Route component={NotFound} />
     </Switch>
   );
