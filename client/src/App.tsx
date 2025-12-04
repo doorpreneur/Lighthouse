@@ -15,11 +15,14 @@ import TeamMemberDetail from "@/pages/TeamMemberDetail";
 import PropertyDetail from "@/pages/PropertyDetail";
 import UnitDetail from "@/pages/UnitDetail";
 
+import OwnerDetail from "@/pages/OwnerDetail";
+
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Dashboard} />
       <Route path="/owners" component={Owners} />
+      <Route path="/owners/:id" component={OwnerDetail} />
       <Route path="/buildings" component={Buildings} />
       <Route path="/buildings/:id" component={PropertyDetail} />
       <Route path="/units" component={Units} />

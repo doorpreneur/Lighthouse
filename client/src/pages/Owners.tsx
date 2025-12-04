@@ -6,7 +6,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 
+import { useLocation } from "wouter";
+
 export default function Owners() {
+  const [, setLocation] = useLocation();
   const { data: business } = useQuery({
     queryKey: ["businessHealth"],
     queryFn: api.getBusinessHealth
@@ -59,6 +62,7 @@ export default function Owners() {
         <HealthTable 
           title="Owner Directory"
           data={owners || []}
+          onRowClick={(item) => setLocation(`/owners/${item.id}`)}
           columns={[
             { header: "Owner Name", accessorKey: "name", className: "font-medium text-foreground" },
             { header: "Units", accessorKey: "unitsCount" },
