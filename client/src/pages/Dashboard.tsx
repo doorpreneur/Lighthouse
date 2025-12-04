@@ -15,11 +15,14 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Calendar,
-  Download
+  Download,
+  AlertTriangle,
+  ChevronRight
 } from "lucide-react";
 import { Link } from "wouter";
 import { CategorySummary } from "@/lib/types";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { RiskDistributionCard } from "@/components/dashboard/RiskDistributionCard";
 import { RevenueTrendCard } from "@/components/dashboard/RevenueTrendCard";
 
@@ -184,6 +187,57 @@ export default function Dashboard() {
           />
         </div>
         
+        {/* Priority Alerts Section */}
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="md:col-span-3">
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-orange-500" />
+              Priority Attention Required
+            </h3>
+            <div className="bg-white border rounded-xl shadow-sm overflow-hidden divide-y">
+              <Link href="/units/u-102">
+                <div className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group">
+                  <div className="flex items-center gap-4">
+                    <div className="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold">
+                      !
+                    </div>
+                    <div>
+                      <div className="font-semibold text-foreground flex items-center gap-2">
+                        Unit 102 - The Heights at Downtown
+                        <Badge variant="destructive" className="text-[10px] h-5">CRITICAL</Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Chronic plumbing instability reported. 3 recurring leaks in 60 days.
+                      </p>
+                    </div>
+                  </div>
+                  <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                </div>
+              </Link>
+              
+              <Link href="/buildings/bld-001">
+                <div className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group">
+                  <div className="flex items-center gap-4">
+                    <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold">
+                      !
+                    </div>
+                    <div>
+                      <div className="font-semibold text-foreground flex items-center gap-2">
+                        The Heights at Downtown
+                        <Badge variant="outline" className="text-orange-600 border-orange-200 bg-orange-50 text-[10px] h-5">HIGH RISK</Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Mechanical aging diagnosis flagged. HVAC audit recommended immediately.
+                      </p>
+                    </div>
+                  </div>
+                  <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* Analytics Section with New Card Designs */}
         <div className="grid gap-6 md:grid-cols-2">
            <RevenueTrendCard />
