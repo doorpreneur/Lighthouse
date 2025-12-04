@@ -119,133 +119,204 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Main Stats Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {/* Overall Health - Featured Card */}
-          <Card className="md:col-span-2 lg:col-span-3 border-0 shadow-soft rounded-2xl bg-gradient-to-r from-primary/90 to-primary text-primary-foreground overflow-hidden relative">
-            <div className="absolute right-0 top-0 h-full w-1/2 bg-white/5 skew-x-12 translate-x-20"></div>
-            <CardContent className="p-8 relative z-10 flex items-center justify-between">
-              <div>
-                <p className="text-primary-foreground/80 font-medium mb-2">Overall Business Health</p>
-                <div className="flex items-baseline gap-4">
-                  <h2 className="text-5xl font-bold">{business.overallScore}</h2>
-                  <div className="flex items-center gap-1 bg-white/20 px-2 py-1 rounded-lg text-sm font-medium backdrop-blur-sm">
-                    <ArrowUpRight className="h-4 w-4" />
-                    +4.2% from last month
+        {/* Main Content Grid */}
+        <div className="grid gap-6 lg:grid-cols-3 items-start">
+          
+          {/* Left Column - Stats & Charts */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Overall Health */}
+            <Card className="border-0 shadow-soft rounded-2xl bg-gradient-to-br from-primary/90 via-primary to-blue-600 text-primary-foreground overflow-hidden relative">
+              <div className="absolute right-0 top-0 h-full w-1/2 bg-white/5 skew-x-12 translate-x-20"></div>
+              <div className="absolute left-0 bottom-0 h-32 w-32 bg-white/5 rounded-full blur-3xl -translate-x-10 translate-y-10"></div>
+              <CardContent className="p-8 relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="flex-1">
+                  <p className="text-primary-foreground/80 font-medium mb-2 flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse"/>
+                    Overall Business Health
+                  </p>
+                  <div className="flex items-baseline gap-4">
+                    <h2 className="text-5xl font-bold tracking-tight">{business.overallScore}</h2>
+                    <div className="flex items-center gap-1 bg-white/20 px-3 py-1.5 rounded-lg text-sm font-medium backdrop-blur-sm border border-white/10 shadow-sm">
+                      <ArrowUpRight className="h-4 w-4" />
+                      +4.2%
+                    </div>
+                  </div>
+                  <p className="mt-4 text-primary-foreground/80 leading-relaxed text-sm max-w-md">
+                    Your ecosystem is in the <strong>{business.riskLevel}</strong> zone. 
+                    Building performance is up, but check workflow bottlenecks.
+                  </p>
+                </div>
+                <div className="hidden sm:block shrink-0">
+                  <div className="h-28 w-28 rounded-full border-8 border-white/20 flex items-center justify-center relative shadow-inner">
+                    <div className="absolute inset-0 rounded-full border-8 border-white/40 border-t-transparent rotate-45"></div>
+                    <span className="text-3xl font-bold">A+</span>
                   </div>
                 </div>
-                <p className="mt-4 text-primary-foreground/70 max-w-xl">
-                  Your business is currently in the <strong>{business.riskLevel}</strong> zone. 
-                  Building performance has improved by 12%, while workflow efficiency requires attention.
-                </p>
-              </div>
-              <div className="hidden md:block">
-                {/* Decorative circular chart representation */}
-                <div className="h-32 w-32 rounded-full border-8 border-white/20 flex items-center justify-center relative">
-                  <div className="absolute inset-0 rounded-full border-8 border-white border-t-transparent rotate-45 opacity-80"></div>
-                  <span className="text-2xl font-bold">A+</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <SummaryWidget 
-            title="Owners Health" 
-            summary={business.ownerHealthSummary} 
-            icon={Users} 
-            href="/owners"
-          />
-          <SummaryWidget 
-            title="Buildings Condition" 
-            summary={business.buildingHealthSummary} 
-            icon={Building2} 
-            href="/buildings"
-          />
-          <SummaryWidget 
-            title="Unit Occupancy" 
-            summary={business.unitHealthSummary} 
-            icon={DoorOpen} 
-            href="/units"
-          />
-          <SummaryWidget 
-            title="Tenant Satisfaction" 
-            summary={business.tenantHealthSummary} 
-            icon={UserCircle} 
-            href="/tenants"
-          />
-          <SummaryWidget 
-            title="Workflow Efficiency" 
-            summary={business.workflowHealthSummary} 
-            icon={Workflow} 
-            href="/workflows"
-          />
-          <SummaryWidget 
-            title="Team Performance" 
-            summary={business.teamHealthSummary} 
-            icon={Briefcase} 
-            href="/team"
-          />
-        </div>
-        
-        {/* Priority Alerts Section */}
-        <div className="grid gap-6 md:grid-cols-3">
-          <div className="md:col-span-3">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-orange-500" />
-              Priority Attention Required
-            </h3>
-            <div className="bg-white border rounded-xl shadow-sm overflow-hidden divide-y">
-              <Link href="/units/u-102">
-                <div className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group">
-                  <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold">
-                      !
-                    </div>
-                    <div>
-                      <div className="font-semibold text-foreground flex items-center gap-2">
-                        Unit 102 - The Heights at Downtown
-                        <Badge variant="destructive" className="text-[10px] h-5">CRITICAL</Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        Chronic plumbing instability reported. 3 recurring leaks in 60 days.
-                      </p>
-                    </div>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                </div>
-              </Link>
-              
-              <Link href="/buildings/bld-001">
-                <div className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group">
-                  <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold">
-                      !
-                    </div>
-                    <div>
-                      <div className="font-semibold text-foreground flex items-center gap-2">
-                        The Heights at Downtown
-                        <Badge variant="outline" className="text-orange-600 border-orange-200 bg-orange-50 text-[10px] h-5">HIGH RISK</Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        Mechanical aging diagnosis flagged. HVAC audit recommended immediately.
-                      </p>
-                    </div>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                </div>
-              </Link>
+            {/* Summary Widgets Grid */}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <SummaryWidget 
+                title="Owners" 
+                summary={business.ownerHealthSummary} 
+                icon={Users} 
+                href="/owners"
+              />
+              <SummaryWidget 
+                title="Buildings" 
+                summary={business.buildingHealthSummary} 
+                icon={Building2} 
+                href="/buildings"
+              />
+              <SummaryWidget 
+                title="Units" 
+                summary={business.unitHealthSummary} 
+                icon={DoorOpen} 
+                href="/units"
+              />
+              <SummaryWidget 
+                title="Tenants" 
+                summary={business.tenantHealthSummary} 
+                icon={UserCircle} 
+                href="/tenants"
+              />
+              <SummaryWidget 
+                title="Workflows" 
+                summary={business.workflowHealthSummary} 
+                icon={Workflow} 
+                href="/workflows"
+              />
+              <SummaryWidget 
+                title="Team" 
+                summary={business.teamHealthSummary} 
+                icon={Briefcase} 
+                href="/team"
+              />
+            </div>
+
+            {/* Analytics Section */}
+            <div className="grid gap-6 md:grid-cols-2">
+               <RevenueTrendCard />
+               <RiskDistributionCard 
+                 criticalCount={totalCritical} 
+                 watchCount={totalWatch} 
+                 healthyCount={totalHealthy}
+               />
             </div>
           </div>
-        </div>
 
-        {/* Analytics Section with New Card Designs */}
-        <div className="grid gap-6 md:grid-cols-2">
-           <RevenueTrendCard />
-           <RiskDistributionCard 
-             criticalCount={totalCritical} 
-             watchCount={totalWatch} 
-             healthyCount={totalHealthy}
-           />
+          {/* Right Column - Priority Attention */}
+          <div className="space-y-6">
+            <Card className="border-0 shadow-soft card-gradient h-full max-h-[calc(100vh-120px)] sticky top-24 flex flex-col">
+              <CardHeader className="pb-3 border-b border-border/50 bg-white/50 backdrop-blur-sm">
+                <CardTitle className="text-lg font-bold flex items-center gap-2 text-foreground">
+                  <div className="p-2 rounded-lg bg-orange-100 text-orange-600">
+                    <AlertTriangle className="h-5 w-5" />
+                  </div>
+                  Priority Attention
+                </CardTitle>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {totalCritical} critical issues require action
+                </p>
+              </CardHeader>
+              
+              <div className="overflow-y-auto flex-1 p-2 space-y-2">
+                {/* Critical Unit Alert */}
+                <Link href="/units/u-102">
+                  <div className="p-3 rounded-xl bg-white border border-border/50 hover:border-primary/30 hover:shadow-md transition-all cursor-pointer group relative overflow-hidden">
+                    <div className="absolute left-0 top-0 w-1 h-full bg-red-500"></div>
+                    <div className="flex gap-3 pl-2">
+                      <div className="mt-1">
+                        <Badge variant="destructive" className="h-5 px-1.5 text-[10px] uppercase tracking-wider">Critical</Badge>
+                      </div>
+                      <div className="flex-1 space-y-1">
+                        <div className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">
+                          Unit 102 - Plumbing Risk
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-snug">
+                          Chronic instability reported. 3 recurring leaks in 60 days.
+                        </p>
+                        <div className="flex items-center gap-2 mt-2 text-[10px] text-muted-foreground">
+                          <Building2 className="h-3 w-3" />
+                          The Heights
+                        </div>
+                      </div>
+                      <ChevronRight className="h-4 w-4 text-muted-foreground/50 group-hover:text-primary self-center" />
+                    </div>
+                  </div>
+                </Link>
+
+                {/* High Risk Building Alert */}
+                <Link href="/buildings/bld-001">
+                  <div className="p-3 rounded-xl bg-white border border-border/50 hover:border-primary/30 hover:shadow-md transition-all cursor-pointer group relative overflow-hidden">
+                    <div className="absolute left-0 top-0 w-1 h-full bg-orange-500"></div>
+                    <div className="flex gap-3 pl-2">
+                      <div className="mt-1">
+                        <Badge variant="outline" className="h-5 px-1.5 text-[10px] uppercase tracking-wider text-orange-600 border-orange-200 bg-orange-50">High Risk</Badge>
+                      </div>
+                      <div className="flex-1 space-y-1">
+                        <div className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">
+                          Mechanical Aging
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-snug">
+                          HVAC audit recommended. Capital reserves underfunded.
+                        </p>
+                        <div className="flex items-center gap-2 mt-2 text-[10px] text-muted-foreground">
+                          <Building2 className="h-3 w-3" />
+                          The Heights
+                        </div>
+                      </div>
+                      <ChevronRight className="h-4 w-4 text-muted-foreground/50 group-hover:text-primary self-center" />
+                    </div>
+                  </div>
+                </Link>
+
+                {/* Mock Alert 3 */}
+                <div className="p-3 rounded-xl bg-white border border-border/50 hover:border-primary/30 hover:shadow-md transition-all cursor-pointer group relative overflow-hidden opacity-80">
+                   <div className="absolute left-0 top-0 w-1 h-full bg-yellow-500"></div>
+                   <div className="flex gap-3 pl-2">
+                      <div className="mt-1">
+                        <Badge variant="outline" className="h-5 px-1.5 text-[10px] uppercase tracking-wider text-yellow-600 border-yellow-200 bg-yellow-50">Warning</Badge>
+                      </div>
+                      <div className="flex-1 space-y-1">
+                        <div className="font-semibold text-sm text-foreground">
+                          Lease Expirations
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-snug">
+                          5 leases expiring in next 30 days. Renewal offers pending.
+                        </p>
+                      </div>
+                   </div>
+                </div>
+
+                {/* Mock Alert 4 */}
+                <div className="p-3 rounded-xl bg-white border border-border/50 hover:border-primary/30 hover:shadow-md transition-all cursor-pointer group relative overflow-hidden opacity-80">
+                   <div className="absolute left-0 top-0 w-1 h-full bg-blue-500"></div>
+                   <div className="flex gap-3 pl-2">
+                      <div className="mt-1">
+                        <Badge variant="outline" className="h-5 px-1.5 text-[10px] uppercase tracking-wider text-blue-600 border-blue-200 bg-blue-50">Workflow</Badge>
+                      </div>
+                      <div className="flex-1 space-y-1">
+                        <div className="font-semibold text-sm text-foreground">
+                          Turnover Delay
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-snug">
+                          Avg turn time increased to 18 days (+4 days vs avg).
+                        </p>
+                      </div>
+                   </div>
+                </div>
+
+              </div>
+              
+              <div className="p-3 border-t border-border/50 bg-muted/20">
+                 <Button variant="ghost" className="w-full text-xs h-8 text-muted-foreground hover:text-primary">
+                    View All Alerts
+                 </Button>
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
     </DashboardLayout>
