@@ -6,6 +6,16 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 import { Badge } from "@/components/ui/badge";
+import { useLocation } from "wouter";
+import { useState, useMemo } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Building2, Filter } from "lucide-react";
 
 export default function Units() {
   const { data: business } = useQuery({
@@ -13,12 +23,35 @@ export default function Units() {
     queryFn: api.getBusinessHealth
   });
 
-  const { data: units, isLoading } = useQuery({
+  const { data: units, isLoading: isLoadingUnits } = useQuery({
     queryKey: ["units"],
     queryFn: api.getUnits
   });
 
-  if (isLoading || !business) {
+  const { data: buildings, isLoading: isLoadingBuildings } = useQuery({
+    queryKey: ["buildings"],
+    queryFn: api.getBuildings
+  });
+
+  const [, setLocation] = useLocation();
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string>("all");
+
+  const filteredUnits = useMemo(() => {
+    if (!units) return [];
+    if (selectedBuildingId === "all") return units;
+    return units.filter(u => u.buildingId === selectedBuildingId);
+  }, [units, selectedBuildingId]);
+
+  // Create a map for building names for easier lookup
+  const buildingNameMap = useMemo(() => {
+    if (!buildings) return {};
+    return buildings.reduce((acc, b) => {
+      acc[b.id] = b.name;
+      return acc;
+    }, {} as Record<string, string>);
+  }, [buildings]);
+
+  if (isLoadingUnits || isLoadingBuildings || !business) {
     return (
       <DashboardLayout>
         <div className="space-y-6">
@@ -57,26 +90,56 @@ export default function Units() {
           <VitalsGrid items={vitals} />
         </section>
 
-        <HealthTable 
-          title="Unit Inventory"
-          data={units || []}
-          filterColumn="unitLabel"
-          columns={[
-            { header: "Unit ID", accessorKey: "unitLabel", className: "font-mono font-medium text-foreground" },
-            { header: "Building", accessorKey: "buildingId" }, // Mapping needed for real name
-            { 
-              header: "Status", 
-              cell: (item) => (
-                <Badge variant={item.occupancyStatus === "occupied" ? "default" : "outline"} className="capitalize font-normal">
-                  {item.occupancyStatus}
-                </Badge>
-              ) 
-            },
-            { header: "Days Vacant", cell: (item) => item.occupancyStatus !== "occupied" ? `${item.daysVacantLastTurn}d` : "-" },
-            { header: "Rent", cell: () => `$${(Math.random() * 1500 + 1200).toFixed(0)}`, className: "font-mono" }, // Mock
-            { header: "Tickets (90d)", accessorKey: "numberOfWorkOrdersLast12Months", cell: (item) => Math.round(item.numberOfWorkOrdersLast12Months / 4) }, // approx 90d
-          ]}
-        />
+        <div className="space-y-4">
+           <div className="flex items-center gap-2">
+             <Filter className="h-4 w-4 text-muted-foreground" />
+             <span className="text-sm font-medium text-muted-foreground">Filter by Property:</span>
+             <Select 
+               value={selectedBuildingId} 
+               onValueChange={setSelectedBuildingId}
+             >
+               <SelectTrigger className="w-[250px] h-9 bg-white">
+                 <div className="flex items-center gap-2">
+                   <Building2 className="h-4 w-4 text-muted-foreground" />
+                   <SelectValue placeholder="All Properties" />
+                 </div>
+               </SelectTrigger>
+               <SelectContent>
+                 <SelectItem value="all">All Properties</SelectItem>
+                 {buildings?.map(b => (
+                   <SelectItem key={b.id} value={b.id}>{b.name}</SelectItem>
+                 ))}
+               </SelectContent>
+             </Select>
+           </div>
+
+           <HealthTable 
+             title={selectedBuildingId === "all" ? "All Unit Inventory" : `Units at ${buildingNameMap[selectedBuildingId]}`}
+             data={filteredUnits}
+             filterColumn="unitLabel"
+             columns={[
+               { header: "Unit ID", accessorKey: "unitLabel", className: "font-mono font-medium text-foreground group-hover:text-primary transition-colors" },
+               { 
+                 header: "Building", 
+                 cell: (item) => buildingNameMap[item.buildingId] || item.buildingId,
+                 className: "text-muted-foreground"
+               },
+               { 
+                 header: "Status", 
+                 cell: (item) => (
+                   <Badge variant={item.occupancyStatus === "occupied" ? "default" : "outline"} className="capitalize font-normal">
+                     {item.occupancyStatus}
+                   </Badge>
+                 ) 
+               },
+               { header: "Days Vacant", cell: (item) => item.occupancyStatus !== "occupied" ? `${item.daysVacantLastTurn}d` : "-" },
+               { header: "Rent", cell: () => `$${(Math.random() * 1500 + 1200).toFixed(0)}`, className: "font-mono" }, // Mock
+               { header: "Tickets (90d)", accessorKey: "numberOfWorkOrdersLast12Months", cell: (item) => Math.round(item.numberOfWorkOrdersLast12Months / 4) }, // approx 90d
+             ]}
+             // @ts-ignore - Passing onRowClick to handle navigation
+             onRowClick={(item) => setLocation(`/units/${item.id}`)}
+           />
+        </div>
       </div>
     </DashboardLayout>
   );
