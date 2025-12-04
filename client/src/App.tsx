@@ -11,6 +11,7 @@ import Units from "@/pages/Units";
 import Tenants from "@/pages/Tenants";
 import Workflows from "@/pages/Workflows";
 import Team from "@/pages/Team";
+import PropertyDetail from "@/pages/PropertyDetail";
 
 function Router() {
   return (
@@ -18,6 +19,7 @@ function Router() {
       <Route path="/" component={Dashboard} />
       <Route path="/owners" component={Owners} />
       <Route path="/buildings" component={Buildings} />
+      <Route path="/buildings/:id" component={PropertyDetail} />
       <Route path="/units" component={Units} />
       <Route path="/tenants" component={Tenants} />
       <Route path="/workflows" component={Workflows} />

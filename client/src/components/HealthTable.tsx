@@ -34,13 +34,15 @@ interface HealthTableProps<T> {
   data: T[];
   columns: Column<T>[];
   filterColumn?: keyof T; // Optional text search column
+  onRowClick?: (item: T) => void; // Added explicit prop
 }
 
 export function HealthTable<T extends { id: string; healthScore: number; riskLevel: RiskLevel }>({ 
   title, 
   data, 
   columns,
-  filterColumn = "name" as keyof T // Default to name if exists, can be overridden
+  filterColumn = "name" as keyof T,
+  onRowClick // Capture the prop
 }: HealthTableProps<T>) {
   const [selectedItem, setSelectedItem] = useState<T | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -60,6 +62,14 @@ export function HealthTable<T extends { id: string; healthScore: number; riskLev
       return true;
     });
   }, [data, statusFilter, searchQuery, filterColumn]);
+
+  const handleRowClick = (item: T) => {
+    if (onRowClick) {
+      onRowClick(item); // Use external handler if provided
+    } else {
+      setSelectedItem(item); // Fallback to internal sheet
+    }
+  };
 
   return (
     <>
@@ -126,7 +136,7 @@ export function HealthTable<T extends { id: string; healthScore: number; riskLev
                   <TableRow 
                     key={item.id} 
                     className="cursor-pointer hover:bg-primary/5 hover:translate-x-1 transition-all duration-200 border-border/50 group"
-                    onClick={() => setSelectedItem(item)}
+                    onClick={() => handleRowClick(item)}
                   >
                     {columns.map((col, i) => (
                       <TableCell key={i} className="py-4 font-medium text-sm text-foreground/80">

@@ -1,0 +1,85 @@
+You are an expert React + TypeScript + Tailwind UI engineer working on a product called **PropHealth**.
+
+PropHealth is a health-monitoring and diagnostic system for property management. I want you to redesign the **Property Detail / Property Health page** to follow the structure below, WITHOUT changing any backend APIs or data fetching logic. Focus on UI structure, components, and presentation.
+
+---
+
+## CONTEXT
+
+We have a core concept called **Property Health**:
+
+- Overall property health: 0–100
+- Four pillar scores (0–100 each):
+  - Physical Condition
+  - Financial Performance
+  - Tenant Experience
+  - Risk & Compliance
+- A set of **vitals** (raw metrics) such as:
+  - occupancyRate
+  - maintenanceCostRatio
+  - woPerUnit90d
+  - avgCompletionDays
+  - daysSinceLastInspection
+  - lastInspectionScore
+  - etc.
+- A list of **diagnoses** for the property:
+  - label (e.g., "Aging asset with rising maintenance")
+  - severity ("Low" | "Medium" | "High" | "Critical")
+  - impactedPillars (array of the pillar names)
+  - narrative (short explanation)
+  - evidence (key metrics that triggered it)
+  - prescriptions (list of recommended actions)
+
+Assume the page already receives a single `propertyHealth` object with AT LEAST these fields (you can adjust naming for idiomatic TypeScript, but keep the shape consistent):
+
+```ts
+type PillarName = "Physical" | "Financial" | "TenantExperience" | "Risk";
+
+type PillarScore = {
+  name: PillarName;
+  score: number;          // 0–100
+  trend90d?: number;      // +5, -8, etc.
+};
+
+type VitalStatus = "good" | "warning" | "critical";
+
+type Vital = {
+  key: string;            // e.g. "occupancyRate"
+  label: string;          // "Occupancy"
+  value: string;          // "92%"
+  portfolioAverage?: string;
+  change90d?: string;     // "+4%", "-2 days", etc.
+  status: VitalStatus;
+};
+
+type Diagnosis = {
+  id: string;
+  label: string;          // "Aging asset with rising maintenance"
+  severity: "Low" | "Medium" | "High" | "Critical";
+  impactedPillars: PillarName[];
+  narrative: string;      // 1–3 sentence explanation
+  evidence: string[];     // bullet lines like "Maintenance cost ratio increased from 8% → 13% in 12 months."
+  prescriptions: string[];// action bullets
+};
+
+type UnitHealth = {
+  unitId: string;
+  unitLabel: string;      // "Unit 201"
+  healthScore: number;    // 0–100
+  occupancyStatus: "Occupied" | "Vacant" | "Notice";
+  keyIssues?: string[];   // e.g., ["High WO volume", "Long vacancy streak"]
+};
+
+type PropertyHealth = {
+  propertyId: string;
+  name: string;           // "123 Main St"
+  address: string;
+  totalUnits: number;
+  overallScore: number;   // 0–100
+  overallTrend90d?: number;
+  pillars: PillarScore[];
+  keyVitals: Vital[];
+  allVitals: Vital[];
+  diagnoses: Diagnosis[];
+  units: UnitHealth[];
+};

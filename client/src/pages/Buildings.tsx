@@ -5,6 +5,7 @@ import { HealthTable } from "@/components/HealthTable";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
+import { useLocation } from "wouter";
 
 export default function Buildings() {
   const { data: business } = useQuery({
@@ -16,6 +17,8 @@ export default function Buildings() {
     queryKey: ["buildings"],
     queryFn: api.getBuildings
   });
+
+  const [, setLocation] = useLocation();
 
   if (isLoading || !business) {
     return (
@@ -60,13 +63,19 @@ export default function Buildings() {
           title="Property List"
           data={buildings || []}
           columns={[
-            { header: "Building Name", accessorKey: "name", className: "font-medium text-foreground" },
+            { 
+              header: "Building Name", 
+              accessorKey: "name", 
+              className: "font-medium text-foreground hover:text-primary transition-colors" 
+            },
             { header: "Occupancy", cell: (item) => `${(item.occupancyRate * 100).toFixed(0)}%` },
             { header: "Open WOs", accessorKey: "openWorkOrdersCount" },
             { header: "Last Inspection", accessorKey: "lastInspectionDate", className: "font-mono text-xs" },
             { header: "Maint YTD", cell: () => `$${(Math.random() * 25000 + 5000).toFixed(0)}`, className: "font-mono" }, // Mock
             { header: "Risk Label", accessorKey: "riskLevel", cell: (item) => <span className="capitalize text-muted-foreground">{item.riskLevel}</span> },
           ]}
+          // @ts-ignore - Passing onRowClick to handle navigation
+          onRowClick={(item) => setLocation(`/buildings/${item.id}`)}
         />
       </div>
     </DashboardLayout>
