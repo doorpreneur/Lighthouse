@@ -35,6 +35,7 @@ interface HealthTableProps<T> {
   columns: Column<T>[];
   filterColumn?: keyof T; // Optional text search column
   onRowClick?: (item: T) => void; // Added explicit prop
+  customFilter?: React.ReactNode;
 }
 
 export function HealthTable<T extends { id: string; healthScore: number; riskLevel: RiskLevel }>({ 
@@ -42,7 +43,8 @@ export function HealthTable<T extends { id: string; healthScore: number; riskLev
   data, 
   columns,
   filterColumn = "name" as keyof T,
-  onRowClick // Capture the prop
+  onRowClick, // Capture the prop
+  customFilter
 }: HealthTableProps<T>) {
   const [selectedItem, setSelectedItem] = useState<T | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -82,6 +84,7 @@ export function HealthTable<T extends { id: string; healthScore: number; riskLev
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+            {customFilter}
             <div className="relative w-full sm:w-[180px]">
               <Select 
                 value={statusFilter} 

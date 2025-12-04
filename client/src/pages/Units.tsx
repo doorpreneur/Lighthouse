@@ -91,32 +91,31 @@ export default function Units() {
         </section>
 
         <div className="space-y-4">
-           <div className="flex items-center gap-2">
-             <Filter className="h-4 w-4 text-muted-foreground" />
-             <span className="text-sm font-medium text-muted-foreground">Filter by Property:</span>
-             <Select 
-               value={selectedBuildingId} 
-               onValueChange={setSelectedBuildingId}
-             >
-               <SelectTrigger className="w-[250px] h-9 bg-white">
-                 <div className="flex items-center gap-2">
-                   <Building2 className="h-4 w-4 text-muted-foreground" />
-                   <SelectValue placeholder="All Properties" />
-                 </div>
-               </SelectTrigger>
-               <SelectContent>
-                 <SelectItem value="all">All Properties</SelectItem>
-                 {buildings?.map(b => (
-                   <SelectItem key={b.id} value={b.id}>{b.name}</SelectItem>
-                 ))}
-               </SelectContent>
-             </Select>
-           </div>
-
            <HealthTable 
              title={selectedBuildingId === "all" ? "All Unit Inventory" : `Units at ${buildingNameMap[selectedBuildingId]}`}
              data={filteredUnits}
              filterColumn="unitLabel"
+             customFilter={
+               <div className="relative w-full sm:w-[250px]">
+                 <Select 
+                   value={selectedBuildingId} 
+                   onValueChange={setSelectedBuildingId}
+                 >
+                   <SelectTrigger className="h-9 bg-white border-primary/10 focus:ring-primary/20">
+                     <div className="flex items-center gap-2 text-muted-foreground">
+                       <Building2 className="h-3.5 w-3.5" />
+                       <SelectValue placeholder="All Properties" />
+                     </div>
+                   </SelectTrigger>
+                   <SelectContent>
+                     <SelectItem value="all">All Properties</SelectItem>
+                     {buildings?.map(b => (
+                       <SelectItem key={b.id} value={b.id}>{b.name}</SelectItem>
+                     ))}
+                   </SelectContent>
+                 </Select>
+               </div>
+             }
              columns={[
                { header: "Unit ID", accessorKey: "unitLabel", className: "font-mono font-medium text-foreground group-hover:text-primary transition-colors" },
                { 
