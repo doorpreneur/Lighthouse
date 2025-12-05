@@ -16,7 +16,8 @@ import {
   ChevronLeft,
   ChevronRight,
   PanelLeftClose,
-  PanelLeftOpen
+  PanelLeftOpen,
+  PanelLeft
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -85,7 +86,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
   const NavContent = ({ collapsed = false }: { collapsed?: boolean }) => (
     <div className="flex flex-col h-full py-6">
-      <div className={cn("mb-8 flex items-center transition-all duration-300", collapsed ? "justify-center px-2" : "px-6")}>
+      <div className={cn("mb-8 flex transition-all duration-300", collapsed ? "flex-col items-center justify-center gap-4 px-2" : "items-center justify-between px-6")}>
         <div className="flex items-center gap-3 group cursor-pointer">
           <div className="h-8 w-8 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg shadow-lg shadow-primary/30 transition-transform group-hover:scale-105 shrink-0">
             ∞
@@ -96,6 +97,15 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             </span>
           )}
         </div>
+        
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className={cn("text-muted-foreground hover:text-primary hover:bg-primary/10 hidden md:flex", collapsed && "h-8 w-8")}
+        >
+           <PanelLeft className="h-5 w-5" />
+        </Button>
       </div>
 
       <div className="flex-1 px-4 space-y-1">
@@ -140,16 +150,6 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         )}
       >
         <NavContent collapsed={isCollapsed} />
-        
-        {/* Collapse Toggle Button */}
-        <Button
-          variant="default"
-          size="icon"
-          className="absolute -right-3 top-20 h-8 w-8 rounded-full shadow-md hover:scale-105 z-50 hidden md:flex bg-primary text-primary-foreground transition-all duration-200"
-          onClick={() => setIsCollapsed(!isCollapsed)}
-        >
-          {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-        </Button>
       </div>
 
       <div className="flex-1 flex flex-col min-w-0">
