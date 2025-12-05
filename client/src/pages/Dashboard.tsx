@@ -2,8 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/mock-data";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
-import { HealthBadge } from "@/components/ui/HealthBadge";
-import { MetricCard } from "@/components/ui/MetricCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { 
@@ -13,52 +11,17 @@ import {
   UserCircle, 
   Workflow, 
   Briefcase,
-  ArrowUpRight,
-  ArrowDownRight,
   Calendar,
   Download,
   AlertTriangle,
   ChevronRight
 } from "lucide-react";
 import { Link } from "wouter";
-import { CategorySummary } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { RiskDistributionCard } from "@/components/dashboard/RiskDistributionCard";
 import { RevenueTrendCard } from "@/components/dashboard/RevenueTrendCard";
-
-function SummaryWidget({ 
-  title, 
-  summary, 
-  icon: Icon,
-  href
-}: { 
-  title: string; 
-  summary: CategorySummary; 
-  icon: any;
-  href: string;
-}) {
-  // Calculate a mock trend based on health score (just for visual demo)
-  const trend = summary.avgScore > 85 ? "up" : summary.avgScore < 60 ? "down" : "neutral";
-  const trendVal = summary.avgScore > 85 ? "+2.5%" : summary.avgScore < 60 ? "-1.2%" : "0.0%";
-
-  return (
-    <Link href={href}>
-      <div className="cursor-pointer h-full">
-        <MetricCard
-          title={title}
-          value={summary.avgScore}
-          icon={<Icon className="h-5 w-5" />}
-          trend={trend}
-          trendValue={trendVal}
-          subValue={`vs last month`}
-          status={summary.avgScore >= 80 ? "healthy" : summary.avgScore >= 50 ? "watch" : "critical"}
-          className="h-full"
-        />
-      </div>
-    </Link>
-  );
-}
+import { DiagnosticCard } from "@/components/dashboard/DiagnosticCard";
 
 export default function Dashboard() {
   const { data: business, isLoading } = useQuery({
@@ -218,43 +181,96 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* Summary Widgets Grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <SummaryWidget 
-            title="Owners" 
-            summary={business.ownerHealthSummary} 
-            icon={Users} 
+        {/* Diagnostic Cards Grid */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <DiagnosticCard 
+            title="Owners"
+            icon={Users}
             href="/owners"
+            healthScore={88}
+            trend={-2}
+            stats={["71 Active Owners", "248 Properties Managed"]}
+            issues={[
+              { text: "3 owners with >10% vacancy", severity: "critical" },
+              { text: "1 owner requesting exit review", severity: "warning" }
+            ]}
+            insight={{ label: "Top Performer", text: "Smith Holdings (+12% ROI)" }}
+            primaryAction="Review At-Risk Owners"
           />
-          <SummaryWidget 
-            title="Properties" 
-            summary={business.buildingHealthSummary} 
-            icon={Building2} 
+
+          <DiagnosticCard 
+            title="Properties"
+            icon={Building2}
             href="/properties"
+            healthScore={92}
+            trend={1}
+            stats={["50 Properties | 248 Units", "94% Occupancy Rate"]}
+            issues={[
+              { text: "2 critical safety inspections overdue", severity: "critical" },
+              { text: "5 properties with HVAC alerts", severity: "warning" }
+            ]}
+            insight={{ label: "Needs Attention", text: "Sunset Blvd Apts (Low Occ)" }}
+            primaryAction="View Critical Properties"
           />
-          <SummaryWidget 
-            title="Units" 
-            summary={business.unitHealthSummary} 
-            icon={DoorOpen} 
+
+          <DiagnosticCard 
+            title="Units"
+            icon={DoorOpen}
             href="/units"
+            healthScore={85}
+            trend={3}
+            stats={["248 Total | 233 Occupied (94%)", "15 Vacant Units"]}
+            issues={[
+              { text: "8 units offline for >30 days", severity: "critical" },
+              { text: "3 active leaks reported", severity: "critical" }
+            ]}
+            insight={{ label: "Est. Vacancy Loss", text: "$4.2k/mo impact" }}
+            primaryAction="View Vacant Units"
           />
-          <SummaryWidget 
-            title="Tenants" 
-            summary={business.tenantHealthSummary} 
-            icon={UserCircle} 
+
+          <DiagnosticCard 
+            title="Tenants"
+            icon={UserCircle}
             href="/tenants"
+            healthScore={96}
+            trend={0}
+            stats={["233 Active Tenants", "96% Collection Rate"]}
+            issues={[
+              { text: "12 late payments this month", severity: "warning" },
+              { text: "2 lease violations reported", severity: "warning" }
+            ]}
+            insight={{ label: "Arrears Risk", text: "$2.1k pending" }}
+            primaryAction="Review Delinquencies"
           />
-          <SummaryWidget 
-            title="Workflows" 
-            summary={business.workflowHealthSummary} 
-            icon={Workflow} 
+
+          <DiagnosticCard 
+            title="Workflows"
+            icon={Workflow}
             href="/workflows"
+            healthScore={78}
+            trend={-4}
+            stats={["Active Tasks: 47", "Overdue: 12 | Urgent: 8"]}
+            issues={[
+              { text: "Maintenance backlog growing", severity: "critical" },
+              { text: "3 urgent approvals pending", severity: "critical" }
+            ]}
+            insight={{ label: "Main Bottleneck", text: "Plumbing Vendor (Avg 5d)" }}
+            primaryAction="Clear Backlog"
           />
-          <SummaryWidget 
-            title="Team" 
-            summary={business.teamHealthSummary} 
-            icon={Briefcase} 
+
+          <DiagnosticCard 
+            title="Team"
+            icon={Briefcase}
             href="/team"
+            healthScore={94}
+            trend={2}
+            stats={["8 Team Members", "31 Properties/Person (avg)"]}
+            issues={[
+              { text: "1 property manager overloaded", severity: "warning" },
+              { text: "2 training certifications expiring", severity: "neutral" }
+            ]}
+            insight={{ label: "Top Closer", text: "Sarah J. (100% rate)" }}
+            primaryAction="Balance Workloads"
           />
         </div>
 

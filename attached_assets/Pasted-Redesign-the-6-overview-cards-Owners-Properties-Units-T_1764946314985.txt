@@ -1,0 +1,56 @@
+Redesign the 6 overview cards (Owners, Properties, Units, Tenants, Workflows, Team) to make them more actionable and valuable.
+
+CURRENT STATE:
+Each card shows:
+- Entity name
+- Count (e.g., "71")
+- Percentage change vs last month
+
+NEW REQUIREMENTS FOR EACH CARD:
+
+1. HEADER:
+   - Keep entity icon and name
+   - Add "View All" link in top-right corner
+
+2. MAIN METRIC:
+   - Change from simple count to "Health Score: XX/100"
+   - Add color coding: 🟢 (80-100), 🟡 (60-79), 🔴 (0-59)
+   - Show trend: "↓ 4 pts" or "↑ 2 pts" with appropriate color
+
+3. SUMMARY STATS (2nd line):
+   - Owners: "71 Active Owners | 248 Properties"
+   - Properties: "50 Properties | 248 Units | 94% Occupied"
+   - Units: "248 Total | 233 Occupied (94%) | 15 Vacant"
+   - Tenants: "233 Active Tenants | 96% Collection Rate"
+   - Workflows: "Active Tasks: 47 | Overdue: 12 | Urgent: 8"
+   - Team: "8 Team Members | 31 Properties/Person (avg)"
+
+4. TOP ISSUE SECTION:
+   - Add "⚠️ Top Issue:" or "🚨 Urgent Attention:" heading
+   - Show 2-3 bullet points of key problems/risks
+   - Use specific numbers (e.g., "3 properties with critical safety issues")
+
+5. BEST/WORST OR IMPACT:
+   - Show either:
+     - Best and worst performers (Owners, Properties, Team)
+     - Financial impact (Units, Tenants)
+     - Bottleneck info (Workflows)
+
+6. ACTION BUTTON:
+   - Add 1-2 prominent action buttons at bottom
+   - Primary button: Blue, full width or left-aligned
+   - Examples: "Review At-Risk Owners", "View Critical Properties", "Clear Maintenance Backlog"
+
+DESIGN SPECS:
+- Increase card height to accommodate new content (roughly 2x current height)
+- Maintain current card width and grid layout
+- Use consistent spacing (16px padding, 12px between sections)
+- Health score should be large and prominent (similar to current count size)
+- Summary stats in smaller, muted text
+- Issue bullets with appropriate icons (⚠️ 🚨 🔴 🟢)
+- Action buttons should match existing button styles in the app
+
+PLACEHOLDER DATA:
+Use realistic placeholder data for now. We'll connect real data later. Focus on layout and styling first.
+
+Make the cards feel like "diagnostic dashboards" rather than simple counters. Each card should tell a story and guide the user to take action.
