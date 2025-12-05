@@ -97,7 +97,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           collapsed ? "justify-center px-0" : "justify-start",
           isActive 
             ? "bg-sidebar-accent text-primary shadow-sm" + (collapsed ? "" : " translate-x-1")
-            : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-primary" + (collapsed ? "" : " hover:translate-x-1")
+            : "text-sidebar-foreground hover:bg-slate-200 hover:text-primary" + (collapsed ? "" : " hover:translate-x-1")
         )}
         onClick={() => setSidebarOpen(false)}
       >
@@ -128,7 +128,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     <div className="flex flex-col h-full py-6">
       <div className="flex-1 px-4 space-y-1 mt-4">
         {NAV_SECTIONS.map((section, idx) => (
-          <div key={idx} className={cn("mb-4", idx === 0 ? "mb-2" : "")}>
+          <div key={idx} className={cn("mb-4", idx === 0 ? "mb-6" : "")}>
             {section.title && !collapsed && (
               <h4 className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-wider mb-2 px-2">
                 {section.title}
