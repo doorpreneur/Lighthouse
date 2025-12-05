@@ -1,0 +1,55 @@
+Add the following new sections to the left navigation bar in the app. Keep the existing sections (Overview, Owners, Properties, Units, Tenants, Workflows, Team) exactly as they are.
+
+Add section dividers and new navigation items as follows:
+
+CURRENT STRUCTURE (keep as-is):
+- Overview
+- Owners
+- Properties
+- Units
+- Tenants
+- Workflows
+- Team
+
+NEW STRUCTURE:
+
+1. Keep "Overview" at the top (no section header above it)
+
+2. Add section divider "ENTITIES" (small, uppercase, muted gray text) above Owners
+
+3. Keep: Owners, Properties, Units, Tenants (under ENTITIES section)
+
+4. Add section divider "OPERATIONS" above Workflows
+
+5. Keep: Workflows, Team (under OPERATIONS section)
+
+6. Add section divider "INTELLIGENCE" 
+
+7. Add new items under INTELLIGENCE:
+   - "Alerts & Prescriptions" with icon: 🚨 (bell or alert icon)
+   - "Insights" with icon: 📈 (chart/trending icon)
+
+8. Add section divider "SYSTEM" at the bottom
+
+9. Add new items under SYSTEM:
+   - "Reports" with icon: 📊 (document/report icon)
+   - "Integrations" with icon: 🔗 (link/connection icon)
+   - "Settings" with icon: ⚙️ (gear/settings icon)
+
+DESIGN REQUIREMENTS:
+- Section dividers should be small, uppercase text in a muted gray color (not clickable)
+- Maintain the same styling, spacing, and hover states as existing nav items
+- Use the same blue color scheme and rounded selection style as the current "Overview" active state
+- Keep the same icon size and alignment as existing items
+- Add appropriate spacing between sections (slightly more than between regular items)
+- Do NOT make sections collapsible
+- Navigation items should match the existing style exactly
+
+ICON SUGGESTIONS (use similar style to existing icons):
+- Alerts & Prescriptions: bell icon or alert triangle
+- Insights: line chart or trending up icon
+- Reports: document or bar chart icon
+- Integrations: link or puzzle piece icon
+- Settings: gear or sliders icon
+
+The new sections should be placeholder pages for now (just show the page title when clicked). Focus on getting the navigation structure and styling correct first.

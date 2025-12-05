@@ -14,6 +14,11 @@ import Team from "@/pages/Team";
 import TeamMemberDetail from "@/pages/TeamMemberDetail";
 import PropertyDetail from "@/pages/PropertyDetail";
 import UnitDetail from "@/pages/UnitDetail";
+import AlertsPrescriptions from "@/pages/AlertsPrescriptions";
+import Insights from "@/pages/Insights";
+import Reports from "@/pages/Reports";
+import Integrations from "@/pages/Integrations";
+import Settings from "@/pages/Settings";
 
 import OwnerDetail from "@/pages/OwnerDetail";
 
@@ -34,6 +39,11 @@ function Router() {
       <Route path="/workflows" component={Workflows} />
       <Route path="/team" component={Team} />
       <Route path="/team/:id" component={TeamMemberDetail} />
+      <Route path="/alerts" component={AlertsPrescriptions} />
+      <Route path="/insights" component={Insights} />
+      <Route path="/reports" component={Reports} />
+      <Route path="/integrations" component={Integrations} />
+      <Route path="/settings" component={Settings} />
       <Route component={NotFound} />
     </Switch>
   );

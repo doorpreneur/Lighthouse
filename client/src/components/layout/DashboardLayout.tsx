@@ -18,7 +18,11 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   PanelLeft,
-  ChevronDown
+  ChevronDown,
+  TrendingUp,
+  FileText,
+  Link as LinkIcon,
+  AlertTriangle
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -27,18 +31,54 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-const NAV_ITEMS = [
-  { label: "Overview", icon: LayoutDashboard, href: "/" },
-  { label: "Owners", icon: Users, href: "/owners" },
-  { label: "Properties", icon: Building2, href: "/properties" },
-  { label: "Units", icon: DoorOpen, href: "/units" },
-  { label: "Tenants", icon: UserCircle, href: "/tenants" },
-  { label: "Workflows", icon: Workflow, href: "/workflows" },
-  { label: "Team", icon: Briefcase, href: "/team" },
-];
+type NavItem = {
+  label: string;
+  icon: any;
+  href: string;
+};
 
-const BOTTOM_NAV_ITEMS = [
-  { label: "Settings", icon: Settings, href: "/settings" },
+type NavSection = {
+  title?: string;
+  items: NavItem[];
+};
+
+const NAV_SECTIONS: NavSection[] = [
+  {
+    items: [
+      { label: "Overview", icon: LayoutDashboard, href: "/" },
+    ]
+  },
+  {
+    title: "ENTITIES",
+    items: [
+      { label: "Owners", icon: Users, href: "/owners" },
+      { label: "Properties", icon: Building2, href: "/properties" },
+      { label: "Units", icon: DoorOpen, href: "/units" },
+      { label: "Tenants", icon: UserCircle, href: "/tenants" },
+    ]
+  },
+  {
+    title: "OPERATIONS",
+    items: [
+      { label: "Workflows", icon: Workflow, href: "/workflows" },
+      { label: "Team", icon: Briefcase, href: "/team" },
+    ]
+  },
+  {
+    title: "INTELLIGENCE",
+    items: [
+      { label: "Alerts & Prescriptions", icon: AlertTriangle, href: "/alerts" },
+      { label: "Insights", icon: TrendingUp, href: "/insights" },
+    ]
+  },
+  {
+    title: "SYSTEM",
+    items: [
+      { label: "Reports", icon: FileText, href: "/reports" },
+      { label: "Integrations", icon: LinkIcon, href: "/integrations" },
+      { label: "Settings", icon: Settings, href: "/settings" },
+    ]
+  }
 ];
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -46,7 +86,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const NavItem = ({ item, collapsed }: { item: typeof NAV_ITEMS[0], collapsed: boolean }) => {
+  const NavItem = ({ item, collapsed }: { item: NavItem, collapsed: boolean }) => {
     const isActive = location === item.href;
     
     const button = (
@@ -87,14 +127,22 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const NavContent = ({ collapsed = false }: { collapsed?: boolean }) => (
     <div className="flex flex-col h-full py-6">
       <div className="flex-1 px-4 space-y-1 mt-4">
-        {NAV_ITEMS.map((item) => (
-          <NavItem key={item.href} item={item} collapsed={collapsed} />
-        ))}
-      </div>
-      
-      <div className="px-4 mt-auto space-y-1">
-        {BOTTOM_NAV_ITEMS.map((item) => (
-          <NavItem key={item.href} item={item} collapsed={collapsed} />
+        {NAV_SECTIONS.map((section, idx) => (
+          <div key={idx} className={cn("mb-4", idx === 0 ? "mb-2" : "")}>
+            {section.title && !collapsed && (
+              <h4 className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-wider mb-2 px-2">
+                {section.title}
+              </h4>
+            )}
+            {section.title && collapsed && (
+              <div className="h-px w-4 bg-border/50 mx-auto my-3" />
+            )}
+            <div className="space-y-1">
+              {section.items.map((item) => (
+                <NavItem key={item.href} item={item} collapsed={collapsed} />
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </div>
