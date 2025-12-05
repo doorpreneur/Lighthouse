@@ -81,7 +81,7 @@ const NAV_SECTIONS: NavSection[] = [
   }
 ];
 
-import logoUrl from '@assets/generated_images/bold_white_lighthouse_icon_on_transparent_background.png';
+import logoUrl from '@assets/generated_images/minimalist_lighthouse_logo_icon_in_white_and_blue.png';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -158,8 +158,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         {/* Left: Logo & Toggle */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="h-9 w-9 flex items-center justify-center transition-transform group-hover:scale-105 shrink-0">
-              <img src={logoUrl} alt="Lighthouse Logo" className="h-full w-full object-contain" />
+            <div className="h-8 w-8 rounded-lg bg-white/10 text-white flex items-center justify-center overflow-hidden shadow-inner backdrop-blur-sm transition-transform group-hover:scale-105 shrink-0 border border-white/20">
+              <img src={logoUrl} alt="Lighthouse Logo" className="h-6 w-6 object-contain" />
             </div>
             <span className="font-display font-bold text-xl tracking-tighter text-white">
               Lighthouse.
