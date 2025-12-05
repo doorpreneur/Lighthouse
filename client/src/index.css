@@ -60,8 +60,8 @@
   --color-health-critical: hsl(var(--health-critical));
   --color-health-critical-bg: hsl(var(--health-critical-bg));
 
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'Space Grotesk', sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   
   --radius: 1rem;
@@ -71,14 +71,14 @@
 :root {
   /* Main Background: Very light cool gray */
   --background: 210 40% 98%; 
-  --foreground: 222 47% 11%;
+  --foreground: 217 33% 17%; /* #1E293B */
 
   /* Cards: Pure white with subtle shadows */
   --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
+  --card-foreground: 217 33% 17%; /* #1E293B */
 
   --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
+  --popover-foreground: 217 33% 17%; /* #1E293B */
 
   /* Primary: Vibrant Professional Blue */
   --primary: 221 83% 53%; /* Blue 600-ish */
@@ -86,13 +86,13 @@
 
   /* Secondary: Subtle blue-gray for inactive states */
   --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222 47% 11%;
+  --secondary-foreground: 217 33% 17%; /* #1E293B */
 
   --muted: 210 40% 96.1%;
-  --muted-foreground: 215 16% 47%;
+  --muted-foreground: 215 16% 47%; /* #64748B */
 
   --accent: 210 40% 96.1%;
-  --accent-foreground: 222 47% 11%;
+  --accent-foreground: 217 33% 17%; /* #1E293B */
 
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
@@ -106,13 +106,16 @@
 
   /* Sidebar: White, distinct from background */
   --sidebar: 0 0% 100%;
-  --sidebar-foreground: 215 16% 47%; /* Muted text by default */
+  --sidebar-foreground: 215 16% 47%; /* #64748B */
   --sidebar-primary: 221 83% 53%; /* Active item text */
   --sidebar-primary-foreground: 0 0% 98%;
   --sidebar-accent: 221 83% 96%; /* Very light blue for active bg */
   --sidebar-accent-foreground: 221 83% 53%;
   --sidebar-border: 214 32% 91%;
   --sidebar-ring: 217.2 91.2% 59.8%;
+  
+  /* Navy for headings */
+  --navy: 210 73% 15%; /* #0A2540 */
 
   /* Health System Colors - Adjusted for vibrancy */
   --health-good: 142 71% 45%; /* Green */
@@ -161,10 +164,12 @@
   }
   body {
     @apply font-sans antialiased bg-background text-foreground tracking-tight;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tight;
+    @apply font-sans tracking-tight text-[hsl(var(--navy))];
   }
 }
 
