@@ -3,8 +3,10 @@ import { api } from "@/lib/mock-data";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { HealthTable } from "@/components/HealthTable";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DiagnosticCard } from "@/components/dashboard/DiagnosticCard";
-import { UserCircle } from "lucide-react";
+import { HealthHeader } from "@/components/domain/HealthHeader";
+import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
+
+import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
 
 export default function Tenants() {
@@ -35,41 +37,58 @@ export default function Tenants() {
 
   const summary = business.tenantHealthSummary;
 
-  const stats = [
-    `Active Tenants: ${summary.totalCount}`,
-    `On-Time Payment: 96% (Target: 98%)`,
-    `NPS Score: 42`,
-    `Renewal Intent: 78%`
+  const priorityAlerts: AlertItem[] = [
+    {
+      id: "1",
+      title: "Michael Scott",
+      description: "3 noise complaints in last 7 days. Violation notice required.",
+      severity: "high",
+      href: "/tenants/t-001"
+    },
+    {
+      id: "2",
+      title: "Pam Beesly",
+      description: "Rent payment overdue by 15 days.",
+      severity: "critical",
+      href: "/tenants/t-002"
+    },
+    {
+      id: "3",
+      title: "Dwight Schrute",
+      description: "Unauthorized modifications to unit reported.",
+      severity: "warning",
+      href: "/tenants/t-003"
+    }
   ];
 
-  const issues = [
-    { text: "Michael Scott: 3 noise complaints (last 7d)", severity: "critical" as const }, // mapped from 'high' to critical for visibility
-    { text: "Pam Beesly: Rent payment overdue (15 days)", severity: "critical" as const },
-    { text: "Dwight Schrute: Unauthorized modifications", severity: "warning" as const }
+  const vitals: VitalItem[] = [
+    { label: "Active Tenants", value: summary.totalCount, status: "neutral" },
+    { label: "On-Time Payment", value: "96%", target: "98%", status: "watch" },
+    { label: "NPS Score", value: "42", target: "50", status: "watch" },
+    { label: "Renewal Intent", value: "78%", target: "75%", status: "healthy" },
   ];
 
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <DiagnosticCard 
-            title="Tenants Overview"
-            icon={UserCircle}
-            healthScore={summary.avgScore}
+        <div className="grid gap-6 lg:grid-cols-2">
+          <HealthHeader 
+            title="Tenants Health"
+            score={summary.avgScore}
             trend={3.1}
-            stats={stats}
-            issues={issues}
-            insight={{ label: "Summary", text: "Tenant satisfaction is rebounding. Payment reliability remains strong." }}
-            primaryAction="View Delinquencies"
-            href="#"
-            className="md:col-span-1 h-full"
+            trendLabel="vs last month"
+            summary="Tenant satisfaction is rebounding after the recent community events. Payment reliability remains strong."
           />
-          
-           <div className="md:col-span-2 flex flex-col justify-center space-y-4 p-6 bg-slate-50 rounded-2xl border border-dashed">
-             <h3 className="text-lg font-semibold text-muted-foreground">Community Engagement</h3>
-             <p className="text-sm text-muted-foreground">Events calendar and feedback loop metrics available in full view.</p>
-          </div>
+          <PriorityAttentionCard 
+            criticalCount={12} 
+            alerts={priorityAlerts} 
+          />
         </div>
+
+        <section>
+          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
+          <VitalsGrid items={vitals} />
+        </section>
 
         <HealthTable 
           title="Tenant Roster"
