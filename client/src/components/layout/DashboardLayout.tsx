@@ -160,7 +160,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         {/* Desktop Sidebar */}
         <div 
           className={cn(
-            "hidden md:block border-r bg-slate-100 overflow-y-auto shadow-inner z-10 transition-all duration-300 ease-in-out relative group",
+            "hidden md:block border-r bg-slate-100 shadow-inner z-10 transition-all duration-300 ease-in-out relative group",
             isCollapsed ? "w-[80px]" : "w-[240px]"
           )}
         >
@@ -174,7 +174,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                {isCollapsed ? <ChevronRight className="h-3 w-3 text-white" /> : <ChevronLeft className="h-3 w-3 text-white" />}
             </Button>
           </div>
-          <NavContent collapsed={isCollapsed} />
+          <div className="h-full overflow-y-auto overflow-x-hidden">
+            <NavContent collapsed={isCollapsed} />
+          </div>
         </div>
 
         {/* Main Content */}
