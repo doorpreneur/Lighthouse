@@ -81,7 +81,7 @@ const NAV_SECTIONS: NavSection[] = [
   }
 ];
 
-import generatedImage from '@assets/generated_images/minimalist_geometric_lighthouse_icon_with_golden_beam_on_navy_background.png';
+import generatedImage from '@assets/generated_images/modern_abstract_lighthouse_app_icon_with_deep_blue_gradient_and_glowing_beam.png';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
