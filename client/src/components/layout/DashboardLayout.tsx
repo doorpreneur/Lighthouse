@@ -37,7 +37,9 @@ const NAV_ITEMS = [
   { label: "Team", icon: Briefcase, href: "/team" },
 ];
 
-// Removed BOTTOM_NAV_ITEMS as they are moving to header
+const BOTTOM_NAV_ITEMS = [
+  { label: "Settings", icon: Settings, href: "/settings" },
+];
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -89,6 +91,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           <NavItem key={item.href} item={item} collapsed={collapsed} />
         ))}
       </div>
+      
+      <div className="px-4 mt-auto space-y-1">
+        {BOTTOM_NAV_ITEMS.map((item) => (
+          <NavItem key={item.href} item={item} collapsed={collapsed} />
+        ))}
+      </div>
     </div>
   );
 
@@ -134,7 +142,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           </Button>
 
           <div className="flex items-center gap-2 cursor-pointer pl-2">
-            <Avatar className="h-9 w-9 border-2 border-white/20 shadow-sm shrink-0 bg-amber-400 text-amber-950">
+            <Avatar className="h-9 w-9 border-2 border-white/20 shadow-sm shrink-0">
+              <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=64&h=64&q=80&fit=crop" alt="Admin User" />
               <AvatarFallback className="bg-amber-400 text-amber-950 font-bold text-xs">AS</AvatarFallback>
             </Avatar>
             <ChevronDown className="h-4 w-4 text-primary-foreground/60" />
