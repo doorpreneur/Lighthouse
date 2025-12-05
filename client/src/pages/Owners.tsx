@@ -5,7 +5,7 @@ import { HealthTable } from "@/components/HealthTable";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { DiagnosticCard } from "@/components/dashboard/DiagnosticCard";
-import { Users } from "lucide-react";
+import { Users, Activity, DollarSign, UserCheck } from "lucide-react";
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
 
@@ -81,21 +81,68 @@ export default function Owners() {
         </div>
 
         <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Diagnostic Overview</h3>
-          <DiagnosticCard 
-            title="Owners"
-            icon={Users}
-            href="/owners"
-            healthScore={summary.avgScore}
-            trend={-2}
-            stats={[`${summary.totalCount} Active Owners`, "248 Properties Managed"]}
-            issues={[
-              { text: "3 owners with >10% vacancy", severity: "critical" },
-              { text: "1 owner requesting exit review", severity: "warning" }
-            ]}
-            insight={{ label: "Top Performer", text: "Smith Holdings (+12% ROI)" }}
-            primaryAction="Review At-Risk Owners"
-          />
+          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
+          <div className="grid gap-6 md:grid-cols-2">
+            <DiagnosticCard 
+              title="Portfolio Scale"
+              icon={Users}
+              href="/owners"
+              healthScore={92}
+              trend={3}
+              stats={[`${summary.totalCount} Active Owners`, "5 New this month"]}
+              issues={[
+                { text: "2 owners inactive (pending offboard)", severity: "warning" },
+                { text: "1 pending onboarding", severity: "neutral" }
+              ]}
+              insight={{ label: "Acquisition Pace", text: "+8% YoY" }}
+              primaryAction="View Inactive Owners"
+            />
+            
+            <DiagnosticCard 
+              title="Occupancy Health"
+              icon={Activity}
+              href="/properties"
+              healthScore={88}
+              trend={-1}
+              stats={["94% Avg Occupancy", "2.5 Months Avg Vacancy"]}
+              issues={[
+                { text: "Downtown properties lagging (85%)", severity: "critical" },
+                { text: "Unit 4B vacancy > 60 days", severity: "warning" }
+              ]}
+              insight={{ label: "Vacancy Cost", text: "-$12.5k/mo" }}
+              primaryAction="Analyze Vacancy"
+            />
+            
+            <DiagnosticCard 
+              title="Financial Performance"
+              icon={DollarSign}
+              href="/reports"
+              healthScore={98}
+              trend={1}
+              stats={["98.2% Rent Collected", "$450k Total Revenue"]}
+              issues={[
+                { text: "3 late payments > 10 days", severity: "warning" },
+                { text: "1 owner distribution holding", severity: "neutral" }
+              ]}
+              insight={{ label: "Revenue vs Target", text: "+2.5%" }}
+              primaryAction="View Financials"
+            />
+            
+            <DiagnosticCard 
+              title="Owner Retention"
+              icon={UserCheck}
+              href="/owners"
+              healthScore={65}
+              trend={-5}
+              stats={["2 'At Risk' Owners", "95% Renewal Rate"]}
+              issues={[
+                { text: "Contract renewal stalled (Smith LLC)", severity: "critical" },
+                { text: "Recent NPS dip reported", severity: "warning" }
+              ]}
+              insight={{ label: "Churn Risk Est.", text: "$24k ARR" }}
+              primaryAction="Review At-Risk Accounts"
+            />
+          </div>
         </section>
 
         <HealthTable 

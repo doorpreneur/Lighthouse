@@ -5,7 +5,7 @@ import { HealthTable } from "@/components/HealthTable";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { DiagnosticCard } from "@/components/dashboard/DiagnosticCard";
-import { Building2 } from "lucide-react";
+import { Building2, ClipboardCheck, PenTool, ShieldAlert } from "lucide-react";
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
 
@@ -80,21 +80,68 @@ export default function Properties() {
         </div>
 
         <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Diagnostic Overview</h3>
-          <DiagnosticCard 
-            title="Properties"
-            icon={Building2}
-            href="/properties"
-            healthScore={summary.avgScore}
-            trend={1}
-            stats={[`${summary.totalCount} Properties`, "94% Occupancy Rate"]}
-            issues={[
-              { text: "2 critical safety inspections overdue", severity: "critical" },
-              { text: "5 properties with HVAC alerts", severity: "warning" }
-            ]}
-            insight={{ label: "Needs Attention", text: "Sunset Blvd Apts (Low Occ)" }}
-            primaryAction="View Critical Properties"
-          />
+          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
+          <div className="grid gap-6 md:grid-cols-2">
+            <DiagnosticCard 
+              title="Portfolio Status"
+              icon={Building2}
+              href="/properties"
+              healthScore={95}
+              trend={1}
+              stats={[`${summary.totalCount} Properties`, "94% Occupancy Rate"]}
+              issues={[
+                { text: "1 property below 80% occupancy", severity: "warning" },
+                { text: "No pending acquisitions", severity: "neutral" }
+              ]}
+              insight={{ label: "Asset Value", text: "$42M Est." }}
+              primaryAction="View Portfolio"
+            />
+
+            <DiagnosticCard 
+              title="Inspection Quality"
+              icon={ClipboardCheck}
+              href="/inspections"
+              healthScore={88}
+              trend={-2}
+              stats={["Avg Score: 88/100", "12 Inspections this month"]}
+              issues={[
+                { text: "2 critical safety inspections overdue", severity: "critical" },
+                { text: "Roofing check pending (Old Mill)", severity: "warning" }
+              ]}
+              insight={{ label: "Compliance", text: "98% Compliant" }}
+              primaryAction="Schedule Inspections"
+            />
+
+            <DiagnosticCard 
+              title="Maintenance Ops"
+              icon={PenTool}
+              href="/workflows"
+              healthScore={72}
+              trend={-5}
+              stats={["45 Open Work Orders", "Avg Resolution: 4.2 days"]}
+              issues={[
+                { text: "Backlog growing (+15% MoM)", severity: "critical" },
+                { text: "5 properties with HVAC alerts", severity: "warning" }
+              ]}
+              insight={{ label: "Vendor Spend", text: "$12k MTD" }}
+              primaryAction="Manage Work Orders"
+            />
+
+            <DiagnosticCard 
+              title="Safety & Compliance"
+              icon={ShieldAlert}
+              href="/compliance"
+              healthScore={100}
+              trend={0}
+              stats={["0 Safety Incidents", "100% Fire Code Compliant"]}
+              issues={[
+                { text: "Annual fire drill upcoming (Q3)", severity: "neutral" },
+                { text: "Insurance renewal in 45 days", severity: "neutral" }
+              ]}
+              insight={{ label: "Risk Profile", text: "Low Risk" }}
+              primaryAction="View Compliance Log"
+            />
+          </div>
         </section>
 
         <HealthTable 

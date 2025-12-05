@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Building2, Filter, DoorOpen } from "lucide-react";
+import { Building2, Filter, DoorOpen, Timer, Search, DollarSign } from "lucide-react";
 
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 
@@ -112,21 +112,68 @@ export default function Units() {
         </div>
 
         <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Diagnostic Overview</h3>
-          <DiagnosticCard 
-            title="Units"
-            icon={DoorOpen}
-            href="/units"
-            healthScore={summary.avgScore}
-            trend={3}
-            stats={[`${summary.totalCount} Total Units`, "233 Occupied (94%)"]}
-            issues={[
-              { text: "8 units offline for >30 days", severity: "critical" },
-              { text: "3 active leaks reported", severity: "critical" }
-            ]}
-            insight={{ label: "Est. Vacancy Loss", text: "$4.2k/mo impact" }}
-            primaryAction="View Vacant Units"
-          />
+          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
+          <div className="grid gap-6 md:grid-cols-2">
+            <DiagnosticCard 
+              title="Occupancy"
+              icon={DoorOpen}
+              href="/units"
+              healthScore={92}
+              trend={0.5}
+              stats={[`${summary.totalCount} Total Units`, "233 Occupied (94%)"]}
+              issues={[
+                { text: "15 units currently vacant", severity: "warning" },
+                { text: "8 units offline for >30 days", severity: "critical" }
+              ]}
+              insight={{ label: "Projected Occ", text: "95% next month" }}
+              primaryAction="View Vacancy List"
+            />
+
+            <DiagnosticCard 
+              title="Turnover Speed"
+              icon={Timer}
+              href="/units"
+              healthScore={85}
+              trend={3}
+              stats={["Avg Turn: 12 days", "Target: 14 days"]}
+              issues={[
+                { text: "Painting vendor delay (3 units)", severity: "warning" },
+                { text: "Carpet replacement backlog", severity: "neutral" }
+              ]}
+              insight={{ label: "Efficiency Gain", text: "+2 days MoM" }}
+              primaryAction="Track Turnovers"
+            />
+
+            <DiagnosticCard 
+              title="Physical Condition"
+              icon={Search}
+              href="/inspections"
+              healthScore={70}
+              trend={-4}
+              stats={["8 Condition Issues Reported", "Last Audit: 14 days ago"]}
+              issues={[
+                { text: "3 active leaks reported", severity: "critical" },
+                { text: "Mold remediation needed (Unit 201)", severity: "critical" }
+              ]}
+              insight={{ label: "CapEx Risk", text: "High" }}
+              primaryAction="Schedule Repairs"
+            />
+
+            <DiagnosticCard 
+              title="Market Readiness"
+              icon={DollarSign}
+              href="/marketing"
+              healthScore={90}
+              trend={1}
+              stats={["12 Units Listed", "Avg Days on Market: 18"]}
+              issues={[
+                { text: "2 units priced above market", severity: "warning" },
+                { text: "Photos missing for Unit 405", severity: "neutral" }
+              ]}
+              insight={{ label: "Leasing Velocity", text: "3 apps/week" }}
+              primaryAction="Review Listings"
+            />
+          </div>
         </section>
 
         <div className="space-y-4">
