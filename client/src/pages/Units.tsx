@@ -3,8 +3,7 @@ import { api } from "@/lib/mock-data";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { HealthTable } from "@/components/HealthTable";
 import { Skeleton } from "@/components/ui/skeleton";
-import { HealthHeader } from "@/components/domain/HealthHeader";
-import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
+import { DiagnosticCard } from "@/components/dashboard/DiagnosticCard";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { useState, useMemo } from "react";
@@ -15,9 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Building2, Filter } from "lucide-react";
-
-import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
+import { Building2, DoorOpen } from "lucide-react";
 
 export default function Units() {
   const { data: business } = useQuery({
@@ -70,58 +67,41 @@ export default function Units() {
 
   const summary = business.unitHealthSummary;
 
-  const priorityAlerts: AlertItem[] = [
-    {
-      id: "1",
-      title: "Unit 102 - Plumbing Failure",
-      description: "Active leak reported. Tenant temporarily displaced.",
-      severity: "critical",
-      href: "/units/u-102"
-    },
-    {
-      id: "2",
-      title: "Unit 405 - HVAC",
-      description: "AC unit failure during heatwave. Expedited repair needed.",
-      severity: "high",
-      href: "/units/u-405"
-    },
-    {
-      id: "3",
-      title: "Unit 201 - Mold Risk",
-      description: "High humidity levels detected in bathroom sensor.",
-      severity: "warning",
-      href: "/units/u-201"
-    }
+  const stats = [
+    `Total Units: ${summary.totalCount}`,
+    `Occupancy: 92% (Target: 95%)`,
+    `Avg Turn Time: 12 days`,
+    `Condition Issues: 8`
   ];
 
-  const vitals: VitalItem[] = [
-    { label: "Total Units", value: summary.totalCount, status: "neutral" },
-    { label: "Occupancy", value: "92%", target: "95%", status: "watch" },
-    { label: "Avg Turn Time", value: "12 days", target: "14 days", status: "healthy" },
-    { label: "Condition Issues", value: "8", target: "0", status: "critical" },
+  const issues = [
+    { text: "Unit 102: Active leak reported", severity: "critical" as const },
+    { text: "Unit 405: HVAC failure", severity: "critical" as const },
+    { text: "Unit 201: High humidity levels", severity: "warning" as const }
   ];
 
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="grid gap-6 lg:grid-cols-2">
-          <HealthHeader 
-            title="Units Health"
-            score={summary.avgScore}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <DiagnosticCard 
+            title="Units Overview"
+            icon={DoorOpen}
+            healthScore={summary.avgScore}
             trend={0.5}
-            trendLabel="vs last month"
-            summary="Unit conditions are stable. Turn times have improved this month, reducing vacancy loss."
+            stats={stats}
+            issues={issues}
+            insight={{ label: "Summary", text: "Unit conditions are stable. Turn times have improved." }}
+            primaryAction="View Vacant Units"
+            href="#"
+            className="md:col-span-1 h-full"
           />
-          <PriorityAttentionCard 
-            criticalCount={8} 
-            alerts={priorityAlerts} 
-          />
+          
+           <div className="md:col-span-2 flex flex-col justify-center space-y-4 p-6 bg-slate-50 rounded-2xl border border-dashed">
+             <h3 className="text-lg font-semibold text-muted-foreground">Unit Turn Efficiency</h3>
+             <p className="text-sm text-muted-foreground">Turn time analytics and vendor performance metrics available in full view.</p>
+          </div>
         </div>
-
-        <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
-          <VitalsGrid items={vitals} />
-        </section>
 
         <div className="space-y-4">
            <HealthTable 

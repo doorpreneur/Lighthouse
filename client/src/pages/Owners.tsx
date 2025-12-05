@@ -3,10 +3,8 @@ import { api } from "@/lib/mock-data";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { HealthTable } from "@/components/HealthTable";
 import { Skeleton } from "@/components/ui/skeleton";
-import { HealthHeader } from "@/components/domain/HealthHeader";
-import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
-
-import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
+import { DiagnosticCard } from "@/components/dashboard/DiagnosticCard";
+import { Users } from "lucide-react";
 import { useLocation } from "wouter";
 
 export default function Owners() {
@@ -23,7 +21,6 @@ export default function Owners() {
   });
 
   if (isLoading || !business) {
-    // ... existing skeleton ...
     return (
       <DashboardLayout>
         <div className="space-y-6">
@@ -39,64 +36,53 @@ export default function Owners() {
 
   const summary = business.ownerHealthSummary;
   
-  const priorityAlerts: AlertItem[] = [
-    {
-      id: "1",
-      title: "Acme Properties LLC",
-      description: "Portfolio health dropped 15% due to maintenance surge.",
-      severity: "critical",
-      href: "/owners/own-001"
-    },
-    {
-      id: "2",
-      title: "Summit Holdings",
-      description: "Contract renewal pending - 30 days remaining.",
-      severity: "high",
-      href: "/owners/own-002"
-    },
-    {
-      id: "3",
-      title: "Westside Management",
-      description: "Owner distributions delayed by 5 days.",
-      severity: "warning",
-      href: "/owners/own-003"
-    }
+  // Map vitals to stats strings
+  const stats = [
+    `Active Owners: ${summary.totalCount}`,
+    `Avg Occupancy: 94% (Target: 95%)`,
+    `Rent Collection: 98.2%`,
+    `Churn Risk: 2`
   ];
 
-  const vitals: VitalItem[] = [
-    // ... existing vitals ...
-    { label: "Active Owners", value: summary.totalCount, status: "neutral" },
-    { label: "Avg Occupancy", value: "94%", target: "95%", status: "watch" },
-    { label: "Rent Collection", value: "98.2%", target: "98%", status: "healthy" },
-    { label: "Churn Risk", value: "2", target: "0", status: "critical" },
+  // Map priority alerts to issues
+  const issues = [
+    { text: "Acme Properties LLC: Portfolio health dropped 15%", severity: "critical" as const },
+    { text: "Summit Holdings: Contract renewal pending (30 days)", severity: "warning" as const },
+    { text: "Westside Management: Owner distributions delayed", severity: "warning" as const }
   ];
 
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="grid gap-6 lg:grid-cols-2">
-          <HealthHeader 
-            title="Owners Health"
-            score={summary.avgScore}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <DiagnosticCard 
+            title="Owners Overview"
+            icon={Users}
+            healthScore={summary.avgScore}
             trend={2.4}
-            trendLabel="vs last month"
-            summary="Owner sentiment is generally positive, though maintenance cost concerns are rising in the downtown portfolio."
+            stats={stats}
+            issues={issues}
+            insight={{ label: "Summary", text: "Owner sentiment is generally positive, though maintenance cost concerns are rising." }}
+            primaryAction="Manage Owners"
+            href="#"
+            className="md:col-span-1 h-full"
           />
-          <PriorityAttentionCard 
-            criticalCount={2} 
-            alerts={priorityAlerts} 
-          />
+          
+          {/* Placeholder for potentially other summary widgets or just leave empty/centered? 
+              The user asked to redesign the cards. If I just put one card, it might look odd.
+              But sticking to the request "be the same as the card designs in the overview page".
+              I will put it in a grid but maybe make it span or just sit there.
+              Actually, if I make it span full width it will look distorted.
+              I'll keep it in a grid col-span-1 to match the look perfectly.
+          */}
+          <div className="md:col-span-2 flex flex-col justify-center space-y-4 p-6 bg-slate-50 rounded-2xl border border-dashed">
+            <h3 className="text-lg font-semibold text-muted-foreground">Detailed Analytics View</h3>
+            <p className="text-sm text-muted-foreground">Select an owner from the directory below to view detailed portfolio performance.</p>
+          </div>
         </div>
-
-        <section>
-          {/* ... vitals section ... */}
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
-          <VitalsGrid items={vitals} />
-        </section>
 
         <HealthTable 
           title="Owner Directory"
-          // ... rest of table ...
           data={owners || []}
           onRowClick={(item) => setLocation(`/owners/${item.id}`)}
           columns={[

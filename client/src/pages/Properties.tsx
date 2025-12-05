@@ -3,9 +3,8 @@ import { api } from "@/lib/mock-data";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { HealthTable } from "@/components/HealthTable";
 import { Skeleton } from "@/components/ui/skeleton";
-import { HealthHeader } from "@/components/domain/HealthHeader";
-import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
-import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
+import { DiagnosticCard } from "@/components/dashboard/DiagnosticCard";
+import { Building2 } from "lucide-react";
 import { useLocation } from "wouter";
 
 export default function Properties() {
@@ -37,58 +36,41 @@ export default function Properties() {
 
   const summary = business.buildingHealthSummary;
 
-  const priorityAlerts: AlertItem[] = [
-    {
-      id: "1",
-      title: "Riverside Apartments",
-      description: "Boiler system nearing end of life. Immediate inspection required.",
-      severity: "critical",
-      href: "/properties/bld-002"
-    },
-    {
-      id: "2",
-      title: "The Old Mill",
-      description: "Roof leak reported in North Wing affecting 3 units.",
-      severity: "high",
-      href: "/properties/bld-004"
-    },
-    {
-      id: "3",
-      title: "Sunset Villas",
-      description: "Landscaping contract renewal overdue.",
-      severity: "warning",
-      href: "/properties/bld-003"
-    }
+  const stats = [
+    `Properties: ${summary.totalCount}`,
+    `Avg Inspection: 88/100 (Target: 90)`,
+    `Open Work Orders: 45`,
+    `Safety Incidents: 0`
   ];
 
-  const vitals: VitalItem[] = [
-    { label: "Properties", value: summary.totalCount, status: "neutral" },
-    { label: "Avg Inspection", value: "88/100", target: "90", status: "watch" },
-    { label: "Open Work Orders", value: "45", target: "<30", status: "critical" },
-    { label: "Safety Incidents", value: "0", target: "0", status: "healthy" },
+  const issues = [
+    { text: "Riverside Apartments: Boiler system nearing end of life", severity: "critical" as const },
+    { text: "The Old Mill: Roof leak in North Wing", severity: "critical" as const }, // mapped from 'high'
+    { text: "Sunset Villas: Landscaping contract overdue", severity: "warning" as const }
   ];
 
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="grid gap-6 lg:grid-cols-2">
-          <HealthHeader 
-            title="Properties Health"
-            score={summary.avgScore}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <DiagnosticCard 
+            title="Properties Overview"
+            icon={Building2}
+            healthScore={summary.avgScore}
             trend={-1.2}
-            trendLabel="vs last month"
-            summary="Physical asset scores are dipping slightly due to deferred maintenance in the older properties."
+            stats={stats}
+            issues={issues}
+            insight={{ label: "Summary", text: "Physical asset scores are dipping slightly due to deferred maintenance." }}
+            primaryAction="View Inspections"
+            href="#"
+            className="md:col-span-1 h-full"
           />
-          <PriorityAttentionCard 
-            criticalCount={5} 
-            alerts={priorityAlerts} 
-          />
+          
+          <div className="md:col-span-2 flex flex-col justify-center space-y-4 p-6 bg-slate-50 rounded-2xl border border-dashed">
+             <h3 className="text-lg font-semibold text-muted-foreground">Property Map View</h3>
+             <p className="text-sm text-muted-foreground">Map integration disabled in prototype mode.</p>
+          </div>
         </div>
-
-        <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
-          <VitalsGrid items={vitals} />
-        </section>
 
         <HealthTable 
           title="Property List"
