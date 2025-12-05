@@ -81,6 +81,8 @@ const NAV_SECTIONS: NavSection[] = [
   }
 ];
 
+import logoUrl from '@assets/generated_images/minimalist_lighthouse_logo_icon_in_white_and_blue.png';
+
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -156,11 +158,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         {/* Left: Logo & Toggle */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="h-8 w-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-bold text-lg shadow-inner backdrop-blur-sm transition-transform group-hover:scale-105 shrink-0 border border-white/30">
-              ∞
+            <div className="h-8 w-8 rounded-lg bg-white/10 text-white flex items-center justify-center overflow-hidden shadow-inner backdrop-blur-sm transition-transform group-hover:scale-105 shrink-0 border border-white/20">
+              <img src={logoUrl} alt="Lighthouse Logo" className="h-6 w-6 object-contain" />
             </div>
             <span className="font-display font-bold text-xl tracking-tighter text-white">
-              PropHealth.
+              Lighthouse.
             </span>
           </div>
         </div>
