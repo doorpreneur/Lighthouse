@@ -5,6 +5,7 @@ import { HealthTable } from "@/components/HealthTable";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
+import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
 
 export default function Buildings() {
@@ -36,6 +37,30 @@ export default function Buildings() {
 
   const summary = business.buildingHealthSummary;
 
+  const priorityAlerts: AlertItem[] = [
+    {
+      id: "1",
+      title: "Riverside Apartments",
+      description: "Boiler system nearing end of life. Immediate inspection required.",
+      severity: "critical",
+      href: "/buildings/bld-002"
+    },
+    {
+      id: "2",
+      title: "The Old Mill",
+      description: "Roof leak reported in North Wing affecting 3 units.",
+      severity: "high",
+      href: "/buildings/bld-004"
+    },
+    {
+      id: "3",
+      title: "Sunset Villas",
+      description: "Landscaping contract renewal overdue.",
+      severity: "warning",
+      href: "/buildings/bld-003"
+    }
+  ];
+
   const vitals: VitalItem[] = [
     { label: "Properties", value: summary.totalCount, status: "neutral" },
     { label: "Avg Inspection", value: "88/100", target: "90", status: "watch" },
@@ -46,13 +71,19 @@ export default function Buildings() {
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
-        <HealthHeader 
-          title="Buildings Health"
-          score={summary.avgScore}
-          trend={-1.2}
-          trendLabel="vs last month"
-          summary="Physical asset scores are dipping slightly due to deferred maintenance in the older properties."
-        />
+        <div className="grid gap-6 lg:grid-cols-2">
+          <HealthHeader 
+            title="Buildings Health"
+            score={summary.avgScore}
+            trend={-1.2}
+            trendLabel="vs last month"
+            summary="Physical asset scores are dipping slightly due to deferred maintenance in the older properties."
+          />
+          <PriorityAttentionCard 
+            criticalCount={5} 
+            alerts={priorityAlerts} 
+          />
+        </div>
 
         <section>
           <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>

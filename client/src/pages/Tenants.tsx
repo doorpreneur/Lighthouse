@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 
+import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
 
 export default function Tenants() {
@@ -36,6 +37,30 @@ export default function Tenants() {
 
   const summary = business.tenantHealthSummary;
 
+  const priorityAlerts: AlertItem[] = [
+    {
+      id: "1",
+      title: "Michael Scott",
+      description: "3 noise complaints in last 7 days. Violation notice required.",
+      severity: "high",
+      href: "/tenants/t-001"
+    },
+    {
+      id: "2",
+      title: "Pam Beesly",
+      description: "Rent payment overdue by 15 days.",
+      severity: "critical",
+      href: "/tenants/t-002"
+    },
+    {
+      id: "3",
+      title: "Dwight Schrute",
+      description: "Unauthorized modifications to unit reported.",
+      severity: "warning",
+      href: "/tenants/t-003"
+    }
+  ];
+
   const vitals: VitalItem[] = [
     { label: "Active Tenants", value: summary.totalCount, status: "neutral" },
     { label: "On-Time Payment", value: "96%", target: "98%", status: "watch" },
@@ -46,13 +71,19 @@ export default function Tenants() {
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
-        <HealthHeader 
-          title="Tenants Health"
-          score={summary.avgScore}
-          trend={3.1}
-          trendLabel="vs last month"
-          summary="Tenant satisfaction is rebounding after the recent community events. Payment reliability remains strong."
-        />
+        <div className="grid gap-6 lg:grid-cols-2">
+          <HealthHeader 
+            title="Tenants Health"
+            score={summary.avgScore}
+            trend={3.1}
+            trendLabel="vs last month"
+            summary="Tenant satisfaction is rebounding after the recent community events. Payment reliability remains strong."
+          />
+          <PriorityAttentionCard 
+            criticalCount={12} 
+            alerts={priorityAlerts} 
+          />
+        </div>
 
         <section>
           <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>

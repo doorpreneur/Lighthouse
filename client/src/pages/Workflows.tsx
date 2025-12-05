@@ -7,6 +7,8 @@ import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 import { Badge } from "@/components/ui/badge";
 
+import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
+
 export default function Workflows() {
   const { data: business } = useQuery({
     queryKey: ["businessHealth"],
@@ -34,6 +36,30 @@ export default function Workflows() {
 
   const summary = business.workflowHealthSummary;
 
+  const priorityAlerts: AlertItem[] = [
+    {
+      id: "1",
+      title: "Unit Turn Process (Standard)",
+      description: "Average duration exceeded SLA by 4 days.",
+      severity: "high",
+      href: "/workflows/wf-001"
+    },
+    {
+      id: "2",
+      title: "Emergency Repairs",
+      description: "Approvals pending for 3 critical tickets.",
+      severity: "critical",
+      href: "/workflows/wf-002"
+    },
+    {
+      id: "3",
+      title: "Lease Renewals",
+      description: "Backlog of 12 renewals waiting for review.",
+      severity: "warning",
+      href: "/workflows/wf-003"
+    }
+  ];
+
   const vitals: VitalItem[] = [
     { label: "Active Processes", value: "12", status: "neutral" },
     { label: "SLA Adherence", value: "89%", target: "95%", status: "watch" },
@@ -44,13 +70,19 @@ export default function Workflows() {
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
-        <HealthHeader 
-          title="Workflow Health"
-          score={summary.avgScore}
-          trend={-5.4}
-          trendLabel="vs last month"
-          summary="Leasing workflows are slowing down due to high volume. Maintenance workflows are performing optimally."
-        />
+        <div className="grid gap-6 lg:grid-cols-2">
+          <HealthHeader 
+            title="Workflow Health"
+            score={summary.avgScore}
+            trend={-5.4}
+            trendLabel="vs last month"
+            summary="Leasing workflows are slowing down due to high volume. Maintenance workflows are performing optimally."
+          />
+          <PriorityAttentionCard 
+            criticalCount={3} 
+            alerts={priorityAlerts} 
+          />
+        </div>
 
         <section>
           <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>

@@ -7,6 +7,7 @@ import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 import { Badge } from "@/components/ui/badge";
 
+import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
 
 export default function Team() {
@@ -37,6 +38,30 @@ export default function Team() {
 
   const summary = business.teamHealthSummary;
 
+  const priorityAlerts: AlertItem[] = [
+    {
+      id: "1",
+      title: "Sarah Connor",
+      description: "Task overload detected. 15 overdue items.",
+      severity: "critical",
+      href: "/team/tm-001"
+    },
+    {
+      id: "2",
+      title: "John Doe",
+      description: "Missed 3 critical deadlines this week.",
+      severity: "high",
+      href: "/team/tm-002"
+    },
+    {
+      id: "3",
+      title: "Operations Team",
+      description: "Staff shortage in maintenance division.",
+      severity: "warning",
+      href: "/team/tm-003"
+    }
+  ];
+
   const vitals: VitalItem[] = [
     { label: "Team Size", value: summary.totalCount, status: "neutral" },
     { label: "Task Completion", value: "94%", target: "90%", status: "healthy" },
@@ -47,13 +72,19 @@ export default function Team() {
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
-        <HealthHeader 
-          title="Team Health"
-          score={summary.avgScore}
-          trend={-2.1}
-          trendLabel="vs last month"
-          summary="Overall performance is strong, but high task loads are increasing burnout risk for key leasing agents."
-        />
+        <div className="grid gap-6 lg:grid-cols-2">
+          <HealthHeader 
+            title="Team Health"
+            score={summary.avgScore}
+            trend={-2.1}
+            trendLabel="vs last month"
+            summary="Overall performance is strong, but high task loads are increasing burnout risk for key leasing agents."
+          />
+          <PriorityAttentionCard 
+            criticalCount={4} 
+            alerts={priorityAlerts} 
+          />
+        </div>
 
         <section>
           <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>

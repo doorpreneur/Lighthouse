@@ -17,12 +17,15 @@ import {
 } from "@/components/ui/select";
 import { Building2, Filter } from "lucide-react";
 
+import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
+
 export default function Units() {
   const { data: business } = useQuery({
     queryKey: ["businessHealth"],
     queryFn: api.getBusinessHealth
   });
 
+  // ... existing queries ...
   const { data: units, isLoading: isLoadingUnits } = useQuery({
     queryKey: ["units"],
     queryFn: api.getUnits
@@ -67,6 +70,30 @@ export default function Units() {
 
   const summary = business.unitHealthSummary;
 
+  const priorityAlerts: AlertItem[] = [
+    {
+      id: "1",
+      title: "Unit 102 - Plumbing Failure",
+      description: "Active leak reported. Tenant temporarily displaced.",
+      severity: "critical",
+      href: "/units/u-102"
+    },
+    {
+      id: "2",
+      title: "Unit 405 - HVAC",
+      description: "AC unit failure during heatwave. Expedited repair needed.",
+      severity: "high",
+      href: "/units/u-405"
+    },
+    {
+      id: "3",
+      title: "Unit 201 - Mold Risk",
+      description: "High humidity levels detected in bathroom sensor.",
+      severity: "warning",
+      href: "/units/u-201"
+    }
+  ];
+
   const vitals: VitalItem[] = [
     { label: "Total Units", value: summary.totalCount, status: "neutral" },
     { label: "Occupancy", value: "92%", target: "95%", status: "watch" },
@@ -77,13 +104,19 @@ export default function Units() {
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
-        <HealthHeader 
-          title="Units Health"
-          score={summary.avgScore}
-          trend={0.5}
-          trendLabel="vs last month"
-          summary="Unit conditions are stable. Turn times have improved this month, reducing vacancy loss."
-        />
+        <div className="grid gap-6 lg:grid-cols-2">
+          <HealthHeader 
+            title="Units Health"
+            score={summary.avgScore}
+            trend={0.5}
+            trendLabel="vs last month"
+            summary="Unit conditions are stable. Turn times have improved this month, reducing vacancy loss."
+          />
+          <PriorityAttentionCard 
+            criticalCount={8} 
+            alerts={priorityAlerts} 
+          />
+        </div>
 
         <section>
           <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
