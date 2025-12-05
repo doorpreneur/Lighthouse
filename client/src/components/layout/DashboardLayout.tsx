@@ -17,7 +17,8 @@ import {
   ChevronRight,
   PanelLeftClose,
   PanelLeftOpen,
-  PanelLeft
+  PanelLeft,
+  ChevronDown
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -36,10 +37,7 @@ const NAV_ITEMS = [
   { label: "Team", icon: Briefcase, href: "/team" },
 ];
 
-const BOTTOM_NAV_ITEMS = [
-  { label: "Help and Support", icon: HelpCircle, href: "/help" },
-  { label: "Settings", icon: Settings, href: "/settings" },
-];
+// Removed BOTTOM_NAV_ITEMS as they are moving to header
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -86,80 +84,79 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
   const NavContent = ({ collapsed = false }: { collapsed?: boolean }) => (
     <div className="flex flex-col h-full py-6">
-      <div className={cn("mb-8 flex transition-all duration-300", collapsed ? "flex-col items-center justify-center gap-4 px-2" : "items-center justify-between px-6")}>
-        <div className="flex items-center gap-3 group cursor-pointer">
-          <div className="h-8 w-8 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg shadow-lg shadow-primary/30 transition-transform group-hover:scale-105 shrink-0">
-            ∞
-          </div>
-          {!collapsed && (
-            <span className="font-display font-bold text-xl tracking-tighter animate-in fade-in slide-in-from-left-2 duration-300">
-              PropHealth.
-            </span>
-          )}
-        </div>
-        
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className={cn("text-muted-foreground hover:text-primary hover:bg-primary/10 hidden md:flex", collapsed && "h-8 w-8")}
-        >
-           <PanelLeft className="h-5 w-5" />
-        </Button>
-      </div>
-
-      <div className="flex-1 px-4 space-y-1">
-        {collapsed && <div className="h-4 mb-4" />} {/* Spacer for alignment */}
-        
+      {/* Removed Logo Area */}
+      <div className="flex-1 px-4 space-y-1 mt-4">
         {NAV_ITEMS.map((item) => (
           <NavItem key={item.href} item={item} collapsed={collapsed} />
         ))}
       </div>
-
-      <div className="px-4 mt-auto space-y-1">
-        {BOTTOM_NAV_ITEMS.map((item) => (
-          <NavItem key={item.href} item={item} collapsed={collapsed} />
-        ))}
-        
-        <div className={cn(
-          "mt-6 pt-6 border-t flex items-center gap-3 cursor-pointer hover:bg-sidebar-accent/30 rounded-xl transition-all duration-200",
-          collapsed ? "justify-center px-0 py-4 mx-0" : "px-2 py-2"
-        )}>
-          <Avatar className="h-9 w-9 border-2 border-white shadow-sm shrink-0">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>AD</AvatarFallback>
-          </Avatar>
-          {!collapsed && (
-            <div className="flex-1 overflow-hidden animate-in fade-in slide-in-from-left-2 duration-300">
-              <p className="text-sm font-medium truncate font-display">Admin User</p>
-              <p className="text-xs text-muted-foreground truncate font-mono">admin@prophealth.com</p>
-            </div>
-          )}
-        </div>
-      </div>
+      {/* Removed User Profile and Bottom Nav */}
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-background font-sans flex">
-      {/* Desktop Sidebar */}
-      <div 
-        className={cn(
-          "hidden md:block border-r bg-slate-100 sticky top-0 h-screen overflow-y-auto shadow-sm z-10 transition-all duration-300 ease-in-out",
-          isCollapsed ? "w-[80px]" : "w-[240px]"
-        )}
-      >
-        <NavContent collapsed={isCollapsed} />
-      </div>
+    <div className="flex flex-col h-screen bg-background font-sans overflow-hidden">
+      {/* Full Width Header */}
+      <header className="h-16 shrink-0 bg-primary px-6 flex items-center justify-between z-20 shadow-md text-primary-foreground">
+        
+        {/* Left: Logo & Toggle */}
+        <div className="flex items-center gap-4">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 hidden md:flex h-8 w-8"
+          >
+             <PanelLeft className="h-5 w-5" />
+          </Button>
 
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Top Header */}
-        <header className="h-16 md:h-20 border-b bg-card/50 backdrop-blur-sm px-6 flex items-center justify-between sticky top-0 z-20">
-          <div className="md:hidden">
+          <div className="flex items-center gap-3 group cursor-pointer">
+            <div className="h-8 w-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-bold text-lg shadow-inner backdrop-blur-sm transition-transform group-hover:scale-105 shrink-0 border border-white/30">
+              ∞
+            </div>
+            <span className="font-display font-bold text-xl tracking-tighter text-white">
+              PropHealth.
+            </span>
+          </div>
+        </div>
+
+        {/* Center: Search */}
+        <div className="flex-1 flex justify-center max-w-2xl px-8">
+          <div className="relative w-full max-w-md group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-foreground/60 group-focus-within:text-primary-foreground transition-colors" />
+            <Input 
+              placeholder="Search anything..." 
+              className="pl-10 bg-white/10 border-transparent text-primary-foreground placeholder:text-primary-foreground/50 focus:bg-white/20 focus:border-white/30 transition-all rounded-xl shadow-none hover:bg-white/15 h-10 w-full"
+            />
+          </div>
+        </div>
+
+        {/* Right: Help & User */}
+        <div className="flex items-center gap-4 md:gap-6">
+          <Button variant="ghost" size="sm" className="text-primary-foreground/80 hover:text-white hover:bg-white/10 gap-2 hidden sm:flex">
+            <HelpCircle className="h-5 w-5" />
+            <span>Help</span>
+          </Button>
+          
+          <div className="h-6 w-px bg-white/20 hidden sm:block" />
+
+          <Button variant="ghost" size="icon" className="rounded-full text-primary-foreground/80 hover:text-white hover:bg-white/10 transition-colors">
+             <Bell className="h-5 w-5" />
+          </Button>
+
+          <div className="flex items-center gap-2 cursor-pointer pl-2">
+            <Avatar className="h-9 w-9 border-2 border-white/20 shadow-sm shrink-0 bg-amber-400 text-amber-950">
+              <AvatarFallback className="bg-amber-400 text-amber-950 font-bold text-xs">AS</AvatarFallback>
+            </Avatar>
+            <ChevronDown className="h-4 w-4 text-primary-foreground/60" />
+          </div>
+          
+          {/* Mobile Menu Trigger */}
+          <div className="md:hidden ml-2">
             <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-5 w-5" />
+                <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-white/10">
+                  <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="p-0 w-[240px] bg-sidebar border-r-0">
@@ -167,29 +164,23 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               </SheetContent>
             </Sheet>
           </div>
+        </div>
+      </header>
 
-          {/* Search Bar */}
-          <div className="hidden md:flex items-center w-full max-w-md ml-4">
-            <div className="relative w-full group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
-              <Input 
-                placeholder="Search anything..." 
-                className="pl-10 bg-background border-transparent focus:bg-white focus:border-primary/20 transition-all rounded-xl shadow-sm hover:shadow-md"
-              />
-            </div>
-          </div>
-
-          {/* Right Actions */}
-          <div className="flex items-center gap-2 md:gap-4">
-            <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
-              <Bell className="h-5 w-5" />
-            </Button>
-          </div>
-        </header>
+      <div className="flex flex-1 overflow-hidden">
+        {/* Desktop Sidebar */}
+        <div 
+          className={cn(
+            "hidden md:block border-r bg-slate-100 overflow-y-auto shadow-inner z-10 transition-all duration-300 ease-in-out",
+            isCollapsed ? "w-[80px]" : "w-[240px]"
+          )}
+        >
+          <NavContent collapsed={isCollapsed} />
+        </div>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 overflow-auto">
-          <div className="w-full space-y-6">
+        <main className="flex-1 p-4 overflow-auto bg-background">
+          <div className="w-full space-y-6 pb-20">
             {children}
           </div>
         </main>
