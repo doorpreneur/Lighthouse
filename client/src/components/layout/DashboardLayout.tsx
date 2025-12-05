@@ -81,8 +81,6 @@ const NAV_SECTIONS: NavSection[] = [
   }
 ];
 
-import generatedImage from '@assets/generated_images/modern_abstract_lighthouse_app_icon_with_deep_blue_gradient_and_glowing_beam.png';
-
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -158,11 +156,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         {/* Left: Logo & Toggle */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="h-8 w-8 rounded-xl overflow-hidden shadow-inner backdrop-blur-sm transition-transform group-hover:scale-105 shrink-0 border border-white/30 bg-[#0A2540]">
-              <img src={generatedImage} alt="Lighthouse Logo" className="w-full h-full object-cover" />
+            <div className="h-8 w-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-bold text-lg shadow-inner backdrop-blur-sm transition-transform group-hover:scale-105 shrink-0 border border-white/30">
+              ∞
             </div>
             <span className="font-display font-bold text-xl tracking-tighter text-white">
-              Lighthouse
+              PropHealth.
             </span>
           </div>
         </div>
