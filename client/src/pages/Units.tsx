@@ -4,7 +4,7 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { HealthTable } from "@/components/HealthTable";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
-import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
+import { DiagnosticCard } from "@/components/dashboard/DiagnosticCard";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { useState, useMemo } from "react";
@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Building2, Filter } from "lucide-react";
+import { Building2, Filter, DoorOpen } from "lucide-react";
 
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 
@@ -94,13 +94,6 @@ export default function Units() {
     }
   ];
 
-  const vitals: VitalItem[] = [
-    { label: "Total Units", value: summary.totalCount, status: "neutral" },
-    { label: "Occupancy", value: "92%", target: "95%", status: "watch" },
-    { label: "Avg Turn Time", value: "12 days", target: "14 days", status: "healthy" },
-    { label: "Condition Issues", value: "8", target: "0", status: "critical" },
-  ];
-
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
@@ -119,8 +112,21 @@ export default function Units() {
         </div>
 
         <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
-          <VitalsGrid items={vitals} />
+          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Diagnostic Overview</h3>
+          <DiagnosticCard 
+            title="Units"
+            icon={DoorOpen}
+            href="/units"
+            healthScore={summary.avgScore}
+            trend={3}
+            stats={[`${summary.totalCount} Total Units`, "233 Occupied (94%)"]}
+            issues={[
+              { text: "8 units offline for >30 days", severity: "critical" },
+              { text: "3 active leaks reported", severity: "critical" }
+            ]}
+            insight={{ label: "Est. Vacancy Loss", text: "$4.2k/mo impact" }}
+            primaryAction="View Vacant Units"
+          />
         </section>
 
         <div className="space-y-4">

@@ -4,8 +4,8 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { HealthTable } from "@/components/HealthTable";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
-import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
-
+import { DiagnosticCard } from "@/components/dashboard/DiagnosticCard";
+import { Users } from "lucide-react";
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
 
@@ -63,14 +63,6 @@ export default function Owners() {
     }
   ];
 
-  const vitals: VitalItem[] = [
-    // ... existing vitals ...
-    { label: "Active Owners", value: summary.totalCount, status: "neutral" },
-    { label: "Avg Occupancy", value: "94%", target: "95%", status: "watch" },
-    { label: "Rent Collection", value: "98.2%", target: "98%", status: "healthy" },
-    { label: "Churn Risk", value: "2", target: "0", status: "critical" },
-  ];
-
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
@@ -89,9 +81,21 @@ export default function Owners() {
         </div>
 
         <section>
-          {/* ... vitals section ... */}
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
-          <VitalsGrid items={vitals} />
+          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Diagnostic Overview</h3>
+          <DiagnosticCard 
+            title="Owners"
+            icon={Users}
+            href="/owners"
+            healthScore={summary.avgScore}
+            trend={-2}
+            stats={[`${summary.totalCount} Active Owners`, "248 Properties Managed"]}
+            issues={[
+              { text: "3 owners with >10% vacancy", severity: "critical" },
+              { text: "1 owner requesting exit review", severity: "warning" }
+            ]}
+            insight={{ label: "Top Performer", text: "Smith Holdings (+12% ROI)" }}
+            primaryAction="Review At-Risk Owners"
+          />
         </section>
 
         <HealthTable 

@@ -4,7 +4,8 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { HealthTable } from "@/components/HealthTable";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
-import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
+import { DiagnosticCard } from "@/components/dashboard/DiagnosticCard";
+import { UserCircle } from "lucide-react";
 
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
@@ -61,13 +62,6 @@ export default function Tenants() {
     }
   ];
 
-  const vitals: VitalItem[] = [
-    { label: "Active Tenants", value: summary.totalCount, status: "neutral" },
-    { label: "On-Time Payment", value: "96%", target: "98%", status: "watch" },
-    { label: "NPS Score", value: "42", target: "50", status: "watch" },
-    { label: "Renewal Intent", value: "78%", target: "75%", status: "healthy" },
-  ];
-
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
@@ -86,8 +80,21 @@ export default function Tenants() {
         </div>
 
         <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
-          <VitalsGrid items={vitals} />
+          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Diagnostic Overview</h3>
+          <DiagnosticCard 
+            title="Tenants"
+            icon={UserCircle}
+            href="/tenants"
+            healthScore={summary.avgScore}
+            trend={0}
+            stats={[`${summary.totalCount} Active Tenants`, "96% Collection Rate"]}
+            issues={[
+              { text: "12 late payments this month", severity: "warning" },
+              { text: "2 lease violations reported", severity: "warning" }
+            ]}
+            insight={{ label: "Arrears Risk", text: "$2.1k pending" }}
+            primaryAction="Review Delinquencies"
+          />
         </section>
 
         <HealthTable 

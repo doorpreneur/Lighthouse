@@ -4,7 +4,8 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { HealthTable } from "@/components/HealthTable";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
-import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
+import { DiagnosticCard } from "@/components/dashboard/DiagnosticCard";
+import { Building2 } from "lucide-react";
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
 
@@ -61,13 +62,6 @@ export default function Properties() {
     }
   ];
 
-  const vitals: VitalItem[] = [
-    { label: "Properties", value: summary.totalCount, status: "neutral" },
-    { label: "Avg Inspection", value: "88/100", target: "90", status: "watch" },
-    { label: "Open Work Orders", value: "45", target: "<30", status: "critical" },
-    { label: "Safety Incidents", value: "0", target: "0", status: "healthy" },
-  ];
-
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
@@ -86,8 +80,21 @@ export default function Properties() {
         </div>
 
         <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
-          <VitalsGrid items={vitals} />
+          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Diagnostic Overview</h3>
+          <DiagnosticCard 
+            title="Properties"
+            icon={Building2}
+            href="/properties"
+            healthScore={summary.avgScore}
+            trend={1}
+            stats={[`${summary.totalCount} Properties`, "94% Occupancy Rate"]}
+            issues={[
+              { text: "2 critical safety inspections overdue", severity: "critical" },
+              { text: "5 properties with HVAC alerts", severity: "warning" }
+            ]}
+            insight={{ label: "Needs Attention", text: "Sunset Blvd Apts (Low Occ)" }}
+            primaryAction="View Critical Properties"
+          />
         </section>
 
         <HealthTable 
