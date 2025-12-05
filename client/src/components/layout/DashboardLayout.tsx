@@ -30,7 +30,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 const NAV_ITEMS = [
   { label: "Overview", icon: LayoutDashboard, href: "/" },
   { label: "Owners", icon: Users, href: "/owners" },
-  { label: "Buildings", icon: Building2, href: "/buildings" },
+  { label: "Properties", icon: Building2, href: "/properties" },
   { label: "Units", icon: DoorOpen, href: "/units" },
   { label: "Tenants", icon: UserCircle, href: "/tenants" },
   { label: "Workflows", icon: Workflow, href: "/workflows" },
@@ -84,6 +84,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
   const NavContent = ({ collapsed = false }: { collapsed?: boolean }) => (
     <div className="flex flex-col h-full py-6">
+      <div className={cn("flex px-4 mb-4", collapsed ? "justify-center" : "justify-end")}>
+         <Button 
+           variant="ghost" 
+           size="icon" 
+           onClick={() => setIsCollapsed(!isCollapsed)}
+           className="hidden md:flex text-muted-foreground hover:text-primary hover:bg-primary/10"
+         >
+            {collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+         </Button>
+      </div>
       {/* Removed Logo Area */}
       <div className="flex-1 px-4 space-y-1 mt-4">
         {NAV_ITEMS.map((item) => (
@@ -101,15 +111,6 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         
         {/* Left: Logo & Toggle */}
         <div className="flex items-center gap-4">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 hidden md:flex h-8 w-8"
-          >
-             <PanelLeft className="h-5 w-5" />
-          </Button>
-
           <div className="flex items-center gap-3 group cursor-pointer">
             <div className="h-8 w-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-bold text-lg shadow-inner backdrop-blur-sm transition-transform group-hover:scale-105 shrink-0 border border-white/30">
               ∞

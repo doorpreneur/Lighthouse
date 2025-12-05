@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/mock-data";
+import { HealthHeader } from "@/components/domain/HealthHeader";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { HealthBadge } from "@/components/ui/HealthBadge";
 import { MetricCard } from "@/components/ui/MetricCard";
@@ -123,35 +124,15 @@ export default function Dashboard() {
         <div className="grid gap-6 lg:grid-cols-3">
           
           {/* Overall Health */}
-          <Card className="lg:col-span-2 border-0 shadow-soft rounded-2xl bg-gradient-to-br from-primary/90 via-primary to-blue-600 text-primary-foreground overflow-hidden relative flex flex-col justify-center">
-            <div className="absolute right-0 top-0 h-full w-1/2 bg-white/5 skew-x-12 translate-x-20"></div>
-            <div className="absolute left-0 bottom-0 h-32 w-32 bg-white/5 rounded-full blur-3xl -translate-x-10 translate-y-10"></div>
-            <CardContent className="p-8 relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
-              <div className="flex-1">
-                <p className="text-primary-foreground/80 font-medium mb-2 flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse"/>
-                  Overall Business Health
-                </p>
-                <div className="flex items-baseline gap-4">
-                  <h2 className="text-5xl font-bold tracking-tight">{business.overallScore}</h2>
-                  <div className="flex items-center gap-1 bg-white/20 px-3 py-1.5 rounded-lg text-sm font-medium backdrop-blur-sm border border-white/10 shadow-sm">
-                    <ArrowUpRight className="h-4 w-4" />
-                    +4.2%
-                  </div>
-                </div>
-                <p className="mt-4 text-primary-foreground/80 leading-relaxed text-sm max-w-md">
-                  Your ecosystem is in the <strong>{business.riskLevel}</strong> zone. 
-                  Building performance is up, but check workflow bottlenecks.
-                </p>
-              </div>
-              <div className="hidden sm:block shrink-0">
-                <div className="h-28 w-28 rounded-full border-8 border-white/20 flex items-center justify-center relative shadow-inner">
-                  <div className="absolute inset-0 rounded-full border-8 border-white/40 border-t-transparent rotate-45"></div>
-                  <span className="text-3xl font-bold">A+</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="lg:col-span-2">
+            <HealthHeader 
+              title="Overall Business Health"
+              score={business.overallScore}
+              trend={4.2}
+              trendLabel="vs last month"
+              summary={`Your ecosystem is in the ${business.riskLevel} zone. Property performance is up, but check workflow bottlenecks.`}
+            />
+          </div>
 
           {/* Priority Attention */}
           <Card className="border-0 shadow-soft card-gradient flex flex-col h-full">
@@ -189,8 +170,8 @@ export default function Dashboard() {
                 </div>
               </Link>
 
-              {/* High Risk Building Alert */}
-              <Link href="/buildings/bld-001">
+              {/* High Risk Property Alert */}
+              <Link href="/properties/bld-001">
                 <div className="p-3 rounded-xl bg-white border border-border/50 hover:border-primary/30 hover:shadow-md transition-all cursor-pointer group relative overflow-hidden">
                   <div className="absolute left-0 top-0 w-1 h-full bg-orange-500"></div>
                   <div className="flex gap-3 pl-2">
@@ -246,10 +227,10 @@ export default function Dashboard() {
             href="/owners"
           />
           <SummaryWidget 
-            title="Buildings" 
+            title="Properties" 
             summary={business.buildingHealthSummary} 
             icon={Building2} 
-            href="/buildings"
+            href="/properties"
           />
           <SummaryWidget 
             title="Units" 

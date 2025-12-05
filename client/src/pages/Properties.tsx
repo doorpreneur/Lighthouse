@@ -8,7 +8,7 @@ import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
 
-export default function Buildings() {
+export default function Properties() {
   const { data: business } = useQuery({
     queryKey: ["businessHealth"],
     queryFn: api.getBusinessHealth
@@ -43,21 +43,21 @@ export default function Buildings() {
       title: "Riverside Apartments",
       description: "Boiler system nearing end of life. Immediate inspection required.",
       severity: "critical",
-      href: "/buildings/bld-002"
+      href: "/properties/bld-002"
     },
     {
       id: "2",
       title: "The Old Mill",
       description: "Roof leak reported in North Wing affecting 3 units.",
       severity: "high",
-      href: "/buildings/bld-004"
+      href: "/properties/bld-004"
     },
     {
       id: "3",
       title: "Sunset Villas",
       description: "Landscaping contract renewal overdue.",
       severity: "warning",
-      href: "/buildings/bld-003"
+      href: "/properties/bld-003"
     }
   ];
 
@@ -73,7 +73,7 @@ export default function Buildings() {
       <div className="space-y-8 animate-in fade-in duration-500">
         <div className="grid gap-6 lg:grid-cols-2">
           <HealthHeader 
-            title="Buildings Health"
+            title="Properties Health"
             score={summary.avgScore}
             trend={-1.2}
             trendLabel="vs last month"
@@ -95,7 +95,7 @@ export default function Buildings() {
           data={buildings || []}
           columns={[
             { 
-              header: "Building Name", 
+              header: "Property Name", 
               accessorKey: "name", 
               className: "font-medium text-foreground hover:text-primary transition-colors" 
             },
@@ -106,7 +106,7 @@ export default function Buildings() {
             { header: "Risk Label", accessorKey: "riskLevel", cell: (item) => <span className="capitalize text-muted-foreground">{item.riskLevel}</span> },
           ]}
           // @ts-ignore - Passing onRowClick to handle navigation
-          onRowClick={(item) => setLocation(`/buildings/${item.id}`)}
+          onRowClick={(item) => setLocation(`/properties/${item.id}`)}
         />
       </div>
     </DashboardLayout>

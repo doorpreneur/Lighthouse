@@ -6,7 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Dashboard from "@/pages/Dashboard";
 import Owners from "@/pages/Owners";
-import Buildings from "@/pages/Buildings";
+import Buildings from "@/pages/Properties";
 import Units from "@/pages/Units";
 import Tenants from "@/pages/Tenants";
 import Workflows from "@/pages/Workflows";
@@ -25,8 +25,8 @@ function Router() {
       <Route path="/" component={Dashboard} />
       <Route path="/owners" component={Owners} />
       <Route path="/owners/:id" component={OwnerDetail} />
-      <Route path="/buildings" component={Buildings} />
-      <Route path="/buildings/:id" component={PropertyDetail} />
+      <Route path="/properties" component={Buildings} />
+      <Route path="/properties/:id" component={PropertyDetail} />
       <Route path="/units" component={Units} />
       <Route path="/units/:id" component={UnitDetail} />
       <Route path="/tenants" component={Tenants} />

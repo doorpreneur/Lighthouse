@@ -152,7 +152,7 @@ export default function Units() {
              columns={[
                { header: "Unit ID", accessorKey: "unitLabel", className: "font-mono font-medium text-foreground group-hover:text-primary transition-colors" },
                { 
-                 header: "Building", 
+                 header: "Property", 
                  cell: (item) => buildingNameMap[item.buildingId] || item.buildingId,
                  className: "text-muted-foreground"
                },
