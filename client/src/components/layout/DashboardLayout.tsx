@@ -99,11 +99,6 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       </div>
 
       <div className="flex-1 px-4 space-y-1">
-        {!collapsed && (
-          <div className="text-[10px] font-mono font-medium text-muted-foreground/60 px-4 mb-4 uppercase tracking-wider animate-in fade-in duration-300">
-            General
-          </div>
-        )}
         {collapsed && <div className="h-4 mb-4" />} {/* Spacer for alignment */}
         
         {NAV_ITEMS.map((item) => (
@@ -140,7 +135,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       {/* Desktop Sidebar */}
       <div 
         className={cn(
-          "hidden md:block border-r bg-sidebar sticky top-0 h-screen overflow-y-auto shadow-sm z-10 transition-all duration-300 ease-in-out",
+          "hidden md:block border-r bg-slate-100 sticky top-0 h-screen overflow-y-auto shadow-sm z-10 transition-all duration-300 ease-in-out",
           isCollapsed ? "w-[80px]" : "w-[240px]"
         )}
       >
@@ -148,12 +143,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         
         {/* Collapse Toggle Button */}
         <Button
-          variant="ghost"
+          variant="default"
           size="icon"
-          className="absolute -right-3 top-8 h-6 w-6 rounded-full border bg-background shadow-sm hover:bg-accent z-50 hidden md:flex"
+          className="absolute -right-3 top-20 h-8 w-8 rounded-full shadow-md hover:scale-105 z-50 hidden md:flex bg-primary text-primary-foreground transition-all duration-200"
           onClick={() => setIsCollapsed(!isCollapsed)}
         >
-          {isCollapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
+          {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
       </div>
 
