@@ -84,23 +84,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
   const NavContent = ({ collapsed = false }: { collapsed?: boolean }) => (
     <div className="flex flex-col h-full py-6">
-      <div className={cn("flex px-4 mb-4", collapsed ? "justify-center" : "justify-end")}>
-         <Button 
-           variant="ghost" 
-           size="icon" 
-           onClick={() => setIsCollapsed(!isCollapsed)}
-           className="hidden md:flex text-muted-foreground hover:text-primary hover:bg-primary/10"
-         >
-            {collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
-         </Button>
-      </div>
-      {/* Removed Logo Area */}
       <div className="flex-1 px-4 space-y-1 mt-4">
         {NAV_ITEMS.map((item) => (
           <NavItem key={item.href} item={item} collapsed={collapsed} />
         ))}
       </div>
-      {/* Removed User Profile and Bottom Nav */}
     </div>
   );
 
@@ -172,10 +160,20 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         {/* Desktop Sidebar */}
         <div 
           className={cn(
-            "hidden md:block border-r bg-slate-100 overflow-y-auto shadow-inner z-10 transition-all duration-300 ease-in-out",
+            "hidden md:block border-r bg-slate-100 overflow-y-auto shadow-inner z-10 transition-all duration-300 ease-in-out relative group",
             isCollapsed ? "w-[80px]" : "w-[240px]"
           )}
         >
+          <div className="absolute -right-3 top-6 z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <Button
+              variant="default"
+              size="icon"
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="h-6 w-6 rounded-full shadow-md bg-primary hover:bg-primary/90 border-2 border-white"
+            >
+               {isCollapsed ? <ChevronRight className="h-3 w-3 text-white" /> : <ChevronLeft className="h-3 w-3 text-white" />}
+            </Button>
+          </div>
           <NavContent collapsed={isCollapsed} />
         </div>
 
