@@ -17,6 +17,8 @@ import UnitDetail from "@/pages/UnitDetail";
 
 import OwnerDetail from "@/pages/OwnerDetail";
 
+import TenantDetail from "@/pages/TenantDetail";
+
 function Router() {
   return (
     <Switch>
@@ -28,6 +30,7 @@ function Router() {
       <Route path="/units" component={Units} />
       <Route path="/units/:id" component={UnitDetail} />
       <Route path="/tenants" component={Tenants} />
+      <Route path="/tenants/:id" component={TenantDetail} />
       <Route path="/workflows" component={Workflows} />
       <Route path="/team" component={Team} />
       <Route path="/team/:id" component={TeamMemberDetail} />

@@ -6,7 +6,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 
+import { useLocation } from "wouter";
+
 export default function Tenants() {
+  const [, setLocation] = useLocation();
   const { data: business } = useQuery({
     queryKey: ["businessHealth"],
     queryFn: api.getBusinessHealth
@@ -59,6 +62,7 @@ export default function Tenants() {
         <HealthTable 
           title="Tenant Roster"
           data={tenants || []}
+          onRowClick={(item) => setLocation(`/tenants/${item.id}`)}
           columns={[
             { header: "Tenant Name", accessorKey: "name", className: "font-medium text-foreground" },
             { header: "Unit", accessorKey: "unitId" },
