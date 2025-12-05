@@ -19,8 +19,6 @@ import {
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { RiskDistributionCard } from "@/components/dashboard/RiskDistributionCard";
-import { RevenueTrendCard } from "@/components/dashboard/RevenueTrendCard";
 import { DiagnosticCard } from "@/components/dashboard/DiagnosticCard";
 
 export default function Dashboard() {
@@ -272,16 +270,6 @@ export default function Dashboard() {
             insight={{ label: "Top Closer", text: "Sarah J. (100% rate)" }}
             primaryAction="Balance Workloads"
           />
-        </div>
-
-        {/* Analytics Section */}
-        <div className="grid gap-6 md:grid-cols-2">
-           <RevenueTrendCard />
-           <RiskDistributionCard 
-             criticalCount={totalCritical} 
-             watchCount={totalWatch} 
-             healthyCount={totalHealthy}
-           />
         </div>
       </div>
     </DashboardLayout>
