@@ -76,11 +76,14 @@ export interface WorkflowHealth extends BaseEntity {
 export interface TeamMemberHealth extends BaseEntity {
   role: string;
   activeTasksCount: number;
+  activeTasksTrend: "up" | "down" | "stable";
   overdueTasksCount: number;
   avgTaskAgeDays: number;
   completionRate: number; // 0-1
+  completionRateTrend: "up" | "down" | "stable";
   customerFeedbackScore: number; // 0-100
   burnoutRiskScore: number; // 0-100
+  prescription: string;
 }
 
 export interface BusinessHealth {

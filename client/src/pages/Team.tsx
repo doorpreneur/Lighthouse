@@ -6,10 +6,23 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 import { Badge } from "@/components/ui/badge";
-import { Activity } from "lucide-react";
+import { Activity, TrendingUp, TrendingDown, Minus } from "lucide-react";
 
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
+
+const TrendIndicator = ({ trend, label }: { trend: "up" | "down" | "stable", label: string }) => {
+  return (
+    <div className="flex flex-col">
+      <div className="flex items-center gap-1.5">
+        {trend === "up" && <TrendingUp className="h-3.5 w-3.5 text-health-good" />}
+        {trend === "down" && <TrendingDown className="h-3.5 w-3.5 text-health-critical" />}
+        {trend === "stable" && <Minus className="h-3.5 w-3.5 text-muted-foreground" />}
+        <span className="text-xs text-muted-foreground">{label}</span>
+      </div>
+    </div>
+  );
+};
 
 export default function Team() {
   const [, setLocation] = useLocation();
@@ -116,9 +129,34 @@ export default function Team() {
             columns={[
               { header: "Name", accessorKey: "name", className: "font-medium text-foreground" },
               { header: "Role", accessorKey: "role" },
-              { header: "Open Tasks", accessorKey: "activeTasksCount" },
+              { 
+                header: "Open Tasks", 
+                cell: (item) => (
+                  <div className="flex flex-col">
+                    <span className="font-medium">{item.activeTasksCount}</span>
+                    <TrendIndicator trend={item.activeTasksTrend} label="vs last week" />
+                  </div>
+                )
+              },
               { header: "Overdue", accessorKey: "overdueTasksCount", cell: (item) => item.overdueTasksCount > 0 ? <span className="text-health-critical font-bold">{item.overdueTasksCount}</span> : "0" },
-              { header: "SLA Adherence", cell: (item) => `${(item.completionRate * 100).toFixed(0)}%` },
+              { 
+                header: "SLA Adherence", 
+                cell: (item) => (
+                  <div className="flex flex-col">
+                    <span className="font-medium">{(item.completionRate * 100).toFixed(0)}%</span>
+                    <TrendIndicator trend={item.completionRateTrend} label="vs last month" />
+                  </div>
+                ) 
+              },
+              { 
+                header: "Prescription", 
+                cell: (item) => (
+                  <div className="flex items-start gap-2 max-w-[250px]">
+                    <div className="mt-1 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                    <span className="text-xs font-medium text-foreground/80 leading-snug">{item.prescription}</span>
+                  </div>
+                )
+              },
               { 
                 header: "Workload", 
                 cell: (item) => {

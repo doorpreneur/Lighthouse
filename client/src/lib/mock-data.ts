@@ -178,10 +178,62 @@ const workflowsData = [
 ] as const;
 
 const teamData = [
-  { id: "tm-001", name: "Sarah Connor", role: "Property Manager", activeTasksCount: 15, overdueTasksCount: 1, avgTaskAgeDays: 2, completionRate: 0.95, customerFeedbackScore: 92, burnoutRiskScore: 40 },
-  { id: "tm-002", name: "Kyle Reese", role: "Maintenance Tech", activeTasksCount: 8, overdueTasksCount: 0, avgTaskAgeDays: 1, completionRate: 0.98, customerFeedbackScore: 95, burnoutRiskScore: 30 },
-  { id: "tm-003", name: "Peter Silberman", role: "Leasing Agent", activeTasksCount: 25, overdueTasksCount: 8, avgTaskAgeDays: 5, completionRate: 0.75, customerFeedbackScore: 70, burnoutRiskScore: 85 },
-  { id: "tm-004", name: "Miles Dyson", role: "Tech Lead", activeTasksCount: 40, overdueTasksCount: 15, avgTaskAgeDays: 10, completionRate: 0.60, customerFeedbackScore: 85, burnoutRiskScore: 95 },
+  { 
+    id: "tm-001", 
+    name: "Sarah Connor", 
+    role: "Property Manager", 
+    activeTasksCount: 15, 
+    activeTasksTrend: "up",
+    overdueTasksCount: 1, 
+    avgTaskAgeDays: 2, 
+    completionRate: 0.95, 
+    completionRateTrend: "stable",
+    customerFeedbackScore: 92, 
+    burnoutRiskScore: 40,
+    prescription: "Delegate routine maintenance approvals to Kyle"
+  },
+  { 
+    id: "tm-002", 
+    name: "Kyle Reese", 
+    role: "Maintenance Tech", 
+    activeTasksCount: 8, 
+    activeTasksTrend: "stable",
+    overdueTasksCount: 0, 
+    avgTaskAgeDays: 1, 
+    completionRate: 0.98, 
+    completionRateTrend: "up",
+    customerFeedbackScore: 95, 
+    burnoutRiskScore: 30,
+    prescription: "Schedule specialized HVAC training for next month"
+  },
+  { 
+    id: "tm-003", 
+    name: "Peter Silberman", 
+    role: "Leasing Agent", 
+    activeTasksCount: 25, 
+    activeTasksTrend: "up",
+    overdueTasksCount: 8, 
+    avgTaskAgeDays: 5, 
+    completionRate: 0.75, 
+    completionRateTrend: "down",
+    customerFeedbackScore: 70, 
+    burnoutRiskScore: 85,
+    prescription: "Reduce lead intake volume by 20% this week"
+  },
+  { 
+    id: "tm-004", 
+    name: "Miles Dyson", 
+    role: "Tech Lead", 
+    activeTasksCount: 40, 
+    activeTasksTrend: "up",
+    overdueTasksCount: 15, 
+    avgTaskAgeDays: 10, 
+    completionRate: 0.60, 
+    completionRateTrend: "down",
+    customerFeedbackScore: 85, 
+    burnoutRiskScore: 95,
+    prescription: "Immediate workload audit required; pause new projects"
+  },
 ] as const;
 
 // --- Processed Data (Simulating Database) ---
