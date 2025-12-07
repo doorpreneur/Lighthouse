@@ -132,7 +132,7 @@ export default function Team() {
               Team Vitals
             </h3>
           </div>
-          <VitalsGrid items={vitals} />
+          <VitalsGrid items={vitals} className="lg:grid-cols-5" />
         </section>
 
         <div className="border-t border-border/40" />

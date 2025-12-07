@@ -11,11 +11,12 @@ export interface VitalItem {
 
 interface VitalsGridProps {
   items: VitalItem[];
+  className?: string;
 }
 
-export function VitalsGrid({ items }: VitalsGridProps) {
+export function VitalsGrid({ items, className }: VitalsGridProps) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className={cn("grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4", className)}>
       {items.map((item, idx) => (
         <Card key={idx} className="border-0 shadow-soft rounded-xl overflow-hidden hover:translate-y-[-2px] transition-transform duration-300">
           <CardContent className="p-5">
