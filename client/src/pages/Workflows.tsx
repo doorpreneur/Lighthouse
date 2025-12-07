@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 
-import { UnitLifecycleTimeline } from "@/components/dashboard/UnitLifecycleTimeline";
+import { UnitLifecycleTimeline, type TimelineStep } from "@/components/dashboard/UnitLifecycleTimeline";
 import { useState } from "react";
 
 export default function Workflows() {
@@ -24,7 +24,7 @@ export default function Workflows() {
   });
 
   // Mock timeline data
-  const timelineSteps = [
+  const timelineSteps: TimelineStep[] = [
     { id: "pre-move-out", label: "Pre-Move Out Insp", status: "completed" },
     { id: "move-out", label: "Move Out", status: "completed" },
     { id: "move-out-insp", label: "Move Out Insp", status: "current" },
@@ -32,9 +32,9 @@ export default function Workflows() {
     { id: "maintenance", label: "Maintenance", status: "pending" },
     { id: "cleaning", label: "Cleaning", status: "pending" },
     { id: "rent-ready", label: "Rent Ready", status: "pending" },
-  ] as const;
+  ];
 
-  const [activeStep, setActiveStep] = useState(timelineSteps[2]); // Default to current
+  const [activeStep, setActiveStep] = useState<TimelineStep>(timelineSteps[2]); // Default to current
 
   if (isLoading || !business) {
     return (

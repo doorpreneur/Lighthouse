@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
 
-type TimelineStep = {
+export type TimelineStep = {
   id: string;
   label: string;
   status: "completed" | "current" | "pending";
