@@ -96,8 +96,8 @@ export default function Units() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="grid gap-6 lg:grid-cols-2">
+      <div className="space-y-6 animate-in fade-in duration-500">
+        <div className="grid gap-8 lg:grid-cols-2">
           <HealthHeader 
             title="Units Health"
             score={summary.avgScore}
@@ -111,9 +111,16 @@ export default function Units() {
           />
         </div>
 
-        <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
-          <div className="grid gap-6 md:grid-cols-2">
+        <div className="border-t border-border/40" />
+
+        <section className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-bold text-foreground tracking-tight flex items-center gap-2">
+              <DoorOpen className="h-5 w-5 text-primary" />
+              Unit Vitals
+            </h3>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             <DiagnosticCard 
               title="Occupancy"
               icon={DoorOpen}
@@ -176,9 +183,18 @@ export default function Units() {
           </div>
         </section>
 
-        <div className="space-y-4">
+        <div className="border-t border-border/40" />
+
+        <section className="space-y-6">
+           <div className="flex items-center justify-between">
+             <div>
+               <h3 className="text-lg font-bold text-foreground tracking-tight">Unit Inventory</h3>
+               <p className="text-sm text-muted-foreground mt-1">Detailed status of all residential units</p>
+             </div>
+           </div>
+
            <HealthTable 
-             title={selectedBuildingId === "all" ? "All Unit Inventory" : `Units at ${buildingNameMap[selectedBuildingId]}`}
+             title=""
              data={filteredUnits}
              filterColumn="unitLabel"
              customFilter={
@@ -224,7 +240,7 @@ export default function Units() {
              // @ts-ignore - Passing onRowClick to handle navigation
              onRowClick={(item) => setLocation(`/units/${item.id}`)}
            />
-        </div>
+        </section>
       </div>
     </DashboardLayout>
   );

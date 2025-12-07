@@ -64,8 +64,8 @@ export default function Tenants() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="grid gap-6 lg:grid-cols-2">
+      <div className="space-y-6 animate-in fade-in duration-500">
+        <div className="grid gap-8 lg:grid-cols-2">
           <HealthHeader 
             title="Tenants Health"
             score={summary.avgScore}
@@ -79,37 +79,57 @@ export default function Tenants() {
           />
         </div>
 
-        <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Diagnostic Overview</h3>
-          <DiagnosticCard 
-            title="Tenants"
-            icon={UserCircle}
-            href="/tenants"
-            healthScore={summary.avgScore}
-            trend={0}
-            stats={[`${summary.totalCount} Active Tenants`, "96% Collection Rate"]}
-            issues={[
-              { text: "12 late payments this month", severity: "warning" },
-              { text: "2 lease violations reported", severity: "warning" }
-            ]}
-            insight={{ label: "Arrears Risk", text: "$2.1k pending" }}
-            primaryAction="Review Delinquencies"
-          />
+        <div className="border-t border-border/40" />
+
+        <section className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-bold text-foreground tracking-tight flex items-center gap-2">
+              <UserCircle className="h-5 w-5 text-primary" />
+              Tenant Vitals
+            </h3>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            <DiagnosticCard 
+              title="Tenants"
+              icon={UserCircle}
+              href="/tenants"
+              healthScore={summary.avgScore}
+              trend={0}
+              stats={[`${summary.totalCount} Active Tenants`, "96% Collection Rate"]}
+              issues={[
+                { text: "12 late payments this month", severity: "warning" },
+                { text: "2 lease violations reported", severity: "warning" }
+              ]}
+              insight={{ label: "Arrears Risk", text: "$2.1k pending" }}
+              primaryAction="Review Delinquencies"
+            />
+          </div>
         </section>
 
-        <HealthTable 
-          title="Tenant Roster"
-          data={tenants || []}
-          onRowClick={(item) => setLocation(`/tenants/${item.id}`)}
-          columns={[
-            { header: "Tenant Name", accessorKey: "name", className: "font-medium text-foreground" },
-            { header: "Unit", accessorKey: "unitId" },
-            { header: "On-Time %", cell: (item) => `${(item.onTimePaymentRate * 100).toFixed(0)}%` },
-            { header: "Open Tickets", accessorKey: "numberOfComplaintsFiled" }, // using complaints as proxy
-            { header: "Last Ticket", cell: () => `${(Math.random() * 10).toFixed(0)} days ago`, className: "text-muted-foreground text-xs" }, // Mock
-            { header: "Renewal Prob", cell: (item) => `${(item.leaseRenewalLikelihood * 100).toFixed(0)}%` },
-          ]}
-        />
+        <div className="border-t border-border/40" />
+
+        <section className="space-y-6">
+           <div className="flex items-center justify-between">
+             <div>
+               <h3 className="text-lg font-bold text-foreground tracking-tight">Tenant Roster</h3>
+               <p className="text-sm text-muted-foreground mt-1">Current residents and lease status</p>
+             </div>
+           </div>
+
+          <HealthTable 
+            title=""
+            data={tenants || []}
+            onRowClick={(item) => setLocation(`/tenants/${item.id}`)}
+            columns={[
+              { header: "Tenant Name", accessorKey: "name", className: "font-medium text-foreground" },
+              { header: "Unit", accessorKey: "unitId" },
+              { header: "On-Time %", cell: (item) => `${(item.onTimePaymentRate * 100).toFixed(0)}%` },
+              { header: "Open Tickets", accessorKey: "numberOfComplaintsFiled" }, // using complaints as proxy
+              { header: "Last Ticket", cell: () => `${(Math.random() * 10).toFixed(0)} days ago`, className: "text-muted-foreground text-xs" }, // Mock
+              { header: "Renewal Prob", cell: (item) => `${(item.leaseRenewalLikelihood * 100).toFixed(0)}%` },
+            ]}
+          />
+        </section>
       </div>
     </DashboardLayout>
   );

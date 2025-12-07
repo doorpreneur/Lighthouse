@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 import { Badge } from "@/components/ui/badge";
+import { Activity } from "lucide-react";
 
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
@@ -71,8 +72,8 @@ export default function Team() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="grid gap-6 lg:grid-cols-2">
+      <div className="space-y-6 animate-in fade-in duration-500">
+        <div className="grid gap-8 lg:grid-cols-2">
           <HealthHeader 
             title="Team Health"
             score={summary.avgScore}
@@ -86,32 +87,50 @@ export default function Team() {
           />
         </div>
 
-        <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
+        <div className="border-t border-border/40" />
+
+        <section className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-bold text-foreground tracking-tight flex items-center gap-2">
+              <Activity className="h-5 w-5 text-primary" />
+              Team Vitals
+            </h3>
+          </div>
           <VitalsGrid items={vitals} />
         </section>
 
-        <HealthTable 
-          title="Team Performance"
-          data={team || []}
-          onRowClick={(item) => setLocation(`/team/${item.id}`)}
-          columns={[
-            { header: "Name", accessorKey: "name", className: "font-medium text-foreground" },
-            { header: "Role", accessorKey: "role" },
-            { header: "Open Tasks", accessorKey: "activeTasksCount" },
-            { header: "Overdue", accessorKey: "overdueTasksCount", cell: (item) => item.overdueTasksCount > 0 ? <span className="text-health-critical font-bold">{item.overdueTasksCount}</span> : "0" },
-            { header: "SLA Adherence", cell: (item) => `${(item.completionRate * 100).toFixed(0)}%` },
-            { 
-              header: "Workload", 
-              cell: (item) => {
-                const load = item.activeTasksCount;
-                return load > 30 ? <Badge variant="destructive">Overloaded</Badge> : 
-                       load > 15 ? <Badge variant="outline" className="border-health-watch text-health-watch">Heavy</Badge> :
-                       <Badge variant="secondary">Balanced</Badge>
-              }
-            },
-          ]}
-        />
+        <div className="border-t border-border/40" />
+
+        <section className="space-y-6">
+           <div className="flex items-center justify-between">
+             <div>
+               <h3 className="text-lg font-bold text-foreground tracking-tight">Team Performance</h3>
+               <p className="text-sm text-muted-foreground mt-1">Individual contributions and workload analysis</p>
+             </div>
+           </div>
+
+          <HealthTable 
+            title=""
+            data={team || []}
+            onRowClick={(item) => setLocation(`/team/${item.id}`)}
+            columns={[
+              { header: "Name", accessorKey: "name", className: "font-medium text-foreground" },
+              { header: "Role", accessorKey: "role" },
+              { header: "Open Tasks", accessorKey: "activeTasksCount" },
+              { header: "Overdue", accessorKey: "overdueTasksCount", cell: (item) => item.overdueTasksCount > 0 ? <span className="text-health-critical font-bold">{item.overdueTasksCount}</span> : "0" },
+              { header: "SLA Adherence", cell: (item) => `${(item.completionRate * 100).toFixed(0)}%` },
+              { 
+                header: "Workload", 
+                cell: (item) => {
+                  const load = item.activeTasksCount;
+                  return load > 30 ? <Badge variant="destructive">Overloaded</Badge> : 
+                         load > 15 ? <Badge variant="outline" className="border-health-watch text-health-watch">Heavy</Badge> :
+                         <Badge variant="secondary">Balanced</Badge>
+                }
+              },
+            ]}
+          />
+        </section>
       </div>
     </DashboardLayout>
   );
