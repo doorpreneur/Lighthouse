@@ -34,7 +34,7 @@ export function UnitLifecycleTimeline({ steps, onStepClick, className }: UnitLif
                 step.status === "current" 
                   ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25 scale-[1.02]" 
                   : step.status === "completed"
-                    ? "bg-primary/10 text-primary hover:bg-primary/20"
+                    ? "bg-health-good/15 text-health-good hover:bg-health-good/25"
                     : "bg-muted/50 text-muted-foreground hover:bg-muted",
               )}
               style={{
