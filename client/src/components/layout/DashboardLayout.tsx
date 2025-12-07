@@ -157,9 +157,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         
         {/* Left: Logo & Toggle */}
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="shrink-0 transition-transform group-hover:scale-105">
-              <img src={logoUrl} alt="Lighthouse Logo" className="h-10 w-10 object-contain mix-blend-screen" />
+          <div className="flex items-center gap-3">
+            <div className="shrink-0">
+              <img src={logoUrl} alt="Lighthouse Logo" className="h-10 w-10 object-contain mix-blend-screen brightness-0 invert" />
             </div>
             <span className="font-display font-bold text-xl tracking-tighter text-white">
               Lighthouse.
