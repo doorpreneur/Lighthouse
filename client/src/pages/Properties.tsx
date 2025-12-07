@@ -44,21 +44,30 @@ export default function Properties() {
       title: "Riverside Apartments",
       description: "Boiler system nearing end of life. Immediate inspection required.",
       severity: "critical",
-      href: "/properties/bld-002"
+      href: "/properties/bld-002",
+      impact: "100 units, Heating risk",
+      timeToResolve: "Urgent",
+      actionLabel: "Dispatch HVAC Specialist"
     },
     {
       id: "2",
       title: "The Old Mill",
       description: "Roof leak reported in North Wing affecting 3 units.",
       severity: "high",
-      href: "/properties/bld-004"
+      href: "/properties/bld-004",
+      impact: "3 units, Water damage risk",
+      timeToResolve: "24h response needed",
+      actionLabel: "Approve Roof Repair"
     },
     {
       id: "3",
       title: "Sunset Villas",
       description: "Landscaping contract renewal overdue.",
       severity: "warning",
-      href: "/properties/bld-003"
+      href: "/properties/bld-003",
+      impact: "Curb appeal",
+      timeToResolve: "Renew by Friday",
+      actionLabel: "Review Landscape Bid"
     }
   ];
 

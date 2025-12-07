@@ -58,21 +58,30 @@ export default function Workflows() {
       title: "Unit Turn Process (Standard)",
       description: "Average duration exceeded SLA by 4 days.",
       severity: "high",
-      href: "/workflows/wf-001"
+      href: "/workflows/wf-001",
+      impact: "Vacancy loss increase",
+      timeToResolve: "Ongoing",
+      actionLabel: "Audit Turn Process"
     },
     {
       id: "2",
       title: "Emergency Repairs",
       description: "Approvals pending for 3 critical tickets.",
       severity: "critical",
-      href: "/workflows/wf-002"
+      href: "/workflows/wf-002",
+      impact: "Safety/Liability",
+      timeToResolve: "Immediate",
+      actionLabel: "Batch Approve Tickets"
     },
     {
       id: "3",
       title: "Lease Renewals",
       description: "Backlog of 12 renewals waiting for review.",
       severity: "warning",
-      href: "/workflows/wf-003"
+      href: "/workflows/wf-003",
+      impact: "Retention risk",
+      timeToResolve: "Clear by Friday",
+      actionLabel: "Review Renewals"
     }
   ];
 

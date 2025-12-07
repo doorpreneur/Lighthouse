@@ -44,21 +44,30 @@ export default function Tenants() {
       title: "Michael Scott",
       description: "3 noise complaints in last 7 days. Violation notice required.",
       severity: "high",
-      href: "/tenants/t-001"
+      href: "/tenants/t-001",
+      impact: "Neighbor satisfaction",
+      timeToResolve: "Issue today",
+      actionLabel: "Send Violation Notice"
     },
     {
       id: "2",
       title: "Pam Beesly",
       description: "Rent payment overdue by 15 days.",
       severity: "critical",
-      href: "/tenants/t-002"
+      href: "/tenants/t-002",
+      impact: "$1,200 Arrears",
+      timeToResolve: "Past due 15d",
+      actionLabel: "Contact Tenant"
     },
     {
       id: "3",
       title: "Dwight Schrute",
       description: "Unauthorized modifications to unit reported.",
       severity: "warning",
-      href: "/tenants/t-003"
+      href: "/tenants/t-003",
+      impact: "Lease violation",
+      timeToResolve: "Inspect this week",
+      actionLabel: "Schedule Inspection"
     }
   ];
 

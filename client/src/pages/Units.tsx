@@ -76,21 +76,30 @@ export default function Units() {
       title: "Unit 102 - Plumbing Failure",
       description: "Active leak reported. Tenant temporarily displaced.",
       severity: "critical",
-      href: "/units/u-102"
+      href: "/units/u-102",
+      impact: "Tenant displaced, Water damage",
+      timeToResolve: "Immediate",
+      actionLabel: "Dispatch Plumber"
     },
     {
       id: "2",
       title: "Unit 405 - HVAC",
       description: "AC unit failure during heatwave. Expedited repair needed.",
       severity: "high",
-      href: "/units/u-405"
+      href: "/units/u-405",
+      impact: "Uninhabitable condition",
+      timeToResolve: "4h SLA",
+      actionLabel: "Approve HVAC Quote"
     },
     {
       id: "3",
       title: "Unit 201 - Mold Risk",
       description: "High humidity levels detected in bathroom sensor.",
       severity: "warning",
-      href: "/units/u-201"
+      href: "/units/u-201",
+      impact: "Health hazard potential",
+      timeToResolve: "Inspect within 48h",
+      actionLabel: "Schedule Inspection"
     }
   ];
 

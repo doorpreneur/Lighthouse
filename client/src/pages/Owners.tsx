@@ -43,21 +43,30 @@ export default function Owners() {
       title: "Acme Properties LLC",
       description: "Portfolio health dropped 15% due to maintenance surge.",
       severity: "critical",
-      href: "/owners/own-001"
+      href: "/owners/own-001",
+      impact: "120 units, $15k revenue risk",
+      timeToResolve: "Immediate attention",
+      actionLabel: "Schedule Owner Call"
     },
     {
       id: "2",
       title: "Summit Holdings",
       description: "Contract renewal pending - 30 days remaining.",
       severity: "high",
-      href: "/owners/own-002"
+      href: "/owners/own-002",
+      impact: "45 units, Contract Expiring",
+      timeToResolve: "30 days left",
+      actionLabel: "Send Renewal Proposal"
     },
     {
       id: "3",
       title: "Westside Management",
       description: "Owner distributions delayed by 5 days.",
       severity: "warning",
-      href: "/owners/own-003"
+      href: "/owners/own-003",
+      impact: "Financial compliance",
+      timeToResolve: "2 days overdue",
+      actionLabel: "Approve Distribution"
     }
   ];
 
