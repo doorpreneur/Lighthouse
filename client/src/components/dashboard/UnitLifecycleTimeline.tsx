@@ -6,6 +6,7 @@ export type TimelineStep = {
   id: string;
   label: string;
   status: "completed" | "current" | "pending";
+  duration?: string;
   detail?: string;
 };
 
@@ -17,35 +18,48 @@ interface UnitLifecycleTimelineProps {
 
 export function UnitLifecycleTimeline({ steps, onStepClick, className }: UnitLifecycleTimelineProps) {
   return (
-    <div className={cn("w-full overflow-x-auto pb-4", className)}>
-      <div className="flex items-center min-w-max">
+    <div className={cn("w-full overflow-x-auto pb-6 pt-2 px-1", className)}>
+      <div className="flex items-center gap-3 min-w-max">
         {steps.map((step, index) => {
+          const isFirst = index === 0;
           const isLast = index === steps.length - 1;
           
           return (
-            <div 
+            <button 
               key={step.id}
               onClick={() => onStepClick?.(step)}
               className={cn(
-                "relative flex items-center h-12 pl-4 pr-8 cursor-pointer transition-all duration-200 group select-none",
-                // Chevron shape using clip-path
-                "first:pl-6", // Extra padding for first item
-                step.status === "completed" && "bg-blue-50 text-blue-700 hover:bg-blue-100",
-                step.status === "current" && "bg-primary text-primary-foreground shadow-md z-10 scale-105 font-bold",
-                step.status === "pending" && "bg-slate-50 text-slate-400 hover:bg-slate-100",
+                "relative flex items-center justify-center h-14 px-8 cursor-pointer transition-all duration-200 group select-none outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2",
+                // Colors
+                step.status === "current" 
+                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25 scale-[1.02]" 
+                  : step.status === "completed"
+                    ? "bg-primary/10 text-primary hover:bg-primary/20"
+                    : "bg-muted/50 text-muted-foreground hover:bg-muted",
               )}
               style={{
-                clipPath: isLast 
-                  ? "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 15px 50%)" // Flat end for last item
-                  : "polygon(0% 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 0% 100%, 15px 50%)", // Chevron for middle items
-                marginLeft: index === 0 ? 0 : "-15px", // Overlap the chevrons
+                clipPath: isFirst
+                  ? "polygon(0% 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 0% 100%)" // Rounded start (via border-radius), point right
+                  : isLast
+                    ? "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 15px 50%)" // Notch left, flat/rounded end
+                    : "polygon(0% 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 0% 100%, 15px 50%)", // Notch left, point right
+                borderRadius: isFirst ? "30px 0 0 30px" : isLast ? "0 30px 30px 0" : "0",
               }}
             >
-              <div className="flex items-center gap-2 whitespace-nowrap">
-                {step.status === "completed" && <Check className="h-3.5 w-3.5" />}
-                <span className="text-sm font-medium">{step.label}</span>
+              <div className="flex flex-col items-center justify-center gap-0.5 z-10">
+                <div className="flex items-center gap-2">
+                  {step.status === "completed" && <Check className="h-3.5 w-3.5" />}
+                  <span className={cn("text-sm font-bold whitespace-nowrap", step.status === "current" ? "text-white" : "")}>
+                    {step.label}
+                  </span>
+                </div>
+                {step.duration && (
+                  <span className={cn("text-[10px] font-medium opacity-80", step.status === "current" ? "text-white/90" : "")}>
+                    {step.duration}
+                  </span>
+                )}
               </div>
-            </div>
+            </button>
           );
         })}
       </div>
