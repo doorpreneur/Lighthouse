@@ -100,6 +100,11 @@ export default function Workflows() {
           />
         </div>
 
+        <section>
+          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
+          <VitalsGrid items={vitals} />
+        </section>
+
         {/* Unit Lifecycle Timeline Section */}
         <section className="bg-white rounded-2xl p-6 shadow-soft border border-border/50">
           <div className="flex items-center justify-between mb-6">
@@ -135,11 +140,6 @@ export default function Workflows() {
               </div>
             </div>
           </div>
-        </section>
-
-        <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
-          <VitalsGrid items={vitals} />
         </section>
 
         <HealthTable 
