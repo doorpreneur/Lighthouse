@@ -25,21 +25,16 @@ export default function Workflows() {
 
   // Mock timeline data
   const timelineSteps = [
-    { id: "vacant", label: "Vacant", status: "completed" },
-    { id: "move-in-prev", label: "Move In", status: "completed" },
-    { id: "tenant-living", label: "Tenant Living", status: "completed" },
     { id: "pre-move-out", label: "Pre-Move Out Insp", status: "completed" },
     { id: "move-out", label: "Move Out", status: "completed" },
     { id: "move-out-insp", label: "Move Out Insp", status: "current" },
     { id: "punch-list", label: "Punch List", status: "pending" },
     { id: "maintenance", label: "Maintenance", status: "pending" },
     { id: "cleaning", label: "Cleaning", status: "pending" },
-    { id: "showings", label: "Showings", status: "pending" },
-    { id: "applications", label: "Applications", status: "pending" },
-    { id: "move-in-next", label: "Move In", status: "pending" },
+    { id: "rent-ready", label: "Rent Ready", status: "pending" },
   ] as const;
 
-  const [activeStep, setActiveStep] = useState(timelineSteps[5]); // Default to current
+  const [activeStep, setActiveStep] = useState(timelineSteps[2]); // Default to current
 
   if (isLoading || !business) {
     return (
