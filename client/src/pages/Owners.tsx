@@ -11,7 +11,6 @@ import { useLocation } from "wouter";
 
 export default function Owners() {
   const [, setLocation] = useLocation();
-  // ... existing queries ...
   const { data: business } = useQuery({
     queryKey: ["businessHealth"],
     queryFn: api.getBusinessHealth
@@ -23,7 +22,6 @@ export default function Owners() {
   });
 
   if (isLoading || !business) {
-    // ... existing skeleton ...
     return (
       <DashboardLayout>
         <div className="space-y-6">
@@ -65,8 +63,8 @@ export default function Owners() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="grid gap-6 lg:grid-cols-2">
+      <div className="space-y-12 animate-in fade-in duration-500">
+        <div className="grid gap-8 lg:grid-cols-2">
           <HealthHeader 
             title="Owners Health"
             score={summary.avgScore}
@@ -80,9 +78,17 @@ export default function Owners() {
           />
         </div>
 
-        <section>
-          <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
-          <div className="grid gap-6 md:grid-cols-2">
+        <div className="border-t border-border/40" />
+
+        <section className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-bold text-foreground tracking-tight flex items-center gap-2">
+              <Activity className="h-5 w-5 text-primary" />
+              Performance Vitals
+            </h3>
+          </div>
+          
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             <DiagnosticCard 
               title="Portfolio Scale"
               icon={Users}
@@ -145,20 +151,30 @@ export default function Owners() {
           </div>
         </section>
 
-        <HealthTable 
-          title="Owner Directory"
-          // ... rest of table ...
-          data={owners || []}
-          onRowClick={(item) => setLocation(`/owners/${item.id}`)}
-          columns={[
-            { header: "Owner Name", accessorKey: "name", className: "font-medium text-foreground" },
-            { header: "Units", accessorKey: "unitsCount" },
-            { header: "Avg Cashflow", cell: () => `$${(Math.random() * 5000 + 2000).toFixed(0)}`, className: "font-mono" }, // Mock
-            { header: "Maint/Unit", cell: (item) => `$${item.maintenanceSpendPerUnit}`, className: "font-mono" },
-            { header: "Vacancy", cell: (item) => `${((1 - item.occupancyRate) * 100).toFixed(1)}%` },
-            { header: "Risk Label", accessorKey: "riskLevel", cell: (item) => <span className="capitalize text-muted-foreground">{item.riskLevel}</span> },
-          ]}
-        />
+        <div className="border-t border-border/40" />
+
+        <section className="space-y-6">
+           <div className="flex items-center justify-between">
+             <div>
+               <h3 className="text-lg font-bold text-foreground tracking-tight">Owner Directory</h3>
+               <p className="text-sm text-muted-foreground mt-1">Manage and monitor individual owner performance</p>
+             </div>
+           </div>
+
+          <HealthTable 
+            title=""
+            data={owners || []}
+            onRowClick={(item) => setLocation(`/owners/${item.id}`)}
+            columns={[
+              { header: "Owner Name", accessorKey: "name", className: "font-medium text-foreground" },
+              { header: "Units", accessorKey: "unitsCount" },
+              { header: "Avg Cashflow", cell: () => `$${(Math.random() * 5000 + 2000).toFixed(0)}`, className: "font-mono" }, // Mock
+              { header: "Maint/Unit", cell: (item) => `$${item.maintenanceSpendPerUnit}`, className: "font-mono" },
+              { header: "Vacancy", cell: (item) => `${((1 - item.occupancyRate) * 100).toFixed(1)}%` },
+              { header: "Risk Label", accessorKey: "riskLevel", cell: (item) => <span className="capitalize text-muted-foreground">{item.riskLevel}</span> },
+            ]}
+          />
+        </section>
       </div>
     </DashboardLayout>
   );
