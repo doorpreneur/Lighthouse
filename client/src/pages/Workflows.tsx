@@ -9,6 +9,9 @@ import { Badge } from "@/components/ui/badge";
 
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 
+import { UnitLifecycleTimeline } from "@/components/dashboard/UnitLifecycleTimeline";
+import { useState } from "react";
+
 export default function Workflows() {
   const { data: business } = useQuery({
     queryKey: ["businessHealth"],
@@ -19,6 +22,24 @@ export default function Workflows() {
     queryKey: ["workflows"],
     queryFn: api.getWorkflows
   });
+
+  // Mock timeline data
+  const timelineSteps = [
+    { id: "vacant", label: "Vacant", status: "completed" },
+    { id: "move-in-prev", label: "Move In", status: "completed" },
+    { id: "tenant-living", label: "Tenant Living", status: "completed" },
+    { id: "pre-move-out", label: "Pre-Move Out Insp", status: "completed" },
+    { id: "move-out", label: "Move Out", status: "completed" },
+    { id: "move-out-insp", label: "Move Out Insp", status: "current" },
+    { id: "punch-list", label: "Punch List", status: "pending" },
+    { id: "maintenance", label: "Maintenance", status: "pending" },
+    { id: "cleaning", label: "Cleaning", status: "pending" },
+    { id: "showings", label: "Showings", status: "pending" },
+    { id: "applications", label: "Applications", status: "pending" },
+    { id: "move-in-next", label: "Move In", status: "pending" },
+  ] as const;
+
+  const [activeStep, setActiveStep] = useState(timelineSteps[5]); // Default to current
 
   if (isLoading || !business) {
     return (
@@ -83,6 +104,43 @@ export default function Workflows() {
             alerts={priorityAlerts} 
           />
         </div>
+
+        {/* Unit Lifecycle Timeline Section */}
+        <section className="bg-white rounded-2xl p-6 shadow-soft border border-border/50">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className="text-lg font-bold text-foreground">Unit Lifecycle Tracker</h3>
+              <p className="text-sm text-muted-foreground">Live view of Unit 402 turnover process</p>
+            </div>
+            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+              Status: {activeStep.label}
+            </Badge>
+          </div>
+          
+          <UnitLifecycleTimeline 
+            steps={timelineSteps} 
+            onStepClick={setActiveStep}
+            className="mb-6"
+          />
+
+          <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+            <h4 className="text-sm font-bold text-slate-900 mb-2">Step Details: {activeStep.label}</h4>
+            <div className="grid grid-cols-3 gap-4 text-sm">
+              <div>
+                <span className="block text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">Responsible</span>
+                <span className="font-medium">Maintenance Team</span>
+              </div>
+              <div>
+                <span className="block text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">Duration</span>
+                <span className="font-medium">2 Days (Est)</span>
+              </div>
+              <div>
+                <span className="block text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">Status</span>
+                <span className="font-medium capitalize">{activeStep.status}</span>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section>
           <h3 className="text-sm font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Key Vitals</h3>
