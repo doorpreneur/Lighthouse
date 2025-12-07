@@ -86,10 +86,11 @@ export default function Team() {
   ];
 
   const vitals: VitalItem[] = [
-    { label: "Team Size", value: summary.totalCount, status: "neutral" },
-    { label: "Task Completion", value: "94%", target: "90%", status: "healthy" },
-    { label: "Overdue Tasks", value: "12", target: "0", status: "watch" },
-    { label: "Burnout Risk", value: "High", target: "Low", status: "critical" },
+    { label: "Response Time", value: "1.2h", target: "< 2h", status: "healthy" },
+    { label: "Escalation Rate", value: "5%", target: "< 3%", status: "watch" },
+    { label: "Workload Balance", value: "85%", target: "Balanced", status: "healthy" },
+    { label: "Capacity Available", value: "15 Tasks", target: "> 10", status: "neutral" },
+    { label: "Satisfaction Score", value: "4.2/5", target: "4.5", status: "watch" },
   ];
 
   return (
