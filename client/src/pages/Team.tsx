@@ -92,12 +92,25 @@ export default function Team() {
             score={summary.avgScore}
             trend={-2.1}
             trendLabel="vs last month"
-            summary="Overall performance is strong, but high task loads are increasing burnout risk for key leasing agents."
+            summary="Peter Silberman has 8 overdue tasks and 60% SLA. Reassign 5 tasks to Sarah Connor (95% SLA, balanced workload) by EOD."
           />
           <PriorityAttentionCard 
             criticalCount={4} 
             alerts={priorityAlerts} 
           />
+        </div>
+
+        {/* Impact Analysis / Forecast Section */}
+        <div className="bg-amber-50/50 border border-amber-200 rounded-xl p-4 flex gap-4 items-start animate-in fade-in slide-in-from-top-2">
+          <div className="p-2 bg-amber-100 rounded-lg shrink-0">
+             <Activity className="h-5 w-5 text-amber-700" />
+          </div>
+          <div>
+            <h4 className="text-sm font-bold text-amber-900 mb-1">Impact Forecast</h4>
+            <p className="text-sm text-amber-800/90 leading-relaxed">
+              If Miles Dyson doesn't clear 10 tasks this week, his health will drop to <span className="font-bold text-amber-950">critical</span> and impact <span className="font-bold text-amber-950">12 buildings</span>.
+            </p>
+          </div>
         </div>
 
         <div className="border-t border-border/40" />
