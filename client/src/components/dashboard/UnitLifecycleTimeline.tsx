@@ -1,6 +1,16 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-import { Check } from "lucide-react";
+import { 
+  Check, 
+  ClipboardCheck, 
+  Truck, 
+  Search, 
+  Hammer, 
+  Paintbrush, 
+  Sparkles, 
+  Key,
+  Clock
+} from "lucide-react";
 
 export type TimelineStep = {
   id: string;
@@ -16,50 +26,84 @@ interface UnitLifecycleTimelineProps {
   className?: string;
 }
 
+const getStepIcon = (id: string) => {
+  switch (id) {
+    case "pre-move-out": return ClipboardCheck;
+    case "move-out": return Truck;
+    case "move-out-insp": return Search;
+    case "punch-list": return Hammer;
+    case "maintenance": return Paintbrush;
+    case "cleaning": return Sparkles;
+    case "rent-ready": return Key;
+    default: return Clock;
+  }
+};
+
 export function UnitLifecycleTimeline({ steps, onStepClick, className }: UnitLifecycleTimelineProps) {
   return (
-    <div className={cn("w-full overflow-x-auto pb-6 pt-2 px-1", className)}>
-      <div className="flex items-center gap-3 min-w-max">
+    <div className={cn("w-full overflow-x-auto py-8 px-4", className)}>
+      <div className="relative min-w-[800px] flex justify-between items-start">
+        {/* Horizontal Connecting Line - Dashed */}
+        <div className="absolute top-[106px] left-0 w-full h-px border-t-2 border-dashed border-slate-200 -z-10" />
+
         {steps.map((step, index) => {
-          const isFirst = index === 0;
-          const isLast = index === steps.length - 1;
+          const Icon = getStepIcon(step.id);
+          const isCompleted = step.status === "completed";
+          const isCurrent = step.status === "current";
           
           return (
-            <button 
+            <div 
               key={step.id}
               onClick={() => onStepClick?.(step)}
-              className={cn(
-                "relative flex items-center justify-center h-14 px-8 cursor-pointer transition-all duration-200 group select-none outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2",
-                // Colors
-                step.status === "current" 
-                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25 scale-[1.02]" 
-                  : step.status === "completed"
-                    ? "bg-health-good/15 text-health-good hover:bg-health-good/25"
-                    : "bg-muted/50 text-muted-foreground hover:bg-muted",
-              )}
-              style={{
-                clipPath: isFirst
-                  ? "polygon(0% 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 0% 100%)" // Rounded start (via border-radius), point right
-                  : isLast
-                    ? "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 15px 50%)" // Notch left, flat/rounded end
-                    : "polygon(0% 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 0% 100%, 15px 50%)", // Notch left, point right
-                borderRadius: isFirst ? "30px 0 0 30px" : isLast ? "0 30px 30px 0" : "0",
-              }}
+              className="group flex flex-col items-center cursor-pointer relative"
+              style={{ width: `${100 / steps.length}%` }}
             >
-              <div className="flex flex-col items-center justify-center gap-0.5 z-10">
-                <div className="flex items-center gap-2">
-                  {step.status === "completed" && <Check className="h-3.5 w-3.5" />}
-                  <span className={cn("text-sm font-bold whitespace-nowrap", step.status === "current" ? "text-white" : "")}>
-                    {step.label}
-                  </span>
-                </div>
+              {/* 1. Large Circular Pin */}
+              <div className={cn(
+                "relative flex items-center justify-center w-20 h-20 rounded-full border-[6px] bg-white transition-all duration-300 shadow-sm group-hover:-translate-y-1",
+                isCompleted ? "border-health-good text-health-good" : 
+                isCurrent ? "border-primary text-primary shadow-lg shadow-primary/20 scale-110" : 
+                "border-slate-200 text-slate-300 hover:border-slate-300"
+              )}>
+                <Icon className="w-8 h-8" strokeWidth={2} />
+                
+                {/* Triangle Pointer at bottom of circle */}
+                <div className={cn(
+                  "absolute -bottom-[14px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[12px]",
+                  isCompleted ? "border-t-health-good" : 
+                  isCurrent ? "border-t-primary" : 
+                  "border-t-slate-200 group-hover:border-t-slate-300"
+                )} />
+              </div>
+
+              {/* 2. Small Dot on the Line */}
+              <div className={cn(
+                "mt-6 w-4 h-4 rounded-full border-2 bg-white z-10 transition-colors duration-300",
+                isCompleted ? "border-health-good bg-health-good" : 
+                isCurrent ? "border-primary bg-primary ring-4 ring-primary/20" : 
+                "border-slate-300 bg-slate-100"
+              )} />
+
+              {/* 3. Vertical Dashed Line Connector */}
+              <div className="h-8 w-px border-l border-dashed border-slate-300 my-1" />
+
+              {/* 4. Text Content */}
+              <div className="text-center">
+                <h4 className={cn(
+                  "text-sm font-bold mb-1 transition-colors",
+                  isCompleted ? "text-health-good" : 
+                  isCurrent ? "text-primary scale-105" : 
+                  "text-slate-500"
+                )}>
+                  {step.label}
+                </h4>
                 {step.duration && (
-                  <span className={cn("text-[10px] font-medium opacity-80", step.status === "current" ? "text-white/90" : "")}>
+                  <span className="text-[10px] font-medium text-slate-400 block">
                     {step.duration}
                   </span>
                 )}
               </div>
-            </button>
+            </div>
           );
         })}
       </div>
