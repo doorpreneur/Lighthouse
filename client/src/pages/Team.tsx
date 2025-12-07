@@ -58,21 +58,30 @@ export default function Team() {
       title: "Sarah Connor",
       description: "Task overload detected. 15 overdue items.",
       severity: "critical",
-      href: "/team/tm-001"
+      href: "/team/tm-001",
+      impact: "8 owners, 23 units",
+      timeToResolve: "~2 hours to clear backlog",
+      actionLabel: "Reassign 5 tasks"
     },
     {
       id: "2",
       title: "John Doe",
       description: "Missed 3 critical deadlines this week.",
       severity: "high",
-      href: "/team/tm-002"
+      href: "/team/tm-002",
+      impact: "3 compliance workflows",
+      timeToResolve: "Immediate action needed",
+      actionLabel: "Schedule 1:1 Review"
     },
     {
       id: "3",
       title: "Operations Team",
       description: "Staff shortage in maintenance division.",
       severity: "warning",
-      href: "/team/tm-003"
+      href: "/team/tm-003",
+      impact: "Avg response time +4h",
+      timeToResolve: "Hiring pending (2 weeks)",
+      actionLabel: "Approve temporary contractor"
     }
   ];
 
