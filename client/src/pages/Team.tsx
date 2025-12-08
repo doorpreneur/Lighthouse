@@ -7,7 +7,7 @@ import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 import { Badge } from "@/components/ui/badge";
 import { Activity, TrendingUp, TrendingDown, Minus, CheckCircle, AlertTriangle, AlertOctagon, Sun, Sparkles, BarChart3, ArrowRight } from "lucide-react";
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell, CartesianGrid } from "recharts";
 
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
@@ -96,10 +96,17 @@ const CapacityChart = ({ data }: { data: any[] }) => {
     <div className="h-[300px] w-full mt-4">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
           <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12 }} dy={10} />
-          <YAxis hide />
+          <YAxis 
+            hide={false} 
+            axisLine={false} 
+            tickLine={false} 
+            tick={{ fontSize: 12, fill: "#6b7280" }} 
+            domain={[0, 'auto']}
+          />
           <Tooltip 
-            cursor={{ fill: 'transparent' }}
+            cursor={{ fill: '#f3f4f6' }}
             content={({ active, payload }) => {
               if (active && payload && payload.length) {
                 return (
