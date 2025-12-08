@@ -11,6 +11,7 @@ interface HealthHeaderProps {
   trendLabel?: string;
   summary: string;
   targetScore?: number;
+  variant?: "card" | "stage";
 }
 
 export function HealthHeader({ 
@@ -19,7 +20,8 @@ export function HealthHeader({
   trend, 
   trendLabel = "vs last month",
   summary,
-  targetScore = 90
+  targetScore = 90,
+  variant = "card"
 }: HealthHeaderProps) {
   const isPositive = trend > 0;
   const isNeutral = trend === 0;
@@ -44,25 +46,34 @@ export function HealthHeader({
     return { month: monthLabel, value: Math.round(value) };
   });
 
+  const Wrapper = variant === "card" ? Card : "div";
+  const wrapperClasses = variant === "card" 
+    ? "border-0 shadow-soft card-gradient h-full min-h-[400px] overflow-hidden relative flex flex-col"
+    : "h-full min-h-[400px] relative flex flex-col overflow-hidden";
+
+  const headerClasses = variant === "card"
+    ? "pb-4 border-b border-border/50 bg-white/50 backdrop-blur-sm z-10 relative shrink-0"
+    : "pb-4 z-10 relative shrink-0";
+
   return (
-    <Card className="border-0 shadow-soft card-gradient h-full min-h-[400px] overflow-hidden relative flex flex-col">
-      <CardHeader className="pb-4 border-b border-border/50 bg-white/50 backdrop-blur-sm z-10 relative shrink-0">
+    <Wrapper className={wrapperClasses}>
+      <div className={cn("p-6 pb-0", headerClasses)}>
         <div className="flex items-start justify-between gap-4">
            <div className="space-y-1">
-             <CardTitle className="text-xl font-display font-bold tracking-tight text-foreground">
+             <h3 className="text-xl font-display font-bold tracking-tight text-foreground">
                 {title}
-             </CardTitle>
+             </h3>
              <p className="text-muted-foreground text-sm leading-relaxed max-w-lg">
                {summary}
              </p>
            </div>
            <HealthBadge score={score} size="sm" showLabel={false} />
         </div>
-      </CardHeader>
+      </div>
       
-      <CardContent className="p-6 relative z-10 flex-1 flex flex-col justify-between">
+      <div className="p-6 pt-4 relative z-10 flex-1 flex flex-col justify-between">
         <div className="flex items-baseline gap-4 mb-8">
-           <span className="text-8xl font-display font-bold tracking-tighter text-foreground">
+           <span className={cn("font-display font-bold tracking-tighter text-foreground", variant === "stage" ? "text-9xl" : "text-8xl")}>
              {score}
            </span>
            <div className="flex flex-col pb-2">
@@ -83,16 +94,16 @@ export function HealthHeader({
            </div>
         </div>
 
-        <div className="h-[180px] w-full mt-auto">
+        <div className="h-[220px] w-full mt-auto -mx-4">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <AreaChart data={data} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="hsl(221, 83%, 53%)" stopOpacity={0.2}/>
                   <stop offset="95%" stopColor="hsl(221, 83%, 53%)" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.5} />
+              {variant === "card" && <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.5} />}
               <XAxis 
                 dataKey="month" 
                 axisLine={false} 
@@ -100,13 +111,15 @@ export function HealthHeader({
                 tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
                 dy={10}
               />
-              <YAxis 
-                domain={[0, 100]} 
-                axisLine={false} 
-                tickLine={false} 
-                tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
-                ticks={[0, 25, 50, 75, 100]}
-              />
+              {variant === "card" && (
+                <YAxis 
+                  domain={[0, 100]} 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+                  ticks={[0, 25, 50, 75, 100]}
+                />
+              )}
               <ReferenceLine 
                 y={targetScore} 
                 stroke="hsl(var(--primary))" 
@@ -124,7 +137,7 @@ export function HealthHeader({
                 type="monotone" 
                 dataKey="value" 
                 stroke="hsl(221, 83%, 53%)" 
-                strokeWidth={3}
+                strokeWidth={4}
                 fillOpacity={1} 
                 fill="url(#scoreGradient)" 
                 isAnimationActive={true}
@@ -133,10 +146,10 @@ export function HealthHeader({
             </AreaChart>
           </ResponsiveContainer>
         </div>
-      </CardContent>
+      </div>
       
       {/* Decorative background elements */}
       <div className="absolute right-0 top-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-    </Card>
+    </Wrapper>
   );
 }
