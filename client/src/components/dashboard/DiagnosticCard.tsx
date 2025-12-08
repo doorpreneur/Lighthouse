@@ -36,6 +36,7 @@ interface DiagnosticCardProps {
   href: string;
   className?: string;
   variant?: 'default' | 'wide';
+  highlighted?: boolean;
   members?: Member[];
 }
 
@@ -52,6 +53,7 @@ export function DiagnosticCard({
   href,
   className,
   variant = 'default',
+  highlighted = false,
   members
 }: DiagnosticCardProps) {
   
@@ -68,10 +70,21 @@ export function DiagnosticCard({
   };
 
   if (variant === 'wide') {
+    const cardClasses = cn(
+      "flex flex-col md:flex-row h-full overflow-hidden transition-all duration-200",
+      highlighted 
+        ? "bg-blue-50/50 border-0 shadow-none" 
+        : "border-0 shadow-sm hover:shadow-md bg-card",
+      className
+    );
+
+    const panelClasses = highlighted ? "bg-transparent" : "bg-slate-50/30";
+    const whitePanelClasses = highlighted ? "bg-white/60" : "bg-white";
+
     return (
-      <Card className={cn("flex flex-col md:flex-row h-full overflow-hidden border-0 shadow-sm hover:shadow-md transition-all duration-200", className)}>
+      <Card className={cardClasses}>
         {/* Left Panel: Header & Score */}
-        <div className="md:w-1/4 p-6 border-b md:border-b-0 md:border-r bg-slate-50/30 flex flex-col justify-between">
+        <div className={cn("md:w-1/4 p-6 border-b md:border-b-0 md:border-r flex flex-col justify-between", panelClasses, highlighted ? "border-blue-100" : "")}>
           <div>
             <div className="flex items-center gap-2 text-muted-foreground mb-4">
               <Icon className="h-5 w-5" />
@@ -93,12 +106,12 @@ export function DiagnosticCard({
         </div>
 
         {/* Middle Panel: Stats & Issues */}
-        <div className="flex-1 p-6 grid md:grid-cols-2 gap-6 border-b md:border-b-0 md:border-r">
+        <div className={cn("flex-1 p-6 grid md:grid-cols-2 gap-6 border-b md:border-b-0 md:border-r", highlighted ? "border-blue-100" : "")}>
           <div className="space-y-4">
             <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wide">Key Metrics</h4>
             <div className="space-y-2">
               {stats.map((stat, idx) => (
-                <div key={idx} className="flex items-center gap-3 p-2 rounded-lg bg-slate-50">
+                <div key={idx} className={cn("flex items-center gap-3 p-2 rounded-lg", highlighted ? "bg-white/60" : "bg-slate-50")}>
                   <div className="h-1.5 w-1.5 rounded-full bg-slate-400" />
                   <span className="text-sm font-medium text-slate-700">{stat}</span>
                 </div>
@@ -113,7 +126,7 @@ export function DiagnosticCard({
             </h4>
             <div className="space-y-2">
               {issues.map((issue, idx) => (
-                <div key={idx} className="flex items-start gap-2 text-sm p-2 rounded-lg bg-red-50/50 border border-red-100/50">
+                <div key={idx} className={cn("flex items-start gap-2 text-sm p-2 rounded-lg border", highlighted ? "bg-white/60 border-transparent" : "bg-red-50/50 border-red-100/50")}>
                   {issue.severity === 'critical' ? (
                     <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0" />
                   ) : (
@@ -127,9 +140,9 @@ export function DiagnosticCard({
         </div>
 
         {/* Right Panel: Insight & Actions */}
-        <div className="md:w-1/4 p-6 flex flex-col bg-slate-50/30">
+        <div className={cn("md:w-1/4 p-6 flex flex-col", panelClasses)}>
           {insight && (
-            <div className="mb-6 p-4 rounded-xl bg-white border border-slate-100 shadow-sm">
+            <div className={cn("mb-6 p-4 rounded-xl border shadow-sm", whitePanelClasses, highlighted ? "border-transparent" : "border-slate-100")}>
               <div className="text-xs font-medium text-muted-foreground mb-1">{insight.label}</div>
               <div className="font-bold text-slate-900 text-lg leading-tight">{insight.text}</div>
               {insight.value && (

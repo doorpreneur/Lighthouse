@@ -182,7 +182,7 @@ export default function Dashboard() {
         </div>
 
         {/* Diagnostic Cards Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-col gap-6">
           <DiagnosticCard 
             title="Owners"
             icon={Users}
@@ -197,7 +197,7 @@ export default function Dashboard() {
             ]}
             insight={{ label: "Top Performer", text: "Smith Holdings (+12% ROI)", value: "$2.4M AUM" }}
             primaryAction="Review At-Risk Owners"
-            className="col-span-full"
+            className="w-full"
             variant="wide"
           />
 
@@ -207,13 +207,16 @@ export default function Dashboard() {
             href="/properties"
             healthScore={92}
             trend={1}
-            stats={["50 Properties | 248 Units", "94% Occupancy Rate"]}
+            stats={["50 Properties | 248 Units", "94% Occupancy Rate", "Avg Unit Age: 12 Years", "CapEx Budget: On Track"]}
             issues={[
               { text: "2 critical safety inspections overdue", severity: "critical" },
               { text: "5 properties with HVAC alerts", severity: "warning" }
             ]}
             insight={{ label: "Needs Attention", text: "Sunset Blvd Apts (Low Occ)" }}
             primaryAction="View Critical Properties"
+            className="w-full"
+            variant="wide"
+            highlighted={true}
           />
 
           <DiagnosticCard 
@@ -222,13 +225,15 @@ export default function Dashboard() {
             href="/units"
             healthScore={85}
             trend={3}
-            stats={["248 Total | 233 Occupied (94%)", "15 Vacant Units"]}
+            stats={["248 Total | 233 Occupied (94%)", "15 Vacant Units", "Avg Days Vacant: 14", "Turnover Rate: 5%"]}
             issues={[
               { text: "8 units offline for >30 days", severity: "critical" },
               { text: "3 active leaks reported", severity: "critical" }
             ]}
             insight={{ label: "Est. Vacancy Loss", text: "$4.2k/mo impact" }}
             primaryAction="View Vacant Units"
+            className="w-full"
+            variant="wide"
           />
 
           <DiagnosticCard 
@@ -237,13 +242,16 @@ export default function Dashboard() {
             href="/tenants"
             healthScore={96}
             trend={0}
-            stats={["233 Active Tenants", "96% Collection Rate"]}
+            stats={["233 Active Tenants", "96% Collection Rate", "NPS Score: 42", "Lease Renewal Rate: 78%"]}
             issues={[
               { text: "12 late payments this month", severity: "warning" },
               { text: "2 lease violations reported", severity: "warning" }
             ]}
             insight={{ label: "Arrears Risk", text: "$2.1k pending" }}
             primaryAction="Review Delinquencies"
+            className="w-full"
+            variant="wide"
+            highlighted={true}
           />
 
           <DiagnosticCard 
@@ -252,13 +260,15 @@ export default function Dashboard() {
             href="/workflows"
             healthScore={78}
             trend={-4}
-            stats={["Active Tasks: 47", "Overdue: 12 | Urgent: 8"]}
+            stats={["Active Tasks: 47", "Overdue: 12 | Urgent: 8", "Avg Resolution Time: 3.2 Days", "Vendor Satisfaction: 4.5/5"]}
             issues={[
               { text: "Maintenance backlog growing", severity: "critical" },
               { text: "3 urgent approvals pending", severity: "critical" }
             ]}
             insight={{ label: "Main Bottleneck", text: "Plumbing Vendor (Avg 5d)" }}
             primaryAction="Clear Backlog"
+            className="w-full"
+            variant="wide"
           />
 
           <DiagnosticCard 
@@ -274,6 +284,9 @@ export default function Dashboard() {
             ]}
             insight={{ label: "Top Closer", text: "Sarah J. (100% rate)" }}
             primaryAction="Balance Workloads"
+            className="w-full"
+            variant="wide"
+            highlighted={true}
             members={[
               { name: "Sarah Jenkins", initials: "SJ" },
               { name: "Mike Ross", initials: "MR" },
