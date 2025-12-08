@@ -98,20 +98,20 @@ export default function Dashboard() {
           </div>
 
           {/* Priority Attention */}
-          <Card className="border-0 shadow-soft card-gradient flex flex-col h-full">
-            <CardHeader className="pb-3 border-b border-border/50 bg-white/50 backdrop-blur-sm">
+          <Card className="border-0 shadow-xl shadow-red-500/10 flex flex-col sticky top-6 max-h-[calc(100vh-3rem)] bg-[#FFF5F5]">
+            <CardHeader className="pb-3 border-b border-red-100 bg-white/30 backdrop-blur-sm">
               <CardTitle className="text-lg font-bold flex items-center gap-2 text-foreground">
-                <div className="p-2 rounded-lg bg-orange-100 text-orange-600">
+                <div className="p-2 rounded-lg bg-white shadow-sm text-red-600 ring-1 ring-red-100">
                   <AlertTriangle className="h-5 w-5" />
                 </div>
                 Priority Attention
               </CardTitle>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-red-900/70 mt-1">
                 {totalCritical} critical issues require action
               </p>
             </CardHeader>
             
-            <div className="overflow-y-auto flex-1 p-2 space-y-2 max-h-[300px] lg:max-h-none">
+            <div className="overflow-y-auto flex-1 p-2 space-y-2">
               {/* Critical Unit Alert */}
               <Link href="/units/u-102">
                 <div className="p-3 rounded-xl bg-white border border-border/50 hover:border-primary/30 hover:shadow-md transition-all cursor-pointer group relative overflow-hidden">
