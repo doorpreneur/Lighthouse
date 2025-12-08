@@ -19,6 +19,7 @@ import Insights from "@/pages/Insights";
 import Reports from "@/pages/Reports";
 import Integrations from "@/pages/Integrations";
 import Settings from "@/pages/Settings";
+import Automations from "@/pages/Automations";
 
 import OwnerDetail from "@/pages/OwnerDetail";
 
@@ -43,6 +44,7 @@ function Router() {
       <Route path="/insights" component={Insights} />
       <Route path="/reports" component={Reports} />
       <Route path="/integrations" component={Integrations} />
+      <Route path="/automations" component={Automations} />
       <Route path="/settings" component={Settings} />
       <Route component={NotFound} />
     </Switch>

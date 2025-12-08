@@ -22,7 +22,8 @@ import {
   TrendingUp,
   FileText,
   Link as LinkIcon,
-  AlertTriangle
+  AlertTriangle,
+  Zap
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -69,6 +70,7 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { label: "Alerts & Prescriptions", icon: AlertTriangle, href: "/alerts" },
       { label: "Insights", icon: TrendingUp, href: "/insights" },
+      { label: "Automations", icon: Zap, href: "/automations" },
     ]
   },
   {
