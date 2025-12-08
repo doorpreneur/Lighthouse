@@ -6,7 +6,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 import { Badge } from "@/components/ui/badge";
-import { Activity, TrendingUp, TrendingDown, Minus, CheckCircle, AlertTriangle, AlertOctagon } from "lucide-react";
+import { Activity, TrendingUp, TrendingDown, Minus, CheckCircle, AlertTriangle, AlertOctagon, Sun, Sparkles, BarChart3, ArrowRight } from "lucide-react";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell } from "recharts";
 
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
@@ -48,6 +49,80 @@ const TrendIndicator = ({ trend, label }: { trend: "up" | "down" | "stable", lab
         {trend === "stable" && <Minus className="h-3.5 w-3.5 text-muted-foreground" />}
         <span className="text-xs text-muted-foreground">{label}</span>
       </div>
+    </div>
+  );
+};
+
+const DailyFocus = () => (
+  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-6 shadow-sm mb-8 animate-in slide-in-from-top-4 duration-700">
+    <div className="flex items-center gap-2 mb-4">
+      <Sun className="h-5 w-5 text-orange-500 fill-orange-500 animate-pulse" />
+      <h2 className="text-sm font-bold tracking-widest text-blue-900 uppercase">Today's Focus</h2>
+    </div>
+    <div className="grid md:grid-cols-3 gap-6">
+      <div className="flex gap-3 items-start">
+        <div className="bg-white p-2 rounded-lg shadow-sm border border-blue-100 text-blue-600 font-bold text-lg h-10 w-10 flex items-center justify-center shrink-0">1</div>
+        <div>
+          <h3 className="font-bold text-blue-950 mb-1">Clear Maintenance Backlog</h3>
+          <p className="text-sm text-blue-800/80 leading-snug">Review 5 pending approvals for HVAC repairs before noon.</p>
+        </div>
+      </div>
+      <div className="flex gap-3 items-start">
+        <div className="bg-white p-2 rounded-lg shadow-sm border border-blue-100 text-blue-600 font-bold text-lg h-10 w-10 flex items-center justify-center shrink-0">2</div>
+        <div>
+          <h3 className="font-bold text-blue-950 mb-1">Onboard New Leases</h3>
+          <p className="text-sm text-blue-800/80 leading-snug">Finalize move-in checklist for Units 304 and 102.</p>
+        </div>
+      </div>
+      <div className="flex gap-3 items-start">
+        <div className="bg-white p-2 rounded-lg shadow-sm border border-blue-100 text-blue-600 font-bold text-lg h-10 w-10 flex items-center justify-center shrink-0">3</div>
+        <div>
+          <h3 className="font-bold text-blue-950 mb-1">Team Sync</h3>
+          <p className="text-sm text-blue-800/80 leading-snug">Discuss workload rebalancing with Sarah and Kyle.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const CapacityChart = ({ data }: { data: any[] }) => {
+  const chartData = data.map(d => ({
+    name: d.name.split(' ')[0],
+    tasks: d.activeTasksCount,
+    capacity: 35 // Mock capacity limit
+  }));
+
+  return (
+    <div className="h-[300px] w-full mt-4">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12 }} dy={10} />
+          <YAxis hide />
+          <Tooltip 
+            cursor={{ fill: 'transparent' }}
+            content={({ active, payload }) => {
+              if (active && payload && payload.length) {
+                return (
+                  <div className="bg-white p-3 border rounded-lg shadow-lg text-xs">
+                    <p className="font-bold mb-1">{payload[0].payload.name}</p>
+                    <p className="text-muted-foreground">Current Load: {payload[0].value}</p>
+                    <p className="text-muted-foreground">Capacity: {payload[0].payload.capacity}</p>
+                  </div>
+                );
+              }
+              return null;
+            }}
+          />
+          <Bar dataKey="tasks" radius={[4, 4, 0, 0]} barSize={40}>
+            {chartData.map((entry, index) => (
+              <Cell 
+                key={`cell-${index}`} 
+                fill={entry.tasks > 30 ? '#ef4444' : entry.tasks > 15 ? '#f97316' : '#3b82f6'} 
+              />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 };
@@ -123,7 +198,36 @@ export default function Team() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6 animate-in fade-in duration-500">
+      <div className="space-y-8 animate-in fade-in duration-500 pb-10">
+        
+        {/* 1. Daily Focus */}
+        <DailyFocus />
+
+        {/* 2. Impact Forecast */}
+        <div className="bg-amber-50/50 border border-amber-200 rounded-xl p-4 flex gap-4 items-start animate-in fade-in slide-in-from-top-2">
+          <div className="p-2 bg-amber-100 rounded-lg shrink-0">
+             <Activity className="h-5 w-5 text-amber-700" />
+          </div>
+          <div>
+            <h4 className="text-sm font-bold text-amber-900 mb-1">Impact Forecast</h4>
+            <p className="text-sm text-amber-800/90 leading-relaxed">
+              If Miles Dyson doesn't clear 10 tasks this week, his health will drop to <span className="font-bold text-amber-950">critical</span> and impact <span className="font-bold text-amber-950">12 buildings</span>.
+            </p>
+          </div>
+        </div>
+
+        {/* 3. Team Vitals */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold text-foreground tracking-tight flex items-center gap-2">
+              <Activity className="h-5 w-5 text-primary" />
+              Team Vitals
+            </h3>
+          </div>
+          <VitalsGrid items={vitals} className="lg:grid-cols-5" />
+        </section>
+
+        {/* 4. Team Health & Priority Attention */}
         <div className="grid gap-8 lg:grid-cols-2">
           <HealthHeader 
             title="Team Health"
@@ -138,33 +242,9 @@ export default function Team() {
           />
         </div>
 
-        {/* Impact Analysis / Forecast Section */}
-        <div className="bg-amber-50/50 border border-amber-200 rounded-xl p-4 flex gap-4 items-start animate-in fade-in slide-in-from-top-2">
-          <div className="p-2 bg-amber-100 rounded-lg shrink-0">
-             <Activity className="h-5 w-5 text-amber-700" />
-          </div>
-          <div>
-            <h4 className="text-sm font-bold text-amber-900 mb-1">Impact Forecast</h4>
-            <p className="text-sm text-amber-800/90 leading-relaxed">
-              If Miles Dyson doesn't clear 10 tasks this week, his health will drop to <span className="font-bold text-amber-950">critical</span> and impact <span className="font-bold text-amber-950">12 buildings</span>.
-            </p>
-          </div>
-        </div>
-
         <div className="border-t border-border/40" />
 
-        <section className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-foreground tracking-tight flex items-center gap-2">
-              <Activity className="h-5 w-5 text-primary" />
-              Team Vitals
-            </h3>
-          </div>
-          <VitalsGrid items={vitals} className="lg:grid-cols-5" />
-        </section>
-
-        <div className="border-t border-border/40" />
-
+        {/* 5. Team Performance Table */}
         <section className="space-y-6">
            <div className="flex items-center justify-between">
              <div>
@@ -257,6 +337,57 @@ export default function Team() {
             ]}
           />
         </section>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* 6. Capacity & Distribution */}
+          <section className="bg-white p-6 rounded-2xl shadow-soft border border-border/50">
+            <div className="flex items-center justify-between mb-2">
+               <div>
+                 <h3 className="text-lg font-bold text-foreground tracking-tight flex items-center gap-2">
+                   <BarChart3 className="h-5 w-5 text-primary" />
+                   Workload Distribution
+                 </h3>
+                 <p className="text-sm text-muted-foreground mt-1">Active tasks vs. Capacity limit</p>
+               </div>
+            </div>
+            {team && <CapacityChart data={team} />}
+          </section>
+
+          {/* 7. Recommended Actions */}
+          <section className="bg-white p-6 rounded-2xl shadow-soft border border-border/50">
+             <div className="flex items-center justify-between mb-6">
+               <div>
+                 <h3 className="text-lg font-bold text-foreground tracking-tight flex items-center gap-2">
+                   <Sparkles className="h-5 w-5 text-purple-500" />
+                   AI Recommendations
+                 </h3>
+                 <p className="text-sm text-muted-foreground mt-1">Smart actions to optimize team health</p>
+               </div>
+            </div>
+            <div className="space-y-4">
+              <div className="p-4 rounded-xl bg-purple-50 border border-purple-100 flex gap-4">
+                <div className="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center shrink-0 text-purple-600 font-bold">1</div>
+                <div>
+                  <h4 className="font-bold text-purple-900 text-sm">Load Rebalancing</h4>
+                  <p className="text-sm text-purple-800/80 mt-1">Move 5 maintenance tickets from Miles (Overloaded) to Kyle (Balanced). Estimated health gain: +5%</p>
+                  <button className="mt-3 text-xs font-bold text-purple-700 flex items-center gap-1 hover:gap-2 transition-all">
+                    Apply Action <ArrowRight className="h-3 w-3" />
+                  </button>
+                </div>
+              </div>
+              <div className="p-4 rounded-xl bg-blue-50 border border-blue-100 flex gap-4">
+                <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 text-blue-600 font-bold">2</div>
+                <div>
+                  <h4 className="font-bold text-blue-900 text-sm">Skills Training</h4>
+                  <p className="text-sm text-blue-800/80 mt-1">Schedule HVAC workshop for Sarah to reduce escalation rate on heating tickets.</p>
+                  <button className="mt-3 text-xs font-bold text-blue-700 flex items-center gap-1 hover:gap-2 transition-all">
+                    View Course Options <ArrowRight className="h-3 w-3" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </DashboardLayout>
   );
