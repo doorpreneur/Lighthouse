@@ -189,13 +189,16 @@ export default function Dashboard() {
             href="/owners"
             healthScore={88}
             trend={-2}
-            stats={["71 Active Owners", "248 Properties Managed"]}
+            stats={["71 Active Owners", "248 Properties Managed", "98% Satisfaction Rate", "Avg Tenure: 4.2 Years"]}
             issues={[
               { text: "3 owners with >10% vacancy", severity: "critical" },
-              { text: "1 owner requesting exit review", severity: "warning" }
+              { text: "1 owner requesting exit review", severity: "warning" },
+              { text: "Tax documents pending for 5 owners", severity: "neutral" }
             ]}
-            insight={{ label: "Top Performer", text: "Smith Holdings (+12% ROI)" }}
+            insight={{ label: "Top Performer", text: "Smith Holdings (+12% ROI)", value: "$2.4M AUM" }}
             primaryAction="Review At-Risk Owners"
+            className="col-span-full"
+            variant="wide"
           />
 
           <DiagnosticCard 
@@ -271,6 +274,14 @@ export default function Dashboard() {
             ]}
             insight={{ label: "Top Closer", text: "Sarah J. (100% rate)" }}
             primaryAction="Balance Workloads"
+            members={[
+              { name: "Sarah Jenkins", initials: "SJ" },
+              { name: "Mike Ross", initials: "MR" },
+              { name: "Jessica Pearson", initials: "JP" },
+              { name: "Harvey Specter", initials: "HS" },
+              { name: "Louis Litt", initials: "LL" },
+              { name: "Donna Paulsen", initials: "DP" }
+            ]}
           />
         </div>
       </div>
