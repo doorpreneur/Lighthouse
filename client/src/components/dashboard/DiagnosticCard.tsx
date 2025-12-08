@@ -71,10 +71,10 @@ export function DiagnosticCard({
 
   if (variant === 'wide') {
     const cardClasses = cn(
-      "flex flex-col md:flex-row h-full overflow-hidden transition-all duration-200",
+      "flex flex-col md:flex-row h-full overflow-hidden transition-all duration-200 cursor-pointer group",
       highlighted 
-        ? "bg-blue-50/50 border-0 shadow-none" 
-        : "border-0 shadow-sm hover:shadow-md bg-card",
+        ? "bg-blue-50/50 border-0 shadow-none hover:shadow-lg hover:bg-blue-100/50 hover:scale-[1.01]" 
+        : "border-0 shadow-sm hover:shadow-xl bg-card hover:scale-[1.01]",
       className
     );
 
@@ -167,8 +167,8 @@ export function DiagnosticCard({
   }
 
   return (
-    <Card className={cn("flex flex-col h-full overflow-hidden border-0 shadow-sm hover:shadow-md transition-all duration-200", className)}>
-      <CardHeader className="pb-2 border-b bg-slate-50/50">
+    <Card className={cn("flex flex-col h-full overflow-hidden border-0 shadow-sm hover:shadow-xl hover:scale-[1.01] transition-all duration-200 cursor-pointer group", className)}>
+      <CardHeader className="pb-2 border-b bg-slate-50/50 group-hover:bg-slate-100/50 transition-colors">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon className="h-4 w-4" />
