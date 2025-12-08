@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HealthBadge } from "@/components/ui/HealthBadge";
 import { ArrowUpRight, ArrowDownRight, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, ReferenceLine } from "recharts";
+import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, ReferenceLine, Legend } from "recharts";
 
 interface HealthHeaderProps {
   title: string;
@@ -94,16 +94,16 @@ export function HealthHeader({
            </div>
         </div>
 
-        <div className="h-[220px] w-full mt-auto -mx-4">
+        <div className="h-[250px] w-full mt-auto -mx-4">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
+            <AreaChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="hsl(221, 83%, 53%)" stopOpacity={0.2}/>
                   <stop offset="95%" stopColor="hsl(221, 83%, 53%)" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              {variant === "card" && <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.5} />}
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.5} />
               <XAxis 
                 dataKey="month" 
                 axisLine={false} 
@@ -111,29 +111,42 @@ export function HealthHeader({
                 tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
                 dy={10}
               />
-              {variant === "card" && (
-                <YAxis 
-                  domain={[0, 100]} 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
-                  ticks={[0, 25, 50, 75, 100]}
-                />
-              )}
+              <YAxis 
+                domain={[0, 100]} 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+                ticks={[0, 25, 50, 75, 100]}
+              />
               <ReferenceLine 
                 y={targetScore} 
                 stroke="hsl(var(--primary))" 
                 strokeDasharray="4 4" 
                 strokeOpacity={0.5}
                 label={{ 
-                  value: `Target: ${targetScore}`, 
+                  value: `Benchmark: ${targetScore}`, 
                   position: 'right', 
                   fill: 'hsl(var(--primary))', 
                   fontSize: 10,
                   opacity: 0.8
                 }} 
               />
+              <Legend 
+                verticalAlign="top" 
+                height={36} 
+                content={({ payload }) => (
+                  <div className="flex justify-end gap-4 text-xs text-muted-foreground mb-2 pr-4">
+                    {payload?.map((entry, index) => (
+                      <div key={`item-${index}`} className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
+                        <span>{entry.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              />
               <Area 
+                name="Health Score"
                 type="monotone" 
                 dataKey="value" 
                 stroke="hsl(221, 83%, 53%)" 
@@ -149,7 +162,9 @@ export function HealthHeader({
       </div>
       
       {/* Decorative background elements */}
-      <div className="absolute right-0 top-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      {variant === "card" && (
+        <div className="absolute right-0 top-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      )}
     </Wrapper>
   );
 }

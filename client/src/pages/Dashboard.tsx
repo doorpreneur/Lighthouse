@@ -93,6 +93,7 @@ export default function Dashboard() {
               trendLabel="vs last month"
               summary={`Your ecosystem is in the ${business.riskLevel} zone. Property performance is up, but check workflow bottlenecks.`}
               variant="stage"
+              targetScore={85}
             />
           </div>
 
