@@ -62,7 +62,7 @@ export function HealthHeader({
       
       <CardContent className="p-6 relative z-10 flex-1 flex flex-col justify-between">
         <div className="flex items-baseline gap-4 mb-8">
-           <span className="text-7xl font-display font-bold tracking-tighter text-foreground">
+           <span className="text-8xl font-display font-bold tracking-tighter text-foreground">
              {score}
            </span>
            <div className="flex flex-col pb-2">

@@ -6,10 +6,38 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { HealthHeader } from "@/components/domain/HealthHeader";
 import { VitalsGrid, VitalItem } from "@/components/domain/VitalsGrid";
 import { Badge } from "@/components/ui/badge";
-import { Activity, TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { Activity, TrendingUp, TrendingDown, Minus, CheckCircle, AlertTriangle, AlertOctagon } from "lucide-react";
 
 import { PriorityAttentionCard, AlertItem } from "@/components/domain/PriorityAttentionCard";
 import { useLocation } from "wouter";
+
+const Sparkline = ({ data }: { data: number[] }) => {
+  const max = Math.max(...data);
+  const min = Math.min(...data);
+  const range = max - min || 1;
+  const height = 24;
+  const width = 60;
+  
+  const points = data.map((val, i) => {
+    const x = (i / (data.length - 1)) * width;
+    const y = height - ((val - min) / range) * height;
+    return `${x},${y}`;
+  }).join(" ");
+
+  return (
+    <svg width={width} height={height} className="overflow-visible">
+      <polyline
+        points={points}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        className="text-primary/50"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
 
 const TrendIndicator = ({ trend, label }: { trend: "up" | "down" | "stable", label: string }) => {
   return (
@@ -150,7 +178,16 @@ export default function Team() {
             data={team || []}
             onRowClick={(item) => setLocation(`/team/${item.id}`)}
             columns={[
-              { header: "Name", accessorKey: "name", className: "font-medium text-foreground" },
+              { 
+                header: "Name", 
+                cell: (item) => (
+                  <div className="flex flex-col gap-1">
+                    <span className="font-medium text-foreground">{item.name}</span>
+                    <Sparkline data={Array.from({ length: 10 }, () => Math.random() * 100)} />
+                  </div>
+                ),
+                className: "font-medium text-foreground" 
+              },
               { header: "Role", accessorKey: "role" },
               { 
                 header: "Open Tasks", 
@@ -161,7 +198,19 @@ export default function Team() {
                   </div>
                 )
               },
-              { header: "Overdue", accessorKey: "overdueTasksCount", cell: (item) => item.overdueTasksCount > 0 ? <span className="text-health-critical font-bold">{item.overdueTasksCount}</span> : "0" },
+              { 
+                header: "Overdue", 
+                accessorKey: "overdueTasksCount", 
+                cell: (item) => item.overdueTasksCount > 0 ? (
+                  <span className="text-health-critical font-bold flex items-center gap-2">
+                    {item.overdueTasksCount}
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
+                  </span>
+                ) : "0" 
+              },
               { 
                 header: "SLA Adherence", 
                 cell: (item) => (
@@ -184,9 +233,25 @@ export default function Team() {
                 header: "Workload", 
                 cell: (item) => {
                   const load = item.activeTasksCount;
-                  return load > 30 ? <Badge variant="destructive">Overloaded</Badge> : 
-                         load > 15 ? <Badge variant="outline" className="border-health-watch text-health-watch">Heavy</Badge> :
-                         <Badge variant="secondary">Balanced</Badge>
+                  if (load > 30) {
+                    return (
+                      <Badge variant="destructive" className="gap-1 pl-1 pr-2">
+                        <AlertOctagon className="h-3 w-3" /> Overloaded
+                      </Badge>
+                    );
+                  }
+                  if (load > 15) {
+                    return (
+                      <Badge variant="outline" className="border-health-watch text-health-watch gap-1 pl-1 pr-2">
+                        <AlertTriangle className="h-3 w-3" /> Heavy
+                      </Badge>
+                    );
+                  }
+                  return (
+                    <Badge variant="secondary" className="gap-1 pl-1 pr-2">
+                      <CheckCircle className="h-3 w-3" /> Balanced
+                    </Badge>
+                  );
                 }
               },
             ]}
