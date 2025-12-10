@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import { 
   Zap, 
   Sparkles, 
@@ -80,17 +81,17 @@ export default function Automations() {
 
         {/* AI Input Section */}
         <Card className="border-2 border-primary/20 shadow-lg bg-gradient-to-br from-white to-slate-50 overflow-hidden relative group">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-blue-400 to-primary" />
           <CardContent className="p-8">
             <div className="relative">
               <div className="absolute -top-3 -left-2">
-                <Sparkles className="h-6 w-6 text-purple-500 animate-pulse" />
+                <Sparkles className="h-6 w-6 text-primary animate-pulse" />
               </div>
-              <textarea
+              <Textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="Describe your automation... e.g., 'When a new lease is signed, create a welcome task and email the owner'"
-                className="w-full text-xl font-medium bg-transparent border-0 focus:ring-0 resize-none placeholder:text-muted-foreground/40 min-h-[120px] p-0"
+                className="w-full text-xl font-medium bg-transparent border-0 shadow-none focus-visible:ring-0 resize-none placeholder:text-muted-foreground/40 min-h-[120px] p-0 md:text-xl"
               />
               <div className="flex items-center justify-between mt-4 border-t pt-4">
                  <div className="flex gap-2">
@@ -104,7 +105,7 @@ export default function Automations() {
                       <AlertCircle className="h-3 w-3 mr-1" /> Alert Team
                     </Button>
                  </div>
-                 <Button className="rounded-full px-6 bg-slate-900 text-white hover:bg-slate-800 shadow-md transition-all hover:scale-105">
+                 <Button className="rounded-full px-6 bg-primary text-primary-foreground hover:bg-primary/90 shadow-md transition-all hover:scale-105">
                    Create Automation
                    <ArrowRight className="ml-2 h-4 w-4" />
                  </Button>
@@ -112,6 +113,7 @@ export default function Automations() {
             </div>
           </CardContent>
         </Card>
+
 
         {/* Active Automations List */}
         <div className="space-y-4">
